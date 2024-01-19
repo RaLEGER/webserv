@@ -1,0 +1,37 @@
+GitHub Copilot: To organize your nginx-like server project in C++, you can consider the following classes and their main properties/functions:
+
+1. `Server` class:
+   - Properties:
+     - `std::string` host: The host address of the server.
+     - `int` port: The port number on which the server listens.
+     - `std::vector<Location*>` locations: A vector of `Location` objects representing the server's locations.
+   - Functions:
+     - `void start()`: Starts the server and listens for incoming requests.
+     - `void stop()`: Stops the server and closes the listening socket.
+     - `void addLocation(Location* location)`: Adds a `Location` object to the server's locations.
+
+2. `Location` class:
+   - Properties:
+     - `std::string` path: The path associated with the location.
+     - `std::string` type: The type of the location (e.g., "cgi", "static").
+     - `std::string` extension: The file extension associated with the location.
+     - `bool` isAllowed(std::string method)`: Checks if the given HTTP method is allowed for this location.
+   - Functions:
+     - `void handleRequest(Request* request)`: Handles the incoming request for this location.
+
+3. `Request` class:
+   - Properties:
+     - `std::string` method: The HTTP method of the request (e.g., "GET", "POST").
+     - `std::string` path: The path of the requested resource.
+   - Functions:
+     - `std::string getFileExtension(std::string path)`: Extracts the file extension from the given path.
+
+4. `Router` class:
+   - Functions:
+     - `void routeRequest(Request* request, std::vector<Server*> servers)`: Routes the incoming request to the appropriate server and location based on the request's method and path.
+
+5. `CGIHandler` class:
+   - Functions:
+     - `void handleCGIRequest(Request* request)`: Handles the CGI request by executing the associated CGI script.
+
+These are just some of the classes you can consider for organizing your nginx-like server project. You can further expand and refine these classes based on your specific requirements and design choices.
