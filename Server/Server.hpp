@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/24 12:11:52 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/25 13:25:27 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ class Server {
 		Server& operator=(const Server &rhs);
 		Server(std::string host, int port);
 		void	addLocation(Location* location);
+		void	start();
+		void	stop();
 };
 
 #endif

@@ -5,91 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 14:46:25 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/24 18:39:45 by rleger           ###   ########.fr       */
+/*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
+/*   Updated: 2024/01/25 18:18:03 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <map>
-#include <stack>
+#include "Parser.hpp"
 
-// Function to trim leading and trailing whitespaces from a string
-std::string trim(const std::string& str) {
+Parser::Parser( ) {
+	
+}
+
+
+Parser::~Parser( ) {
+	
+}
+
+std::string Parser::trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
     size_t last = str.find_last_not_of(" \t\n\r");
     return str.substr(first, (last - first + 1));
 }
 
-// Function to parse the nginx-like configuration file
-std::map<std::string, std::map<std::string, std::string> > parseConfig(const std::string& filename) {
-    std::ifstream file(filename.c_str());
-    std::map<std::string, std::map<std::string, std::string> > config;
-    std::map<std::string, std::string> currentSection;
-    std::stack<std::string> sectionStack;
-	std::cout << "line1" << std::endl;
-
-    if (file.is_open()) {
-        std::string line;
-		std::string	prev_line;
+Parser::Parser(const std::string& filename) {	
+    std::ifstream 	file(filename.c_str());
+	if (file.is_open()) {
+		std::string	line;
 		
-		prev_line = "";
-        while (std::getline(file, line)) {
-            line = trim(line);
-            if (line.empty() || line[0] == '#') {
-                continue;
-            }
-		std::cout << "line4" << std::endl;
-            size_t bracePos = line.find('{');
-            if (bracePos != std::string::npos) {
-                // Start of a new section
-                std::string sectionName = trim(line.substr(0, bracePos));
-		std::cout << sectionName << std::endl;
-                currentSection.clear();
-                sectionStack.push(sectionName);
-            }
-		std::cout << "line5" << std::endl;
+		
+		while (std::getline(file, line, ';')) {
+			std::string	line = trim(line);
+			if (line.empty())
+				continue;
+			size_t comment = line.find('#');
+			if (comment != std::string::npos)
+				line = line.substr(0, comment);
+			size_t minPos = 0;
+			while (minPos != std::string::npos) {
+				size_t bracePos = line.find('{');
+				size_t eqPos = line.find('=');
+				size_t closeBracePos = line.find('}');
+				if (bracePos < eqPos) {
+					if (closeBracePos < bracePos) {
+						minPos = closeBracePos;
+						if (minPos != 0 || bracePos != std::string::npos) 
+							throw;
+							//raise error truc inattendu avant }
+						closeBrace(line, closeBracePos);
+					}
+					else
+						throw;
+						//raise error nimporte quoi
+				}
 
-            // Parse key-value pairs in the current section
-            size_t equalPos = line.find('=');
-            if (equalPos != std::string::npos) {
-                std::string key = trim(line.substr(0, equalPos));
-                std::string value = trim(line.substr(equalPos + 1, line.size() - 1));
-                currentSection[key] = value;
-            }
-
-            size_t closeBracePos = line.find('}');
-            if (closeBracePos != std::string::npos) {
-                // End of the current section
-                if (!sectionStack.empty()) {
-                    std::string sectionName = sectionStack.top();
-                    sectionStack.pop();
-                    config[sectionName] = currentSection;
-                    currentSection.clear();
-                }
-            }
-			prev_line = line;
-        }
-
-        file.close();
-    }
-
-    return config;
+				size_t minPos = std::min<size_t>(bracePos, eqPos);
+			}
+			
+			
+			
+		}
+	}
 }
 
-int main() {
-    std::string filename = "/Users/rleger/Desktop/42off/webserv/default.conf"; // Replace with your actual file name
-    std::map<std::string, std::map<std::string, std::string> > config = parseConfig(filename);
+void	Parser::openBrace(const std::string& line, size_t pos) {
+	if (pos != std::string::npos) {
+		_depth ++;
+		if (_depth == 1)
+			_servCount++;
+		else 
+			_routeCount++;
+	}
+}
 
-    // Print the parsed configuration dictionary
-    for (std::map<std::string, std::map<std::string, std::string> >::const_iterator it = config.begin(); it != config.end(); ++it) {
-        std::cout << "Section: " << it->first << std::endl;
-        for (std::map<std::string, std::string>::const_iterator inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
-            std::cout << "  " << inner_it->first << " = " << inner_it->second << std::endl;
-        }
-    }
+void	Parser::closeBrace(const std::string& line, size_t pos) {
+	if (pos != std::string::npos) {
+		_depth --;
+		if (_depth == 1)
+			_routeCount = 0;
+		
+	}
+}
 
-    return 0;
+void	Parser::addPair(const std::string& line, size_t lhs, size_t rhs) {
+	if (lhs != std::string::npos) {
+		std::string key = trim(line.substr(0, lhs));
+		std::string value = trim(line.substr(lhs + 1, rhs));
+		switch (_depth) {
+			case 0: {
+				_globalVar[key] = value;
+				break;
+			}
+			case 1: {
+				_serverDict[_servCount][key] = value;
+				break;
+			}
+			case 2: {
+				_routeDict[_servCount][_routeCount][key] = value;
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+	}
 }
