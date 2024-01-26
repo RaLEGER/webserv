@@ -35,3 +35,7 @@ GitHub Copilot: To organize your nginx-like server project in C++, you can consi
      - `void handleCGIRequest(Request* request)`: Handles the CGI request by executing the associated CGI script.
 
 These are just some of the classes you can consider for organizing your nginx-like server project. You can further expand and refine these classes based on your specific requirements and design choices.
+
+
+
+Gestion d'erreurs : plutôt utiliser un try/catch et throw des erreurs. Ensuite, toutes les erreurs sont construites par la même fonction. Plutôt que le SendError()

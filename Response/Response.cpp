@@ -1,8 +1,6 @@
 
 #include "Response.hpp"
-#include "Request.hpp"
 
-#include <string> 
 
 Response::Response()
 {
@@ -56,13 +54,14 @@ void Response::buildResponse()
     std::cout << "----- Response : ----" << std::endl << response << std::endl;
 }
 
-void Response::send(void)
+std::string Response::getSerializedResponse()
 {
     buildHeader();
-    buildResponse();
-    request->ready2send = true;
+
+    return header + body;
 }
 
+// TODO : move this in RequestHandler
 void Response::send(const std::string& path)
 {
     std::ifstream       file(path.c_str());
@@ -80,12 +79,15 @@ void Response::send(const std::string& path)
     file.close();
     
     setBody(fileContent);   
-    send();
 }
 
 void Response::sendError(int statusCode, std::string error_msg)
 {
+    
     std::cout << statusCode << " " << error_msg << std::endl;
+    return;
+
+    
     setProtocol("HTTP/1.1");
     setContentType("text/html");
     setExtension("html");
@@ -96,12 +98,12 @@ void Response::sendError(int statusCode, std::string error_msg)
     std::string errorPagePath = "./data/default/" + ss.str() + ".html";
     
     // check if custom error page exists
-    if (request && request->getConfig()
-        && request->getConfig()->getErrorPages().count(statusCode)
-        && fileExists(request->getConfig()->getErrorPages()[statusCode]))
-    {
-        errorPagePath = request->getConfig()->getErrorPages()[statusCode];
-    }
+    // if (request && request->getConfig()
+    //     && request->getConfig()->getErrorPages().count(statusCode)
+    //     && fileExists(request->getConfig()->getErrorPages()[statusCode]))
+    // {
+    //     errorPagePath = request->getConfig()->getErrorPages()[statusCode];
+    // }
 
     switch(statusCode)
     {

@@ -1,7 +1,9 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP 
 
+#include "../Request/Request.hpp"
 
+#include <string> 
 #include <iostream>
 #include <string>
 #include <sys/socket.h>
@@ -9,8 +11,6 @@
 #include <unistd.h>
 #include <fstream>
 #include <sstream>
-
-#include "WebServ.hpp"
 
 class Response {
     private:
@@ -44,6 +44,7 @@ class Response {
         void setContentLength(std::string contentLength);
         void setBody(std::string content);
         void setRequest(Request *request);
+        std::string getSerializedResponse();
         std::string getResponse();
         std::string getHeader();
         std::string getBody();

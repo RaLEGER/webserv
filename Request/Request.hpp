@@ -15,12 +15,6 @@
 #include <cstdlib>
 #include <list>
 
-// # include "WebServ.hpp"
-// # include "VirtualServer.hpp"
-// # include "Location.hpp"
-// # include "Response.hpp"
-// # include "Utils.hpp"
-
 // TYPES 
 #define GET 1
 #define POST 2

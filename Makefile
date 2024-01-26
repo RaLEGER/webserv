@@ -12,7 +12,7 @@
 
 NAME = webserv 
 
-SRC = main.cpp Request/Request.cpp 
+SRC = main.cpp Request/Request.cpp RequestHandler/RequestHandler.cpp Response/Response.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

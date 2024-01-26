@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include "Request/Request.hpp"
+#include "RequestHandler/RequestHandler.hpp"
 
 int main(int argc, char** argv) {
     (void) argc;
@@ -73,7 +74,12 @@ int main(int argc, char** argv) {
         std::cout << "----------- RAW REQUEST RECEIVED ---------------- "<< std::endl;
         std::cout  << rawRequest << std::endl;
         std::cout << "---------------------------------------- "<< std::endl;
+
         Request *request = new Request(rawRequest);
+        RequestHandler *requestHandler = new RequestHandler(*request);
+        requestHandler->handleRequest();
+        requestHandler->getResponse().getSerializedResponse();
+
 
         std::cout << *request << std::endl;
         // if (request.find("GET") == 0) {

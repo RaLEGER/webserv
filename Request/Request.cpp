@@ -17,22 +17,6 @@ std::vector<std::string> splitWithSep(std::string line, char sep)
 	return res;
 }
 
-std::vector<std::string> getFileList(std::string path) {
-    DIR             *dir;
-    struct dirent   *entry;
-    std::vector<std::string> fileList;
-
-    if ((dir = opendir(path.c_str())) == NULL)
-        perror("opendir() error");
-    else {
-        while ((entry = readdir(dir)) != NULL)
-            fileList.push_back(entry->d_name);
-        closedir(dir);
-    }
-    return fileList;
-}
-
-
 Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket), serverSocket(serverSocket) {
     std::cout << "Request created" << std::endl;
     // _response.setRequest(this);
@@ -51,6 +35,12 @@ Request::Request(std::string &rawRequest) {
     std::cout << "Request Constructor" << std::endl;
     requestString = rawRequest;
     parseRequest();
+}
+
+        /* Constructors & Destructors */
+Request::Request()
+{
+    
 }
 
 
@@ -242,40 +232,6 @@ bool Request::parseHeaders()
 //     }
 //     return true;
 // }
-
-void Request::listDirectoryResponse()
-{
-    std::cout << "LIST DIRECTORY" << std::endl;
-
-    std::vector<std::string> fileList = getFileList(path);
-
-    std::stringstream ss;
-
-    ss << "<!DOCTYPE html>" << std::endl;
-    ss << "<html>" << std::endl;
-    ss << "<head>" << std::endl;
-    ss << "<title>Directory listing</title>" << std::endl;
-    ss << "</head>" << std::endl;
-    ss << "<body>" << std::endl;
-    ss << "<h1>Directory listing</h1>" << std::endl;
-    ss << "<ul>" << std::endl;
-    while (!fileList.empty())
-    {
-        if (fileList.back() != ".." && fileList.back() != ".")
-            ss << "<li><a href=\"" << path << fileList.back() << "\">" << fileList.back() << "</a></li>" << std::endl;
-        fileList.pop_back();
-    }
-    ss << "</ul>" << std::endl;
-    ss << "</body>" << std::endl;
-    ss << "</html>" << std::endl;
-
-    // _response.setBody(ss.str());
-    // _response.setStatusCode("200");
-    // _response.setProtocol("HTTP/1.1");
-    // _response.setStatusText("OK");
-    // _response.setContentType("text/html");
-    // _response.send();
-}
 
 // GETTERS
 
