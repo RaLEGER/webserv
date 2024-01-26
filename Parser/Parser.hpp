@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:58:40 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/25 17:20:55 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/26 18:48:59 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,29 @@
 #include <fstream>
 #include <sstream>
 #include <map>
-#include "Server.hpp"
+#include <algorithm>
 
 class Parser {
 	private:
 		std::map <std::string, std::string> _globalVar;
 		std::vector <std::map<std::string, std::string> > _serverDict;
 		std::vector <std::vector <std::map<std::string, std::string> > > _routeDict;
-		int		_servCount = -1;
-		int		_routeCount = -1;
-		int		_depth = 0;
+		int			_servCount;
+		int			_routeCount;
+		int			_depth;
+		std::string	_line;
+		size_t		_bracePos;
+		size_t		_eqPos;
+		size_t		_closeBracePos;
 	public:
 		Parser( );
 		~Parser( ); 
 		Parser(const std::string& filename);
-		std::string	trim(const std::string& str);
-		void	openBrace(const std::string& line, size_t pos);
-		void	addPair(const std::string& line, size_t lhs, size_t rhs);
-		void	closeBrace(const std::string& line, size_t pos);
-		
+		void	openBrace(size_t pos);
+		void	addPair(size_t lhs, size_t rhs);
+		void	closeBrace(size_t pos);
+		void	removeChar(std::string &str, char ch);
+		void	setPos();
 		
 };
 

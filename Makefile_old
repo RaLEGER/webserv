@@ -3,40 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rleger <rleger@student.42.fr>              +#+  +:+       +#+         #
+#    By: teliet <teliet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/19 14:22:30 by rleger            #+#    #+#              #
-#    Updated: 2024/01/26 18:50:38 by rleger           ###   ########.fr        #
+#    Created: 2022/09/29 20:41:39 by teliet            #+#    #+#              #
+#    Updated: 2023/06/02 16:17:36 by teliet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = War
+NAME = webserv 
 
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-RM = rm -f
+SRC = main.cpp
 
-HEAD = Parser/Parser.hpp 
+OBJ = $(SRC:.cpp=.o)
 
-SRCS = Parser/Parser.cpp \
-		main.cpp
+CC = c++
 
-OBJS = ${SRCS:.cpp=.o}
+HEADERS = -I ./
 
-.c.o:
-	$(CXX) $(CXXFLAGS) -I ${HEAD} -c -o $@ $<
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
-$(NAME): $(OBJS) $(HEAD)
-	$(CXX) $(CXXFLAGS) $(OBJS) -I ${HEAD} -o $(NAME)
 
-all: $(NAME)
+all: ${NAME}
+ 
+$(NAME): $(OBJ) 
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+	
+debug: $(LIBS) clean
+	$c(CC) $(SRC) $(HEADERS) -o $(NAME) 
+
+%.o: %.cpp
+	$(CC) $(HEADERS)  $(FLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	/bin/rm -f ${OBJ}
 
 fclean: clean
-	$(RM) $(NAME)
+	/bin/rm -f ${NAME}
 
-re: clean all
-
-.PHONY: all clean fclean re
+re: fclean all
