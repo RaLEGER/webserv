@@ -12,7 +12,7 @@
 
 NAME = webserv 
 
-SRC = main.cpp
+SRC = main.cpp Request/Request.cpp 
 
 OBJ = $(SRC:.cpp=.o)
 
@@ -20,7 +20,7 @@ CC = c++
 
 HEADERS = -I ./
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 
 all: ${NAME}

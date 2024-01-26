@@ -4,11 +4,21 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-int main() {
+#include "Request/Request.hpp"
+
+int main(int argc, char** argv) {
+    (void) argc;
     int serverSocket, clientSocket;
     struct sockaddr_in serverAddress, clientAddress;
     socklen_t clientAddressLength;
     char buffer[1024];
+
+    // Get port from command line arguments
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <port>" << std::endl;
+        return 1;
+    }
+    int port = atoi(argv[1]);
 
     // Création du socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -20,7 +30,7 @@ int main() {
     // Configuration de l'adresse du serveur
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
-    serverAddress.sin_port = htons(8050); // htons : converts bytes from host byte order to network byte order
+    serverAddress.sin_port = htons(port); // htons : converts bytes from host byte order to network byte order
 
     // Attachement du socket à l'adresse du serveur
     if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
@@ -36,7 +46,7 @@ int main() {
         return 1;
     }
 
-    std::cout << "Le serveur est en attente de connexions sur le port 8080..." << std::endl;
+    std::cout << "Le serveur est en attente de connexions sur le port " << port << std::endl;
 
     while (true) {
         // Accepter une nouvelle connexion
@@ -58,16 +68,19 @@ int main() {
         }
 
         // Vérifier si la méthode est GET (mais il faudra aussi gerer POST et DELETE)
-        std::string request(buffer, bytesRead);
+        std::string rawRequest(buffer, bytesRead);
         std::string response;
-        std::cout << "----------- NEW REQUEST ---------------- "<< std::endl;
-        std::cout  << request << std::endl;
+        std::cout << "----------- RAW REQUEST RECEIVED ---------------- "<< std::endl;
+        std::cout  << rawRequest << std::endl;
         std::cout << "---------------------------------------- "<< std::endl;
-        if (request.find("GET") == 0) {
-            response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello World";
-        } else {
-            response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n404 Not Found";
-        }
+        Request *request = new Request(rawRequest);
+
+        std::cout << *request << std::endl;
+        // if (request.find("GET") == 0) {
+        response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello World";
+        // } else {
+        //     response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n404 Not Found";
+        // }
 
         // Envoyer la réponse au client
         ssize_t bytesSent = write(clientSocket, response.c_str(), response.length());
