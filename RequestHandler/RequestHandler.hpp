@@ -21,7 +21,7 @@ public:
     void Post();
     void Delete();
     void CGI();
-    void buildResponse();
+    void setResponseHeaders();
     void getFinalPath();
 
     // Canonical

@@ -344,7 +344,7 @@ void RequestHandler::CGI()
 }
 
 // TODO : implement a SuccessResponse vs ErrorResponse
-void RequestHandler::buildResponse()
+void RequestHandler::setResponseHeaders()
 {
     std::string extension = _response.getExtension();
     if(extension == "")
@@ -354,8 +354,6 @@ void RequestHandler::buildResponse()
     std::string contentDisposition = "inline";
 
     // Build response
-    // _response.setStatusCode("200");
-    // _response.setStatusText("OK"); 
     _response.setProtocol("HTTP/1.1");
     _response.setFilename(filename);
     _response.setExtension(extension);
@@ -381,8 +379,6 @@ void RequestHandler::buildResponse()
 
     _response.setContentType(contentType);
     _response.setContentDisposition(contentDisposition);
-    _response.buildHeader();
-    // _response.buildResponse();
 }
 
 

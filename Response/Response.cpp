@@ -45,7 +45,15 @@ void Response::buildHeader()
     std::string contentLength;
     ss >> contentLength;
 
-    header = protocol + " " + statusCode + " " + statusText + "\r\nContent-Type: " + contentType + "\r\nContent-Disposition: " + contentDisposition + "; filename=\"" + filename + "\"\r\nContent-Length: " + contentLength + "\r\n\r\n";
+    // todo : content disposition, filename, extension only for GET
+    header = protocol + " " + statusCode + " " + statusText + "\r\n";
+    if(!contentDisposition.empty())
+        header += "Content-Disposition: " + contentDisposition + "\r\n";
+    if(!contentType.empty())
+        header += "Content-Type: " + contentType + "\r\n";
+    if(!contentLength.empty())
+        header += "Content-Length: " + contentLength + "\r\n";
+    header += "\r\n";
 }
 
 std::string Response::getSerializedResponse()

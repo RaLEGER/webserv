@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
         Request *request = new Request(rawRequest);
         RequestHandler *requestHandler = new RequestHandler(*request);
         requestHandler->handleRequest();
+        requestHandler->setResponseHeaders();
         std::string rawResponse = requestHandler->getResponse().getSerializedResponse();
 
         std::cout << "----------- RAW RESPONSE TO SEND ---------------- "<< std::endl;
