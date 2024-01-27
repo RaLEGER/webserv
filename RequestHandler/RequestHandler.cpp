@@ -382,7 +382,7 @@ void RequestHandler::buildResponse()
     _response.setContentType(contentType);
     _response.setContentDisposition(contentDisposition);
     _response.buildHeader();
-    _response.buildResponse();
+    // _response.buildResponse();
 }
 
 

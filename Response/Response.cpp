@@ -48,12 +48,6 @@ void Response::buildHeader()
     header = protocol + " " + statusCode + " " + statusText + "\r\nContent-Type: " + contentType + "\r\nContent-Disposition: " + contentDisposition + "; filename=\"" + filename + "\"\r\nContent-Length: " + contentLength + "\r\n\r\n";
 }
 
-void Response::buildResponse()
-{
-    response = header + body;
-    std::cout << "----- Response : ----" << std::endl << response << std::endl;
-}
-
 std::string Response::getSerializedResponse()
 {
     buildHeader();
@@ -85,19 +79,9 @@ void Response::loadFileContent(const std::string& path)
 
 void Response::setError(int statusCode, std::string error_msg)
 {
-    
     std::cout <<"----- ERROR ------" << std::endl;
     std::cout << "(⊙…⊙ ) " << statusCode << " " << error_msg << std::endl;
     std::cout <<"------------------" << std::endl;
-    
-    setProtocol("HTTP/1.1");
-    setContentType("text/html");
-    setExtension("html");
-    setContentDisposition("inline");
-
-    std::stringstream ss;
-    ss << statusCode;
-    std::string errorPagePath = "./data/default/" + ss.str() + ".html";
     
     // check if custom error page exists
     // if (request && request->getConfig()
@@ -107,87 +91,64 @@ void Response::setError(int statusCode, std::string error_msg)
     //     errorPagePath = request->getConfig()->getErrorPages()[statusCode];
     // }
 
+    std::stringstream ss;
+    ss << statusCode;
+    std::string errorPagePath = "./data/default/" + ss.str() + ".html";
+
+    setProtocol("HTTP/1.1");
+    setContentType("text/html");
+    setExtension("html");
+    setContentDisposition("inline");
+
+    setStatusCode(ss.str());
+    setFilename(ss.str() + ".html");
+    loadFileContent(errorPagePath);
+
     switch(statusCode)
     {
         case 301:
-            setStatusCode("301");
             setStatusText("Moved Permanently");
-            setFilename("301.html");
-            loadFileContent(errorPagePath);
             break;
         case 400:
-            setStatusCode("400");
             setStatusText("Bad Request");
-            setFilename("400.html");
-            loadFileContent(errorPagePath);
             break;
         case 403:
-            setStatusCode("403");
             setStatusText("Forbidden");
-            setFilename("403.html");
-            loadFileContent(errorPagePath);
             break;
         case 404: 
-            setStatusCode("404");
             setStatusText("Not Found");
-            setFilename("404.html");
-            loadFileContent(errorPagePath);
             break;
         case 405:
-            setStatusCode("405");
             setStatusText("Method Not Allowed");
-            setFilename("405.html");
-            loadFileContent(errorPagePath);
             break;
         case 408:
-            setStatusCode("408");
             setStatusText("Request Timeout");
-            setFilename("408.html");
-            loadFileContent(errorPagePath);
             break;
         case 413:
-            setStatusCode("413");
             setStatusText("Content Too Large");
-            setFilename("413.html");
-            loadFileContent(errorPagePath);
             break;
         case 414:
-            setStatusCode("414");
             setStatusText("URI Too Long");
-            setFilename("414.html");
-            loadFileContent(errorPagePath);
             break;
         case 431:
-            setStatusCode("431");
             setStatusText("Request Header Fields Too Large");
-            setFilename("431.html");
-            loadFileContent(errorPagePath);
             break;
         case 500:
-            setStatusCode("500");
             setStatusText("Internal Server Error");
-            setFilename("500.html");
-            loadFileContent(errorPagePath);
             break;
         case 501:
-            setStatusCode("501");
             setStatusText("Method Not Implemented");
-            setFilename("501.html");
-            loadFileContent(errorPagePath);
             break;
         case 505:
-            setStatusCode("505");
             setStatusText("HTTP Version Not Supported");
-            setFilename("505.html");
-            loadFileContent(errorPagePath);
             break;
         default: 
             std::cout << "ERROR: unknown status code, sent status 500" << std::endl;
-            setStatusCode("500");
+            statusCode = 500;
             setStatusText("Internal Server Error");
-            setFilename("500.html");
-            loadFileContent("./data/default/500.html");
+            errorPagePath = "./data/default/500.html";
     }
+
 }
 
 void Response::clear(void)

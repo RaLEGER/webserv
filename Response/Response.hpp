@@ -57,7 +57,6 @@ class Response {
         std::string getContentDisposition();
 
         void buildHeader();
-        void buildResponse();
         void setError(int statusCode, std::string error_msg);
         void loadFileContent(const std::string& path);
         void clear();
