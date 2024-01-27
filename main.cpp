@@ -78,18 +78,14 @@ int main(int argc, char** argv) {
         Request *request = new Request(rawRequest);
         RequestHandler *requestHandler = new RequestHandler(*request);
         requestHandler->handleRequest();
-        requestHandler->getResponse().getSerializedResponse();
+        std::string rawResponse = requestHandler->getResponse().getSerializedResponse();
 
-
-        std::cout << *request << std::endl;
-        // if (request.find("GET") == 0) {
-        response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello World";
-        // } else {
-        //     response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n404 Not Found";
-        // }
+        std::cout << "----------- RAW RESPONSE TO SEND ---------------- "<< std::endl;
+        std::cout  << rawResponse << std::endl;
+        std::cout << "---------------------------------------- "<< std::endl;
 
         // Envoyer la réponse au client
-        ssize_t bytesSent = write(clientSocket, response.c_str(), response.length());
+        ssize_t bytesSent = write(clientSocket, rawResponse.c_str(), rawResponse.length());
         if (bytesSent == -1) {
             std::cerr << "Erreur lors de l'envoi de la réponse au client." << std::endl;
             close(clientSocket);

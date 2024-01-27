@@ -57,7 +57,7 @@ bool Request::parseRequest(){
     std::string firstLine = requestString.substr(0, requestString.find("\r\n"));
     std::vector<std::string> tokens = splitWithSep(firstLine, ' ');
     if (tokens.size() != 3) {
-        // _response.sendError(400, ": a field from 1st request line is missing"); 
+        // _response.setError(400, ": a field from 1st request line is missing"); 
     }
 
     // Parse the method, URI, HTTP version and headers
@@ -70,14 +70,14 @@ bool Request::parseRequest(){
     // getRequestConfig();
     // if (_config == NULL)
     // {    
-    //     // _response.sendError(404, ": virtual server configuration not found");
+    //     // _response.setError(404, ": virtual server configuration not found");
     //     return false;
     // }
 
     // Check that the method is allowed for this location
     // if ((method == "GET" && !_config->isGetAllowed()) || (method == "POST" && !_config->isPostAllowed()))
     // {    
-    //     // _response.sendError(405, ": Method not allowed");
+    //     // _response.setError(405, ": Method not allowed");
     //     return false;
     // }
 
@@ -123,7 +123,7 @@ void Request::parseMethodToken(const std::string& token)
 			return ;
 		}
 	}
-    // _response.sendError(400, ": unknown method");
+    // _response.setError(400, ": unknown method");
 }
 
 // This function 
@@ -132,12 +132,12 @@ void Request::parseMethodToken(const std::string& token)
 bool Request::parseURI(std::string token)
 {
     if (token.size() > MAX_URI_LEN) {
-        // _response.sendError(414, ": URI too long");
+        // _response.setError(414, ": URI too long");
         return false;
     }
 
 	if (token[0] != '/') {
-        // _response.sendError(400, ": URI must begin with a /");
+        // _response.setError(400, ": URI must begin with a /");
         return false;
     }
   
@@ -161,7 +161,7 @@ bool Request::parseHTTPVersion(const std::string& token)
 	if (token.size() < 7 || token.compare(0, 5, "HTTP/") || token.compare(6, 1, ".") || 
 			!isdigit(static_cast<int>(token[5])) || !isdigit(static_cast<int>(token[7])))
     {
-		// _response.sendError(400, ": HTTP version not correct");
+		// _response.setError(400, ": HTTP version not correct");
         return false;
     }
 	protocol = token;
@@ -172,7 +172,7 @@ bool Request::parseHTTPVersion(const std::string& token)
 bool Request::parseHeaders()
 {
     // if (requestHeaderString.size() > MAX_HEADER_LEN)
-    //     _response.sendError(431, ": Header too long");
+    //     _response.setError(431, ": Header too long");
 
     std::string delimiter = "\r\n";
     size_t pos = 0;
@@ -180,30 +180,25 @@ bool Request::parseHeaders()
 
     size_t posSC = tmpRequestString.find(":");
     if (posSC == std::string::npos) {
-		// _response.sendError(400, ": No semicolon");
+		// _response.setError(400, ": No semicolon");
         return false;
     }
     // check for duplicate headers
     // TODO : useless, make a addHeader function that will check whether a header already exists 
     // if (hasDuplicateKeys(requestHeaderString))
     // {
-	// 	_response.sendError(400, ": duplicated headers are not allowed");
+	// 	_response.setError(400, ": duplicated headers are not allowed");
     //     return false;
     // }
 
     while ((pos = tmpRequestString.find(delimiter)) != std::string::npos) {
         std::string line = tmpRequestString.substr(0, pos);
-        std::cout << "line : " << line << std::endl; 
         tmpRequestString.erase(0, pos + delimiter.length());
         size_t pos2 = line.find(": ");
         if(pos2 != std::string::npos) {
             std::string key = line.substr(0, pos2);
             std::string value = line.substr(pos2 + 2);
-            std::cout << "key : " << key << std::endl;
-            std::cout << "value : " << value << std::endl;
             headers[key] = value;
-
-
         }
     }
 
@@ -227,7 +222,7 @@ bool Request::parseHeaders()
     
 //     if(body.size() > _config->getClientMaxBodySize()) 
 //     {
-//         _response.sendError(413, ": received more octets than max body size limit");
+//         _response.setError(413, ": received more octets than max body size limit");
 //         return false;
 //     }
 //     return true;

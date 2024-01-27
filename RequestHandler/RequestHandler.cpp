@@ -122,7 +122,7 @@ void RequestHandler::getFinalPath()
     //     {
     //         if(!_config->isAutoIndex()) {
     //             closedir(dir);
-    //             return(_response.sendError(403, "Forbidden"));
+    //             return(_response.setError(403, "Forbidden"));
     //         }
     //         closedir(dir);
     //         return(listDirectoryResponse());
@@ -150,7 +150,7 @@ void RequestHandler::handleRequest()
     // }
 
     // TEMPORARY : we set the path manually
-    std::string path = "/home/teliet/weberv-2/test" + _request.getPath();
+    path = "/home/teliet/webserv-2/test" + _request.getPath();
 
     std::cout << "Path before method routing :" << path << std::endl;
 
@@ -160,7 +160,7 @@ void RequestHandler::handleRequest()
     //     if (_config->getType() == "cgi")
     //         this->routingCGI();
     //     else {
-    //         _response.sendError(405, "Don't match config file");
+    //         _response.setError(405, "Don't match config file");
     //         return;
     //     }
     // }
@@ -175,12 +175,12 @@ void RequestHandler::handleRequest()
     else if (method == "HEAD")
     {
         std::cout << "HEAD" << std::endl;
-        // _response.sendError(405, "Method Not Allowed");
+        // _response.setError(405, "Method Not Allowed");
         return;
     }
     else {
         std::cout << "Unknown method" << std::endl;
-        // _response.sendError(405, "Not Implemented");
+        // _response.setError(405, "Not Implemented");
     }
 }
 
@@ -223,16 +223,17 @@ void RequestHandler::listDirectory()
 void RequestHandler::Get() 
 {
     std::cout << "HANDLING METHOD GET" << std::endl;
+    std::cout << "Requesting ressource at path : " << path << std::endl;
     if(!::fileExists(path))
-        _response.sendError(404, "Not Found");
+        _response.setError(404, "Not Found");
     else if(!::fileIsReadable(path))
-        _response.sendError(403, "Forbidden");
+        _response.setError(403, "Forbidden");
     else
     {
         _response.setProtocol("HTTP/1.1");
         _response.setStatusCode("200");
         _response.setStatusText("OK");
-        _response.send(path);
+        _response.loadFileContent(path);
     }
 }
 
@@ -247,7 +248,7 @@ void RequestHandler::Post()
     // {
     //     std::cout << "Problem with BODY" << path << std::endl;
     //     std::cout << "Method not allowed" << std::endl;
-    //     _response.sendError(405, "Body size is 0");
+    //     _response.setError(405, "Body size is 0");
     //     return;
     // }
     
@@ -283,7 +284,7 @@ void RequestHandler::Delete()
     if (!my_file.good())
     {
         std::cout << "File not found" << std::endl;
-        _response.sendError(404, "Not Found");
+        _response.setError(404, "Not Found");
     }
     else 
     {
@@ -299,7 +300,7 @@ void RequestHandler::Delete()
         else
         {
             std::cout << "Error deleting file" << std::endl;
-            _response.sendError(500, ": Internal Server Error");
+            _response.setError(500, ": Internal Server Error");
         }
     }
 }
@@ -308,11 +309,11 @@ void RequestHandler::CGI()
 {
     // if (method == "GET") {
     //     if(!::fileExists(path)) {
-    //         _response.sendError(404, "Not Found");
+    //         _response.setError(404, "Not Found");
     //         return;
     //     }
     //     else if(!::fileIsReadable(path)) {
-    //         _response.sendError(403, "Forbidden");
+    //         _response.setError(403, "Forbidden");
     //         return;
     //     }
     // }
@@ -327,7 +328,7 @@ void RequestHandler::CGI()
     //     }
     //     CGI cgi(*this);
     //     if (!cgi.executeCGI(*this)) {
-    //         _response.sendError(500, " : Error in CGI execution");
+    //         _response.setError(500, " : Error in CGI execution");
     //         return;
     //     }
     //     else {

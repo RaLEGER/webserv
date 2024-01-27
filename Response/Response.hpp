@@ -58,9 +58,8 @@ class Response {
 
         void buildHeader();
         void buildResponse();
-        void sendError(int statusCode, std::string error_msg);
-        void send(const std::string& path);
-        void send(void);
+        void setError(int statusCode, std::string error_msg);
+        void loadFileContent(const std::string& path);
         void clear();
 
 };
