@@ -1,75 +1,5 @@
 #include "RequestHandler.hpp"
-
-// -----------------------------------------------
-
-// TEMPORARY UTILS , TO MOVE INTO A UTILS CLASS
-
-
-bool fileExists(std::string path) {
-    struct stat fileInfo;
-    if (stat(path.c_str(), &fileInfo) != 0) {
-        // Failed to retrieve file information
-        return false;
-    }
-
-    return S_ISREG(fileInfo.st_mode);
-}
-
-bool fileIsReadable(std::string path) {
-    return (access(path.c_str(), R_OK) != -1);
-}
-
-bool fileIsWritable(std::string path) {
-    return (access(path.c_str(), W_OK) != -1);
-}
-
-bool fileIsExecutable(std::string path) {
-    return (access(path.c_str(), X_OK) != -1);
-}
-
-std::vector<std::string> getFileList(std::string path) {
-    DIR             *dir;
-    struct dirent   *entry;
-    std::vector<std::string> fileList;
-
-    if ((dir = opendir(path.c_str())) == NULL)
-        perror("opendir() error"); // todo: throw error
-    else {
-        while ((entry = readdir(dir)) != NULL)
-            fileList.push_back(entry->d_name);
-        closedir(dir);
-    }
-    return fileList;
-}
-
-std::string getRedirectionHTML(std::string url)
-{
-    std::stringstream ss;
-    std::string str;
-
-    ss << "<!DOCTYPE html>" << std::endl;
-    ss << "<html>" << std::endl;
-    ss << "<head>" << std::endl;
-    ss << "<title>Redirection</title>" << std::endl;
-    ss << "<meta http-equiv=\"refresh\" content=\"0; url=" << url << "\" />" << std::endl;
-    ss << "</head>" << std::endl;
-    ss << "<body>" << std::endl;
-    ss << "<p>Redirection vers <a href=\"" << url << "\">" << url << "</a></p>" << std::endl;
-    ss << "</body>" << std::endl;
-    ss << "</html>" << std::endl;
-
-    str = ss.str();
-    return str;
-}
-
-std::string getFileExtension(std::string filename)
-{
-    std::string extension = filename.substr(filename.find_last_of(".") + 1);
-    return extension;
-}
-
-// -----------------------------------------------
-
+#include "../Utils/Utils.cpp"
 
 // CANONICAL 
 RequestHandler::RequestHandler()
@@ -230,10 +160,8 @@ void RequestHandler::Get()
         _response.setError(403, "Forbidden");
     else
     {
-        _response.setProtocol("HTTP/1.1");
-        _response.setStatusCode("200");
-        _response.setStatusText("OK");
         _response.loadFileContent(path);
+        _response.setDefaultSuccess();
     }
 }
 
@@ -241,39 +169,47 @@ void RequestHandler::Post()
 {
     std::ifstream my_file(path.c_str());
 
-    //std::cout << body << std::endl;
+    std::string body = _request.getBody();
+    std::cout << body << std::endl;
 
-    // TODO :understand what it does and reimplement it
-    // if (body.size() == 0 && readingBody == false)
-    // {
-    //     std::cout << "Problem with BODY" << path << std::endl;
-    //     std::cout << "Method not allowed" << std::endl;
-    //     _response.setError(405, "Body size is 0");
-    //     return;
-    // }
+    // Check that body is not empty
+    if (body.size() == 0)
+    {
+        std::cout << "Problem with BODY" << path << std::endl;
+        std::cout << "Method not allowed" << std::endl;
+        _response.setError(405, "Body size is 0");
+        return;
+    }
     
-    // if (!my_file.good())
-    // {
-    //     std::cout << "File don't exist" << std::endl;
-    //     _response.setStatusCode("201");
-    //     _response.setStatusText("Created");
-    //     _response.setContentType("text/plain");
-    // }
-    // else {
-    //     std::cout << "File exist" << std::endl;
-    //     _response.setStatusCode("200");
-    //     _response.setStatusText("OK");
-    //     _response.setContentType("text/plain");
-    //     _response.setBody(getBody());
-    // }
+    // Check if file exist
+    if (!my_file.good())
+    {
+        std::cout << "File don't exist" << std::endl;
+        _response.setProtocol("HTTP/1.1");
+        _response.setStatusCode("201");
+        _response.setStatusText("Created");
+        _response.setContentType("text/plain");
+    }
+    else {
+        std::cout << "File exist" << std::endl;
+        _response.setDefaultSuccess();
+        _response.setContentType("text/plain");
+    }
 
-	// std::fstream postFile;
-	// postFile.open(path.c_str(), std::ios::app);
-	// if (!postFile.is_open())
-	// 	std::cout << "failed to open file in post method" << std::endl;
-	// postFile << getBody();
-    // _response.setProtocol("HTTP/1.1");
-    // _response.send();
+    // Open file
+	std::fstream postFile;
+	postFile.open(path.c_str(), std::ios::app);
+
+    // Check if file is open correctly
+	if (!postFile.is_open())
+    {
+		std::cout << "failed to open file in post method" << std::endl;
+        _response.setError(500, " : Internal Server Error");
+        return;
+    }
+
+    // Write in file
+	postFile << body;
 }
 
 void RequestHandler::Delete() 
@@ -292,10 +228,7 @@ void RequestHandler::Delete()
         if(!remove(path.c_str()))
         {
             std::cout << "File deleted" << std::endl;
-            _response.setStatusCode("200");
-            _response.setStatusText("OK");
-            _response.setProtocol("HTTP/1.1");
-            // _response.send();
+            _response.setDefaultSuccess();
         }
         else
         {
@@ -307,40 +240,7 @@ void RequestHandler::Delete()
 
 void RequestHandler::CGI()
 {
-    // if (method == "GET") {
-    //     if(!::fileExists(path)) {
-    //         _response.setError(404, "Not Found");
-    //         return;
-    //     }
-    //     else if(!::fileIsReadable(path)) {
-    //         _response.setError(403, "Forbidden");
-    //         return;
-    //     }
-    // }
-    // if(getFileExtension(path) == "py" || getFileExtension(path) == "php")
-    // {
-    //     executable_path = _config->getPath();
-    //     if (getFileExtension(path) == "py") {
-    //         script_path = path.substr(2);
-    //     }
-    //     else if (getFileExtension(path) == "php") {
-    //         script_path = "";
-    //     }
-    //     CGI cgi(*this);
-    //     if (!cgi.executeCGI(*this)) {
-    //         _response.setError(500, " : Error in CGI execution");
-    //         return;
-    //     }
-    //     else {
-    //         _response.setStatusCode("200");
-    //         _response.setStatusText("OK");
-    //         _response.setContentType("text/html");
-    //         _response.setProtocol("HTTP/1.1");
-    //         _response.setBody(cgi.getOutputCGI());
-    //         _response.send();
-    //         return;
-    //     }
-    // }
+
 }
 
 // TODO : implement a SuccessResponse vs ErrorResponse
@@ -354,7 +254,6 @@ void RequestHandler::setResponseHeaders()
     std::string contentDisposition = "inline";
 
     // Build response
-    _response.setProtocol("HTTP/1.1");
     _response.setFilename(filename);
     _response.setExtension(extension);
 

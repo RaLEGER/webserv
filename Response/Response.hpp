@@ -44,6 +44,7 @@ class Response {
         void setContentLength(std::string contentLength);
         void setBody(std::string content);
         void setRequest(Request *request);
+        void setDefaultSuccess();
         std::string getSerializedResponse();
         std::string getResponse();
         std::string getHeader();

@@ -4,7 +4,11 @@
 
 Response::Response()
 {
-
+    std::cout << "Response default constructor" << std::endl;
+    // Initialize on success 200 OK
+    setProtocol("HTTP/1.1");
+    setStatusCode("200");
+    setStatusText("OK");
 }
 
 Response::~Response()
@@ -127,7 +131,7 @@ void Response::setError(int statusCode, std::string error_msg)
             setStatusText("Not Found");
             break;
         case 405:
-            setStatusText("Method Not Allowed");
+            setStatusText("Method Not Allowed"); // TODO : add Allow header
             break;
         case 408:
             setStatusText("Request Timeout");
@@ -157,6 +161,13 @@ void Response::setError(int statusCode, std::string error_msg)
             errorPagePath = "./data/default/500.html";
     }
 
+}
+
+void Response::setDefaultSuccess()
+{
+    setProtocol("HTTP/1.1");
+    setStatusCode("200");
+    setStatusText("OK");
 }
 
 void Response::clear(void)

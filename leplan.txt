@@ -45,3 +45,7 @@ TODO RequestHandler :
 2. Gérer ContentType et FileExtensions response headers 
 3. Gérer double headers
 4. Comprendre les blocs de parsing restant, les réintégrer
+
+
+Join Postman team : 
+https://app.getpostman.com/join-team?invite_code=d126740eb567ddc79ded18db39e5a683&target_code=ba1d9dfff26af7a4fa1ad4e8bcb0b080
