@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/24 12:13:34 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/29 16:45:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,45 @@ Server::Server( ) {
 	
 }
 
-Server::Server(const Server &rhs) {
-
-	int vecSize = rhs._locations.size();
-	_host = rhs._host;
-	_port = rhs._port;
-	for (int i = 0; i < vecSize; i++) {
-		addLocation(rhs._locations[i]);
-	}
-}
-
 Server::~Server( ) {
-	int vecSize = _locations.size();
-	for (int i = 0; i < vecSize; i++) {
-		delete _locations[i];
-	}
-}
 
-Server& Server::operator=(const Server &rhs) {
-	if (this == &rhs) return *this;
-	int vecSize = rhs._locations.size();
-	_host = rhs._host;
-	_port = rhs._port;
-	for (int i = 0; i < vecSize; i++) {
-		addLocation(rhs._locations[i]);
-	}
-	return *this;
-}
-
-Server::Server(std::string host, int port) {
-	_host = host;
-	_port = port;
 }
 
 void	Server::addLocation(Location* location) {
-	Location* newLocation = new Location;
-	newLocation = location;
-	_locations.push_back(newLocation);
+	_locations.push_back(location);
 }
+
+void	Server::setHost(std::string host) {
+	_host = host;	
+}
+
+void	Server::setPort(std::string strPort) {
+	int port = 0;
+	std::stringstream temp(strPort);
+	temp >> port;
+	_port = port;
+}
+
+void	Server::setClientBodySize(std::string strSize) {
+	int bodySize = 0;
+	std::stringstream temp(strSize);
+	temp >> bodySize;
+	_clientBodySize = bodySize;
+}
+
+void	Server::setErrPages(std::map <std::string, std::string> pages) {
+	_errPages = pages;
+}
+
+void	Server::setRootDirName(std::string name) {
+	_rootDirName = name;
+}
+
+void	Server::setIndex(std::string index) {
+	_index = index;
+}
+
+void	Server::setMethods(std::vector<std::string> methods) {
+	_methods = methods;
+}
+
