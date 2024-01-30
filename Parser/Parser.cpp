@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/29 16:51:40 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:16:36 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,18 @@ std::vector <Server*> Parser::getServers( ) {
 		tempServ.setHost(serverMap.at("server_name"));
 		tempServ.setPort(serverMap.at("listen"));
 		tempServ.setClientBodySize(serverMap.at("client_max_body_size"));
-		tempServ.setRootDirName()
-		tempServ.setIndex()
+		tempServ.setRootDirName(serverMap.at("root"));
+		tempServ.setIndex(serverMap.at("index"));
+		tempServ.setMethods(serverMap.at("methods"));
+		std::map<std::string, std::string>::iterator it;
+		for (it = serverMap.begin(); it != serverMap.end(); ++it) {
+			const std::string& key = it->first;
+			const std::string& value = it->second;
+
+			if (key.compare(0, 12, "error_page:") == 0) {
+				tempServ.addErrPage(key.substr(key.find(':')), value);
+			}
+		}
+	
 	}
 }

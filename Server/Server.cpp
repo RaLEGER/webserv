@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/29 16:45:01 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:21:39 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	Server::setClientBodySize(std::string strSize) {
 	_clientBodySize = bodySize;
 }
 
-void	Server::setErrPages(std::map <std::string, std::string> pages) {
-	_errPages = pages;
+void	Server::addErrPage(std::string key, std::string value) {
+	_errPages[key] = value;
 }
 
 void	Server::setRootDirName(std::string name) {
@@ -54,7 +54,7 @@ void	Server::setIndex(std::string index) {
 	_index = index;
 }
 
-void	Server::setMethods(std::vector<std::string> methods) {
-	_methods = methods;
+void	Server::setMethods(std::string methods) {
+	
 }
 
