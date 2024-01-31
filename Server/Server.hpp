@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 17:50:08 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 19:36:19 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 class Server {
 	private:
+		Location* _defLoc; 
 		std::map <std::string, Location*>	_locations;
 	public:
 		Server( );
@@ -27,9 +28,11 @@ class Server {
 		void	start();
 		void	stop();
 		void	addLocation(Location* location);
+		void	addDefLoc(Location* location);
 		
 		std::string getServerName( );
 		std::map <std::string, Location*> getLocations( );	
+		Location* getDefLoc( );	
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 15:16:42 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 19:52:19 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ class Location {
 		std::string					_rootDirName;
 		std::string					_index;
 		std::vector<std::string>	_methods;
+		std::string					_autoIndex;
+		std::string					_return;
+		std::string					_cgiPath;
+		std::string					_extension;
 	public:
 		Location( );
 		~Location( );
@@ -44,8 +48,12 @@ class Location {
 		void	setPort(const std::string& strPort);
 		void	setClientBodySize(const std::string& strSize);
 		void	setRootDirName(const std::string& name);
-		void	setIndex(const std::string&index);
+		void	setIndex(const std::string& index);
 		void	setMethods(const std::string& methods);
+		void	setAutoIndex(const std::string& autoIndex);
+		void	setReturn(const std::string& value);
+		void	setCgi(const std::string& path);
+		void	setExtenstion(const std::string& extension);
 
 		void	setFnSetter();
 

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 17:49:48 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 19:51:09 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ Location::~Location( ) {
 }
 
 Location::Location (std::map <std::string, std::string> dictLoc, std::string name) {
-
 	
 	setHost(name);
 	
@@ -59,6 +58,10 @@ void	Location::setFnSetter( ) {
 	_fnSetter["root"] = &Location::setRootDirName;
 	_fnSetter["index"] = &Location::setIndex;
 	_fnSetter["methods"] = &Location::setMethods;
+	_fnSetter["autoindex"] = &Location::setAutoIndex;
+	_fnSetter["return"] = &Location::setReturn;
+	_fnSetter["cgi_path"] = &Location::setCgi;
+	_fnSetter["extension"] = &Location::setExtenstion;
 }
 
 void	Location::setHost(const std::string& host) {
@@ -96,6 +99,21 @@ void	Location::setMethods(const std::string& methods) {
 	//split puis vecteur
 }
 
+void	Location::setAutoIndex(const std::string& autoIndex) {
+	_autoIndex = autoIndex;
+}
+
+void	Location::setReturn(const std::string& value) {
+	_return = value;
+}
+
+void	Location::setCgi(const std::string& path) {
+	_cgiPath = path;
+}
+
+void	Location::setExtenstion(const std::string& extension) {
+	_extension = extension;
+}
 
 std::string	Location::getHost( ) {
 	return _host;	
