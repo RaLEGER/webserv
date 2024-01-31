@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/24 13:53:15 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 15:16:42 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,43 @@
 
 # include <iostream>
 //#include "Request.hpp"
+#include <sstream>
+#include <map>
+#include <fstream>
+#include <algorithm>
+# include <iostream>
 
 class Location {
 	private:
-		std::string					_path;
-		std::string					_type;
-		std::string					_extension;
+		std::map <std::string, void (Location::*)(const std::string &)> _fnSetter;
+		std::string				_host;
+		int						_port;
+		int						_clientBodySize;
+		std::map <std::string, std::string> _errPages;
+		std::string					_rootDirName;
+		std::string					_index;
 		std::vector<std::string>	_methods;
 	public:
 		Location( );
-		Location(const Location &rhs);
 		~Location( );
-		Location& operator=(const Location &rhs);
+
+		Location (std::map <std::string, std::string> dictLoc, std::string name);
+
 		bool	isAllowed(std::string method);
+		//void	handleRequest(Request* requestHandler);
+
+		void	setHost(const std::string& host);
+		void	setPort(const std::string& strPort);
+		void	setClientBodySize(const std::string& strSize);
+		void	setRootDirName(const std::string& name);
+		void	setIndex(const std::string&index);
+		void	setMethods(const std::string& methods);
+
+		void	setFnSetter();
+
+		void	addErrPage(const std::string& key, const std::string&value);
 		
-		//void	handleRequest(Request* request);
+		std::string	getHost();
 };
 
 #endif

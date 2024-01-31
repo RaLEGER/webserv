@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/30 16:16:36 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 17:33:35 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	Parser::openBrace(size_t pos) {
 				std::cout << "pas biueno" << std::endl;
 			_serverDict.push_back(std::map<std::string, std::string>());
 			_routeDict.push_back(std::vector <std::map<std::string, std::string> >());
+			_routeNames.push_back(std::vector <std::string>());
 		}
 		else {
 			_routeCount++;
@@ -160,7 +161,7 @@ void	Parser::addPair(size_t lhs, size_t rhs) {
 				//throw error
 				std::cout << "pas bon? ";
 			else {
-				_routeNames.push_back(value);
+				_routeNames[_servCount - 1].push_back(value);
 			}
 		}
 		switch (_depth) {
@@ -201,28 +202,24 @@ std::map <std::string, std::string> Parser::getGlobalVars() {
 std::vector <Server*> Parser::getServers( ) {
 	std::vector <Server*> servers;
 	std::vector <std::map<std::string, std::string> >::iterator servIt;
+	int	servCount = 0;
 	
 	for (servIt = _serverDict.begin(); servIt < _serverDict.end(); servIt++) {
 		
 		std::map<std::string, std::string>& serverMap = *servIt;
-		Server tempServ;
-		servers.push_back(&tempServ);
+		Server* tempServ = new Server();
+		servers.push_back(tempServ);
+		
 			
-		tempServ.setHost(serverMap.at("server_name"));
-		tempServ.setPort(serverMap.at("listen"));
-		tempServ.setClientBodySize(serverMap.at("client_max_body_size"));
-		tempServ.setRootDirName(serverMap.at("root"));
-		tempServ.setIndex(serverMap.at("index"));
-		tempServ.setMethods(serverMap.at("methods"));
-		std::map<std::string, std::string>::iterator it;
-		for (it = serverMap.begin(); it != serverMap.end(); ++it) {
-			const std::string& key = it->first;
-			const std::string& value = it->second;
-
-			if (key.compare(0, 12, "error_page:") == 0) {
-				tempServ.addErrPage(key.substr(key.find(':')), value);
-			}
-		}
-	
+		Location* defLoc = new Location(serverMap, serverMap.at("server_name"));
+		tempServ->addLocation(defLoc);	
+		std::cout << "def loc vcreated" << std::endl;
+		for (size_t i = 0; i < _routeNames[servCount].size(); i ++) {
+			Location* tempLoc = new Location(_routeDict[servCount][i], _routeNames[servCount][i]);
+			tempServ->addLocation(tempLoc);
+		}	
+		servCount ++;
+		std::cout << servCount << std::endl;
 	}
+	return (servers);
 }

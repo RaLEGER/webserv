@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:58:40 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/29 14:54:06 by rleger           ###   ########.fr       */
+/*   Updated: 2024/01/31 17:22:45 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 #include <sstream>
 #include <map>
 #include <algorithm>
-#include "Server/Server.hpp"
+#include "Server.hpp"
 
 class Parser {
 	private:
 		std::map <std::string, std::string> _globalVar;
 		std::vector <std::map<std::string, std::string> > _serverDict;
 		std::vector <std::vector <std::map<std::string, std::string> > > _routeDict;
-		std::vector <std::string> _routeNames;
+		std::vector <std::vector <std::string> > _routeNames;
 		size_t		_servCount;
 		int			_routeCount;
 		int			_depth;
