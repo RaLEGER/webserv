@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 19:35:11 by rleger           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:19:43 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,26 +167,21 @@ void	Parser::addPair(size_t lhs, size_t rhs) {
 		switch (_depth) {
 			case 0: {
 				_globalVar[key] = value;
-				// std::cout << "glob : ";
-				// std::cout << key << "=" << value;
-				// std::cout << std::endl;
+				// std::cout << "glob : "" << key << "=" << value << std::endl;
 				break;
 			}
 			case 1: {
 				_serverDict[_servCount - 1][key] = value;
-				// std::cout << "serv : ";
-				// std::cout << key << "=" << value;
-				// std::cout << std::endl;
+				// std::cout << "serv : " << key << "=" << value << std::endl;
 				break;
 			}
 			case 2: {
 				_routeDict[_servCount - 1][_routeCount][key] = value;
-				// std::cout << "route " << _routeNames[_routeCount] << " : ";
-				// std::cout << key << "=" << value;
-				// std::cout << std::endl;
+				// std::cout << "route " << _routeNames[_routeCount] << " : " << key << "=" << value << std::endl;
 				break;
 			}
 			default: {
+				std::cout << "unexpected depth" << std::endl;
 				break;
 			}
 		}
@@ -213,13 +208,11 @@ std::vector <Server*> Parser::getServers( ) {
 			
 		Location* defLoc = new Location(serverMap, serverMap.at("server_name"));
 		tempServ->addDefLoc(defLoc);	
-		std::cout << "def loc vcreated" << std::endl;
 		for (size_t i = 0; i < _routeNames[servCount].size(); i ++) {
 			Location* tempLoc = new Location(_routeDict[servCount][i], _routeNames[servCount][i]);
 			tempServ->addLocation(tempLoc);
 		}	
 		servCount ++;
-		std::cout << servCount << std::endl;
 	}
 	return (servers);
 }

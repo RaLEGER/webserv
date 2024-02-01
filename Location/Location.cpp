@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 19:51:09 by rleger           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:38:36 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ Location::Location (std::map <std::string, std::string> dictLoc, std::string nam
 		}
 		else if (_fnSetter.find(key) == _fnSetter.end() 
 					&& key.compare("host") != 0
-					&& key.compare("server_name")
-					&& key.compare("location")) {
+					&& key.compare("server_name") != 0
+					&& key.compare("location") != 0) {
 			std::cout << "err " << key  << std::endl;
 			//throw;
 		}
@@ -95,8 +95,15 @@ void	Location::setIndex(const std::string& index) {
 }
 
 void	Location::setMethods(const std::string& methods) {
-	(void) methods;
-	//split puis vecteur
+	size_t beg = 0;
+	size_t end = methods.find(',');
+	
+	_methods.push_back(methods.substr(beg, std::min(end, methods.size())));
+	while (end != std::string::npos) {
+		beg = end + 1;
+		end = methods.find(',', end + 1);
+		_methods.push_back(methods.substr(beg, std::min(end, methods.size())));
+	}
 }
 
 void	Location::setAutoIndex(const std::string& autoIndex) {
