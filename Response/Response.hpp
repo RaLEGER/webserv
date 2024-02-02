@@ -31,6 +31,8 @@ class Response {
 
     public:
         Response();
+        Response(int statusCode); // Constructor for error response
+        
         ~Response();
 
         /* Getters & Setters */

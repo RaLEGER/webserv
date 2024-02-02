@@ -11,6 +11,12 @@ Response::Response()
     setStatusText("OK");
 }
 
+Response::Response(int statusCode)
+{
+    std::cout << "Error Response constructor with status code" << std::endl;
+    setError(statusCode, "");
+}
+
 Response::~Response()
 {
     std::cout << "Response destroyed" << std::endl;

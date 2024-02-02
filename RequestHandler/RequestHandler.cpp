@@ -104,20 +104,24 @@ void RequestHandler::handleRequest()
 
     std::string method = _request.getMethod();
     if (method == "GET")
+    {
         Get();
+    }
     else if(method == "POST" || method == "PUT")
+    {
         Post();
+    }
     else if(method == "DELETE")
+    {
         Delete();
+    }
     else if (method == "HEAD")
     {
-        std::cout << "HEAD" << std::endl;
-        // _response.setError(405, "Method Not Allowed");
-        return;
+        throw CustomError(405, "Method Not Allowed");
     }
-    else {
-        std::cout << "Unknown method" << std::endl;
-        // _response.setError(405, "Not Implemented");
+    else 
+    {
+        throw CustomError(405, "Method Not Implemented");
     }
 }
 
@@ -154,7 +158,6 @@ void RequestHandler::listDirectory()
     _response.setProtocol("HTTP/1.1");
     _response.setStatusText("OK");
     _response.setContentType("text/html");
-    // _response.send();
 }
 
 void RequestHandler::Get() 
@@ -162,9 +165,9 @@ void RequestHandler::Get()
     std::cout << "HANDLING METHOD GET" << std::endl;
     std::cout << "Requesting ressource at path : " << path << std::endl;
     if(!::fileExists(path))
-        _response.setError(404, "Not Found");
+        throw CustomError(404, "File does not exists");
     else if(!::fileIsReadable(path))
-        _response.setError(403, "Forbidden");
+        throw CustomError(403, "File is not readable");
     else
     {
         _response.loadFileContent(path);
@@ -181,12 +184,7 @@ void RequestHandler::Post()
 
     // Check that body is not empty
     if (body.size() == 0)
-    {
-        std::cout << "Problem with BODY" << path << std::endl;
-        std::cout << "Method not allowed" << std::endl;
-        _response.setError(405, "Body size is 0");
-        return;
-    }
+        throw CustomError(405, "Body size is 0");
 
     // Check if file exist
     if (!my_file.good())
@@ -200,11 +198,7 @@ void RequestHandler::Post()
         std::cout << "File exist" << std::endl;
         // Check that file is writeable 
         if (!fileIsWritable(path))
-        {
-            std::cout << "File not writable" << std::endl;
-            _response.setError(403, "Forbidden");
-            return;
-        }
+            throw CustomError(403, "File not writable");
         else 
             _response.setDefaultSuccess();
     }
@@ -215,11 +209,7 @@ void RequestHandler::Post()
 
     // Check if file is open correctly
 	if (!postFile.is_open())
-    {
-		std::cout << "failed to open file in post method" << std::endl;
-        _response.setError(500, " : Internal Server Error");
-        return;
-    }
+        throw CustomError(500, "Failed to open file in post method");
 
     // Write in file
 	postFile << body;
@@ -234,24 +224,16 @@ void RequestHandler::Delete()
     std::ifstream my_file(path.c_str());
 
     if (!my_file.good())
+        throw CustomError(404, "File not found");
+
+    std::cout << "Requesting ressource at path : " << path << std::endl;
+    if(!remove(path.c_str()))
     {
-        std::cout << "File not found" << std::endl;
-        _response.setError(404, "Not Found");
+        std::cout << "File deleted" << std::endl;
+        _response.setDefaultSuccess();
     }
-    else 
-    {
-        std::cout << "Requesting ressource at path : " << path << std::endl;
-        if(!remove(path.c_str()))
-        {
-            std::cout << "File deleted" << std::endl;
-            _response.setDefaultSuccess();
-        }
-        else
-        {
-            std::cout << "Error deleting file" << std::endl;
-            _response.setError(500, ": Internal Server Error");
-        }
-    }
+    else
+        throw CustomError(500, "Error deleting file");
 }
 
 void RequestHandler::CGI()

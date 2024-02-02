@@ -1,4 +1,5 @@
 #include "Request.hpp"
+#include "CustomError/CustomError.hpp"
 
 #include <fstream>
 #include <algorithm>
@@ -52,17 +53,19 @@ bool Request::parseRequest(){
 
     // lastActivityTime = ft_now();
 
-    // Check that the first line has the correct number of tokens (3)
+    // Extract the first line of the request
     std::string firstLine = requestString.substr(0, requestString.find("\r\n"));
     std::vector<std::string> tokens = splitWithSep(firstLine, ' ');
-    if (tokens.size() != 3) {
-        // _response.setError(400, ": a field from 1st request line is missing"); 
-    }
+   
+    // Check that the first line has the correct number of tokens (3) 
+    if (tokens.size() != 3) 
+        throw CustomError(400, "Invalid number of tokens in first line of request");
 
     // Parse the method, URI, HTTP version and headers
 	parseMethodToken(tokens[0]);
-    if (!parseURI(tokens[1]) || !parseHTTPVersion(tokens[2]) || !parseHeaders())
-        return false;
+    parseURI(tokens[1]);
+    parseHTTPVersion(tokens[2]);
+    parseHeaders();
 
     // if the method is POST, PUT or DELETE, parse the body
     if (method == "POST" || method == "PUT" || method == "DELETE")
@@ -119,7 +122,7 @@ void Request::parseMethodToken(const std::string& token)
 			return ;
 		}
 	}
-    // _response.setError(400, ": unknown method");
+    throw CustomError(400, "Unknown HTTP method");
 }
 
 // This function 
@@ -127,15 +130,11 @@ void Request::parseMethodToken(const std::string& token)
 // 2. sets the path and query attributes of the request object
 bool Request::parseURI(std::string token)
 {
-    if (token.size() > MAX_URI_LEN) {
-        // _response.setError(414, ": URI too long");
-        return false;
-    }
+    if (token.size() > MAX_URI_LEN)
+        throw CustomError(414, "URI too long");
 
-	if (token[0] != '/') {
-        // _response.setError(400, ": URI must begin with a /");
-        return false;
-    }
+    if (token[0] != '/')
+        throw CustomError(400, "URI must begin with a /");
   
     query = "";
 
@@ -157,8 +156,7 @@ bool Request::parseHTTPVersion(const std::string& token)
 	if (token.size() < 7 || token.compare(0, 5, "HTTP/") || token.compare(6, 1, ".") || 
 			!isdigit(static_cast<int>(token[5])) || !isdigit(static_cast<int>(token[7])))
     {
-		// _response.setError(400, ": HTTP version not correct");
-        return false;
+        throw CustomError(400, "Invalid HTTP version");
     }
 	protocol = token;
     return true;
@@ -168,17 +166,16 @@ bool Request::parseHTTPVersion(const std::string& token)
 bool Request::parseHeaders()
 {
     // if (requestHeaderString.size() > MAX_HEADER_LEN)
-    //     _response.setError(431, ": Header too long");
+    //     throw CustomError(431, "Header too long");
 
     std::string delimiter = "\r\n";
     size_t pos = 0;
     std::string tmpRequestString = requestString;
 
     size_t posSC = tmpRequestString.find(":");
-    if (posSC == std::string::npos) {
-		// _response.setError(400, ": No semicolon");
-        return false;
-    }
+    if (posSC == std::string::npos) 
+        throw CustomError(400, "No Header delimiter");
+
     // check for duplicate headers
     // TODO : useless, make a addHeader function that will check whether a header already exists 
     // if (hasDuplicateKeys(requestHeaderString))
@@ -216,11 +213,7 @@ bool Request::parseBody()
     
     // Check that the body size does not exceed the limit
     if (requestString.size() > maxBodySize) 
-    {
-        std::cout << "BODY TOO BIG" << body << std::endl; 
-        // _response.setError(413, ": received more octets than max body size limit");
-        return false;
-    }
+        throw CustomError(413, "Body exceeds size limit");
 
     // Find the position of the first double line break
     size_t bodyStartPos = requestString.find("\r\n\r\n");
@@ -233,10 +226,6 @@ bool Request::parseBody()
 
     // Extract the body from the requestString
     body = requestString.substr(bodyStartPos + 4);
-
-    // Parse the body 
-    // Implement your logic here to parse the body
-    
 
     return true;
 }

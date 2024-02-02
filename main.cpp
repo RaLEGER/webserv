@@ -6,6 +6,7 @@
 
 #include "Request/Request.hpp"
 #include "RequestHandler/RequestHandler.hpp"
+#include "CustomError/CustomError.hpp"
 
 int main(int argc, char** argv) {
     (void) argc;
@@ -74,12 +75,22 @@ int main(int argc, char** argv) {
         std::cout << "----------- RAW REQUEST RECEIVED ---------------- "<< std::endl;
         std::cout  << rawRequest << std::endl;
         std::cout << "---------------------------------------- "<< std::endl;
+        std::string rawResponse;
 
-        Request *request = new Request(rawRequest);
-        RequestHandler *requestHandler = new RequestHandler(*request);
-        requestHandler->handleRequest();
-        requestHandler->setResponseHeaders();
-        std::string rawResponse = requestHandler->getResponse().getSerializedResponse();
+        try
+        {
+            Request *request = new Request(rawRequest);
+            RequestHandler *requestHandler = new RequestHandler(*request);
+            requestHandler->handleRequest();
+            requestHandler->setResponseHeaders();
+            rawResponse = requestHandler->getResponse().getSerializedResponse();
+        }
+        catch(const CustomError &e)
+        {
+            std::cerr << e.what() << std::endl;
+            Response *errorResponse = new Response(e.getErrorCode());
+            rawResponse = errorResponse->getSerializedResponse();
+        }
 
         std::cout << "----------- RAW RESPONSE TO SEND ---------------- "<< std::endl;
         std::cout  << rawResponse << std::endl;

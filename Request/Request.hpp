@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <list>
 
+#include "../CustomError/CustomError.hpp"
+
 // TYPES 
 #define GET 1
 #define POST 2
