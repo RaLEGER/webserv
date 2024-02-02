@@ -6,35 +6,39 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 19:52:19 by rleger           ###   ########.fr       */
+/*   Updated: 2024/02/02 17:58:15 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LOCATION_HPP
 # define LOCATION_HPP
 
-# include <iostream>
+#include <iostream>
 //#include "Request.hpp"
 #include <sstream>
 #include <map>
 #include <fstream>
 #include <algorithm>
-# include <iostream>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <sys/select.h>
+#include <fcntl.h>
 
 class Location {
 	private:
 		std::map <std::string, void (Location::*)(const std::string &)> _fnSetter;
-		std::string				_host;
-		int						_port;
-		int						_clientBodySize;
+		std::string							_host;
+		int									_port;
+		int									_clientBodySize;
 		std::map <std::string, std::string> _errPages;
-		std::string					_rootDirName;
-		std::string					_index;
-		std::vector<std::string>	_methods;
-		std::string					_autoIndex;
-		std::string					_return;
-		std::string					_cgiPath;
-		std::string					_extension;
+		std::string							_rootDirName;
+		std::string							_index;
+		std::vector<std::string>			_methods;
+		std::string							_autoIndex;
+		std::string							_return;
+		std::string							_cgiPath;
+		std::string							_extension;
 	public:
 		Location( );
 		~Location( );
@@ -60,6 +64,7 @@ class Location {
 		void	addErrPage(const std::string& key, const std::string&value);
 		
 		std::string	getHost();
+		int			getPort();
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/02/01 12:38:36 by rleger           ###   ########.fr       */
+/*   Updated: 2024/02/02 10:40:51 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,3 +125,9 @@ void	Location::setExtenstion(const std::string& extension) {
 std::string	Location::getHost( ) {
 	return _host;	
 }
+
+
+int	Location::getPort( ) {
+	return _port;	
+}
+
