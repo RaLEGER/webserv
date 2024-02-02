@@ -79,8 +79,15 @@ void RequestHandler::handleRequest()
     //     return;
     // }
 
+    // Check that the method is allowed for this location
+    // if ((method == "GET" && !_config->isGetAllowed()) || (method == "POST" && !_config->isPostAllowed()))
+    // {    
+    //     // _response.setError(405, ": Method not allowed");
+    //     return false;
+    // }
+
     // TEMPORARY : we set the path manually
-    path = "/home/teliet/webserv-2/test" + _request.getPath();
+    path = "/home/teliet/42/webserv/test" + _request.getPath();
 
     std::cout << "Path before method routing :" << path << std::endl;
 
@@ -180,7 +187,7 @@ void RequestHandler::Post()
         _response.setError(405, "Body size is 0");
         return;
     }
-    
+
     // Check if file exist
     if (!my_file.good())
     {
@@ -188,12 +195,18 @@ void RequestHandler::Post()
         _response.setProtocol("HTTP/1.1");
         _response.setStatusCode("201");
         _response.setStatusText("Created");
-        _response.setContentType("text/plain");
     }
     else {
         std::cout << "File exist" << std::endl;
-        _response.setDefaultSuccess();
-        _response.setContentType("text/plain");
+        // Check that file is writeable 
+        if (!fileIsWritable(path))
+        {
+            std::cout << "File not writable" << std::endl;
+            _response.setError(403, "Forbidden");
+            return;
+        }
+        else 
+            _response.setDefaultSuccess();
     }
 
     // Open file
@@ -210,6 +223,9 @@ void RequestHandler::Post()
 
     // Write in file
 	postFile << body;
+
+    // Close the file
+    postFile.close();  // Close the file after writing
 }
 
 void RequestHandler::Delete() 
@@ -243,27 +259,27 @@ void RequestHandler::CGI()
 
 }
 
-// TODO : implement a SuccessResponse vs ErrorResponse
 void RequestHandler::setResponseHeaders()
 {
+    // if the response has no body, return 
+    if(_response.getBody() == "")
+        return;
+    
+    // Determine file name and extension
     std::string extension = _response.getExtension();
     if(extension == "")
         extension = getFileExtension(path);
     std::string filename = path.substr(path.find_last_of("/") + 1);
+
+    // Default values
     std::string contentType = "text/plain";
     std::string contentDisposition = "inline";
 
-    // Build response
-    _response.setFilename(filename);
-    _response.setExtension(extension);
-
-    // if extension is not displayable, download it
+    //  Determine content type and disposition depending on extension
     if(extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "gif" || extension == "bmp" || extension == "ico") {
         contentType = "image/" + extension;
-        contentDisposition = "attachment";
     } else if (extension == "pdf") {
         contentType = "application/pdf";
-        contentDisposition = "attachment";
     } else if (extension == "css") {
         contentType = "text/css";
     } else if (extension == "js") {
@@ -273,9 +289,14 @@ void RequestHandler::setResponseHeaders()
     } else if (extension == "html") {
         contentType = "text/html";
     } else {
-        contentType = "text/plain";
+        //  if the extension is not recognized, set to application/octet-stream and attachment (download)
+        contentType = "application/octet-stream";
+        contentDisposition = "attachment";
     }
 
+    // Build response headers
+    _response.setFilename(filename);
+    _response.setExtension(extension);
     _response.setContentType(contentType);
     _response.setContentDisposition(contentDisposition);
 }

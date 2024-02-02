@@ -41,11 +41,13 @@ These are just some of the classes you can consider for organizing your nginx-li
 Gestion d'erreurs : plutôt utiliser un try/catch et throw des erreurs. Ensuite, toutes les erreurs sont construites par la même fonction. Plutôt que le SendError()
 
 TODO RequestHandler : 
-1. Gérer requêtes POST, PUT et DELETE 
+1. Gérer requêtes POST, PUT et DELETE - DONE
 2. Gérer ContentType et FileExtensions response headers 
 3. Gérer double headers
 4. Comprendre les blocs de parsing restant, les réintégrer
-
+- Implement maxBodySize limits 
+- Implement chunkedBody
+- Content Length Validation on body
 
 Join Postman team : 
 https://app.getpostman.com/join-team?invite_code=d126740eb567ddc79ded18db39e5a683&target_code=ba1d9dfff26af7a4fa1ad4e8bcb0b080

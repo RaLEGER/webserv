@@ -19,7 +19,6 @@ std::vector<std::string> splitWithSep(std::string line, char sep)
 
 Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket), serverSocket(serverSocket) {
     std::cout << "Request created" << std::endl;
-    // _response.setRequest(this);
     // readingHeader = false;
     // readingBody = false;
     // chunkedBody = false;
@@ -32,7 +31,7 @@ Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket
 }
 
 Request::Request(std::string &rawRequest) {
-    std::cout << "Request Constructor" << std::endl;
+    std::cout << "Request Constructor with RawRequest" << std::endl;
     requestString = rawRequest;
     parseRequest();
 }
@@ -65,19 +64,16 @@ bool Request::parseRequest(){
     if (!parseURI(tokens[1]) || !parseHTTPVersion(tokens[2]) || !parseHeaders())
         return false;
 
+    // if the method is POST, PUT or DELETE, parse the body
+    if (method == "POST" || method == "PUT" || method == "DELETE")
+        parseBody();
+        
     // Route the request to the correct virtual server and location 
     // todo : do this in a separate function / other part of the code
     // getRequestConfig();
     // if (_config == NULL)
     // {    
     //     // _response.setError(404, ": virtual server configuration not found");
-    //     return false;
-    // }
-
-    // Check that the method is allowed for this location
-    // if ((method == "GET" && !_config->isGetAllowed()) || (method == "POST" && !_config->isPostAllowed()))
-    // {    
-    //     // _response.setError(405, ": Method not allowed");
     //     return false;
     // }
 
@@ -212,21 +208,38 @@ bool Request::parseHeaders()
     return true;
 }
 
-// Check and Parse Body
-// bool Request::parseBody()
-// {
-//     if (chunkedBody)
-//         body = concatenateList(requestBodyList);
-//     else
-//         body = requestBodyString;
+bool Request::parseBody()
+{
+    std::size_t maxBodySize = 1000000; // 1MB, to set in config
+
+    std::cout << "Parsing body" << std::endl;
     
-//     if(body.size() > _config->getClientMaxBodySize()) 
-//     {
-//         _response.setError(413, ": received more octets than max body size limit");
-//         return false;
-//     }
-//     return true;
-// }
+    // Check that the body size does not exceed the limit
+    if (requestString.size() > maxBodySize) 
+    {
+        std::cout << "BODY TOO BIG" << body << std::endl; 
+        // _response.setError(413, ": received more octets than max body size limit");
+        return false;
+    }
+
+    // Find the position of the first double line break
+    size_t bodyStartPos = requestString.find("\r\n\r\n");
+    if (bodyStartPos == std::string::npos) 
+    {
+        std::cout << "NO DOUBLE LINE BREAKS" << body << std::endl; 
+        // Double line break not found, body is empty
+        return true;
+    }
+
+    // Extract the body from the requestString
+    body = requestString.substr(bodyStartPos + 4);
+
+    // Parse the body 
+    // Implement your logic here to parse the body
+    
+
+    return true;
+}
 
 // GETTERS
 
