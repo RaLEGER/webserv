@@ -86,6 +86,7 @@ class Request {
         int                 getServerSocket();
         std::string         getResponseString();
         std::string         getHeader(std::string key);
+        void                addHeader(std::string key, std::string value);
         std::map<std::string, std::string>        &getHeaders();
         void                getRequestConfig();
         // Location*           getConfig();

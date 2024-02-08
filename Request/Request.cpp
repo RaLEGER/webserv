@@ -19,7 +19,7 @@ std::vector<std::string> splitWithSep(std::string line, char sep)
 }
 
 Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket), serverSocket(serverSocket) {
-    std::cout << "Request created" << std::endl;
+    // std::cout << "Request created" << std::endl;
     // readingHeader = false;
     // readingBody = false;
     // chunkedBody = false;
@@ -32,7 +32,7 @@ Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket
 }
 
 Request::Request(std::string &rawRequest) {
-    std::cout << "Request Constructor with RawRequest" << std::endl;
+    // std::cout << "Request Constructor with RawRequest" << std::endl;
     requestString = rawRequest;
     parseRequest();
 }
@@ -62,7 +62,7 @@ bool Request::parseRequest(){
         throw CustomError(400, "Invalid number of tokens in first line of request");
 
     // Parse the method, URI, HTTP version and headers
-	parseMethodToken(tokens[0]);
+    parseMethodToken(tokens[0]);
     parseURI(tokens[1]);
     parseHTTPVersion(tokens[2]);
     parseHeaders();
@@ -162,38 +162,64 @@ bool Request::parseHTTPVersion(const std::string& token)
     return true;
 }
 
+void Request::addHeader(std::string key, std::string value)
+{
+    // Check if the header already exists
+    if (headers.count(key) == 1)
+        throw CustomError(400, "Duplicate headers are not allowed");
+
+    headers[key] = value;
+}
+
 // Check headers validity, parse and set them
 bool Request::parseHeaders()
 {
+
+    std::cout << "Parsing headers" << std::endl;
+    std::cout << "RequestString: " << requestString << std::endl;
+
     // if (requestHeaderString.size() > MAX_HEADER_LEN)
     //     throw CustomError(431, "Header too long");
 
     std::string delimiter = "\r\n";
-    size_t pos = 0;
+    std::string separator = ": ";
     std::string tmpRequestString = requestString;
 
-    size_t posSC = tmpRequestString.find(":");
-    if (posSC == std::string::npos) 
-        throw CustomError(400, "No Header delimiter");
+    // If the request string does not contain a double line break, there are no headers
+    size_t sepPos = tmpRequestString.find(separator);
+    if (sepPos == std::string::npos) 
+        throw CustomError(400, "No headers found in request. Host header is required.");
 
-    // check for duplicate headers
-    // TODO : useless, make a addHeader function that will check whether a header already exists 
-    // if (hasDuplicateKeys(requestHeaderString))
-    // {
-	// 	_response.setError(400, ": duplicated headers are not allowed");
-    //     return false;
-    // }
+    // Iterate over the request string line by line
+    size_t delimiterPos = tmpRequestString.find(delimiter);
+    while (delimiterPos != std::string::npos)
+    {
+        // extract the current line and remove it from the request string
+        std::string line = tmpRequestString.substr(0, delimiterPos);
+        std::cout << "Parsing line: " << line << std::endl;
+        tmpRequestString.erase(0, delimiterPos + delimiter.length());
 
-    while ((pos = tmpRequestString.find(delimiter)) != std::string::npos) {
-        std::string line = tmpRequestString.substr(0, pos);
-        tmpRequestString.erase(0, pos + delimiter.length());
-        size_t pos2 = line.find(": ");
-        if(pos2 != std::string::npos) {
-            std::string key = line.substr(0, pos2);
-            std::string value = line.substr(pos2 + 2);
-            headers[key] = value;
+        // If the line is empty, the headers are finished
+        if (line.empty()) 
+            break;
+
+        // If the line contains a header separator, add header
+        sepPos = line.find(separator);
+
+        if(sepPos != std::string::npos) {
+
+            // Extract the key and value from the line
+            std::string key = line.substr(0, sepPos);
+            std::string value = line.substr(sepPos + 2);
+
+            addHeader(key, value);
         }
+        delimiterPos = tmpRequestString.find(delimiter);
     }
+
+    //Check that Host header is present
+    if (headers.count("Host") == 0)
+        throw CustomError(400, "Host header is required");
 
     //get contentLength if any
     if (headers.count("Content-Length") == 1)

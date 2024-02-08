@@ -1,0 +1,235 @@
+Le serveur est en attente de connexions sur le port 4000
+----------- RAW REQUEST RECEIVED ---------------- 
+GET / HTTP/1.1
+
+
+---------------------------------------- 
+Parsing headers
+RequestString: GET / HTTP/1.1
+
+
+----- ERROR ------
+(⊙…⊙ ) 400 No headers found in request. Host header is required.
+------------------
+Sending file ./data/default/400.html
+----------- RAW RESPONSE TO SEND ---------------- 
+HTTP/1.1 400 Bad Request
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 1026
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>400 - Bad Request</title>
+        <style type=text/css>
+            h1{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 64px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            h2{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 32px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            p {    
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 20px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <center>
+                <br /><br /><br /><br /><br /><br/>
+                    <h2>Webserv</h2>
+                    <h1>400 - Bad Request</h1>
+                <br /><br /><br /><br />
+            </center>
+        </main>
+    </body>
+</html>
+---------------------------------------- 
+----------- RAW REQUEST RECEIVED ---------------- 
+GET / HTTP/1.1
+bonjou:sauce
+
+---------------------------------------- 
+Parsing headers
+RequestString: GET / HTTP/1.1
+bonjou:sauce
+
+----- ERROR ------
+(⊙…⊙ ) 400 No headers found in request. Host header is required.
+------------------
+Sending file ./data/default/400.html
+----------- RAW RESPONSE TO SEND ---------------- 
+HTTP/1.1 400 Bad Request
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 1026
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>400 - Bad Request</title>
+        <style type=text/css>
+            h1{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 64px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            h2{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 32px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            p {    
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 20px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <center>
+                <br /><br /><br /><br /><br /><br/>
+                    <h2>Webserv</h2>
+                    <h1>400 - Bad Request</h1>
+                <br /><br /><br /><br />
+            </center>
+        </main>
+    </body>
+</html>
+---------------------------------------- 
+----------- RAW REQUEST RECEIVED ---------------- 
+GET / HTTP/1.1
+bonjou:sauce
+
+
+---------------------------------------- 
+Parsing headers
+RequestString: GET / HTTP/1.1
+bonjou:sauce
+
+
+----- ERROR ------
+(⊙…⊙ ) 400 No headers found in request. Host header is required.
+------------------
+Sending file ./data/default/400.html
+----------- RAW RESPONSE TO SEND ---------------- 
+HTTP/1.1 400 Bad Request
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 1026
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>400 - Bad Request</title>
+        <style type=text/css>
+            h1{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 64px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            h2{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 32px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            p {    
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 20px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <center>
+                <br /><br /><br /><br /><br /><br/>
+                    <h2>Webserv</h2>
+                    <h1>400 - Bad Request</h1>
+                <br /><br /><br /><br />
+            </center>
+        </main>
+    </body>
+</html>
+---------------------------------------- 
+----------- RAW REQUEST RECEIVED ---------------- 
+GET / HTTP/1.1
+bonjou: sauce
+
+
+---------------------------------------- 
+Parsing headers
+RequestString: GET / HTTP/1.1
+bonjou: sauce
+
+
+Parsing line: GET / HTTP/1.1
+Parsing line: bonjou: sauce
+----- ERROR ------
+(⊙…⊙ ) 400 Host header is required
+------------------
+Sending file ./data/default/400.html
+----------- RAW RESPONSE TO SEND ---------------- 
+HTTP/1.1 400 Bad Request
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 1026
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>400 - Bad Request</title>
+        <style type=text/css>
+            h1{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 64px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            h2{
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 32px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+            p {    
+                color: #D3D3D3;    
+                font-weight: 900;   
+                font-size: 20px;    
+                font-family: Helvetica, Arial, sans-serif;   
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <center>
+                <br /><br /><br /><br /><br /><br/>
+                    <h2>Webserv</h2>
+                    <h1>400 - Bad Request</h1>
+                <br /><br /><br /><br />
+            </center>
+        </main>
+    </body>
+</html>
+---------------------------------------- 

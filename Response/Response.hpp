@@ -31,7 +31,7 @@ class Response {
 
     public:
         Response();
-        Response(int statusCode); // Constructor for error response
+        Response(int statusCode, std::string error_msg); // Constructor for error response
         
         ~Response();
 

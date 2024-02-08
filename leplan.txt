@@ -43,7 +43,7 @@ Gestion d'erreurs : plutôt utiliser un try/catch et throw des erreurs. Ensuite,
 TODO RequestHandler : 
 1. Gérer requêtes POST, PUT et DELETE - DONE
 2. Gérer ContentType et FileExtensions response headers - DONE
-3. Gérer double headers
+3. Gérer double headers - DONE
 4. Comprendre les blocs de parsing restant, les réintégrer
 - Implement maxBodySize limits 
 - Implement chunkedBody

@@ -81,6 +81,7 @@ int main(int argc, char** argv) {
         {
             Request *request = new Request(rawRequest);
             RequestHandler *requestHandler = new RequestHandler(*request);
+            // std::cout << *request << std::endl;
             requestHandler->handleRequest();
             requestHandler->setResponseHeaders();
             rawResponse = requestHandler->getResponse().getSerializedResponse();
@@ -88,7 +89,7 @@ int main(int argc, char** argv) {
         catch(const CustomError &e)
         {
             std::cerr << e.what() << std::endl;
-            Response *errorResponse = new Response(e.getErrorCode());
+            Response *errorResponse = new Response(e.getErrorCode(), e.what());
             rawResponse = errorResponse->getSerializedResponse();
         }
 

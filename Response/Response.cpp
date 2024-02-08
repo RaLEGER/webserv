@@ -4,22 +4,22 @@
 
 Response::Response()
 {
-    std::cout << "Response default constructor" << std::endl;
+    // std::cout << "Response default constructor" << std::endl;
     // Initialize on success 200 OK
     setProtocol("HTTP/1.1");
     setStatusCode("200");
     setStatusText("OK");
 }
 
-Response::Response(int statusCode)
+Response::Response(int statusCode, std::string error_msg)
 {
-    std::cout << "Error Response constructor with status code" << std::endl;
-    setError(statusCode, "");
+    // std::cout << "Error Response constructor with status code" << std::endl;
+    setError(statusCode, error_msg);
 }
 
 Response::~Response()
 {
-    std::cout << "Response destroyed" << std::endl;
+    // std::cout << "Response destroyed" << std::endl;
 }
 
 /* Getters & Setters */
