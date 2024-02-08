@@ -32,16 +32,19 @@ void RequestHandler::getFinalPath()
     // std::cout << "Location Root: " << _config->getRoot() << std::endl;
     // std::cout << "Location Index: " << _config->getIndex() << std::endl;
 
-    // Todo : understand and reimplement this
-    // if(path.find(_config->getName()) != std::string::npos && _config->getType() == "std") {
+    // 1. Replace the location name by the root of the location
+    // if(path.find(_config->getName()) != std::string::npos && _config->getType() == "std") 
     //     path.replace(path.find(_config->getName()), _config->getName().length(), _config->getRoot());
-    //     if (!::fileExists(path) && _request.getMethod() == "GET")
-    //         path = path + "/" + index;
+
+    // 2. Set the path to the index if the path is a directory
+    // if (path == "/") {
+    //     if (!_config->getRoot().empty()){
+    //         path = path + _config->getRoot() + "/";
+    //     }
+    //     path = path + _config->getIndex();
     // }
 
-
-
-    // If path is a directory without index file and autoIndex is on
+    // 3. If path is a directory without index file , send list of the directory
     // std::string myPath = _request.getPath();
     // DIR *dir = opendir(myPath.c_str());
     // if (dir)
@@ -59,7 +62,9 @@ void RequestHandler::getFinalPath()
     //     }
     //     closedir(dir);
     // }
-    
+
+    // add . at the beginning of the path
+    // path = "." + path;s
 }
 
 
@@ -154,9 +159,7 @@ void RequestHandler::listDirectory()
 
     // todo : only body to set here, the rest is to be set in handleRequest() if success
     _response.setBody(ss.str());
-    _response.setStatusCode("200");
-    _response.setProtocol("HTTP/1.1");
-    _response.setStatusText("OK");
+    _response.setDefaultSuccess();
     _response.setContentType("text/html");
 }
 

@@ -71,32 +71,6 @@ bool Request::parseRequest(){
     if (method == "POST" || method == "PUT" || method == "DELETE")
         parseBody();
         
-    // Route the request to the correct virtual server and location 
-    // todo : do this in a separate function / other part of the code
-    // getRequestConfig();
-    // if (_config == NULL)
-    // {    
-    //     // _response.setError(404, ": virtual server configuration not found");
-    //     return false;
-    // }
-
-    // Set the complete path to the resource (including root and index)
-    // if (path == "/") {
-    //     if (!_config->getRoot().empty()){
-    //         path = path + _config->getRoot() + "/";
-    //     }
-    //     path = path + _config->getIndex();
-    // }
-    // path = "." + path;
-
-    // WTF is this step ?
-    // if(path.find(_config->getName()) != std::string::npos && _config->getType() == "std") {
-    //     path.replace(path.find(_config->getName()), _config->getName().length(), _config->getRoot());
-    //     if (!::fileExists(path) && method == "GET" && !_config->getRoot().empty())
-    //     {
-    //             path = path + "/" + _config->getIndex();
-    //     }
-    // }
 
     // std::cout << " ---------- HEADER VALUES ---------- " << std::endl;
     // std::cout << "Method: " << method << std::endl;
@@ -299,25 +273,13 @@ int Request::getServerSocket() {
     return serverSocket;
 }
 
-// std::string Request::getResponseString() {
-//     return _response.getResponse();
-// }
-
 std::string Request::getHeader(std::string key) {
     if (headers.count(key) == 1)
         return headers[key];
     return "";
 }
 
-// SETTERS 
-
-// void Request::setFileContent(std::string &fc)
-// {
-//     std::cout << "Setting file content" << std::endl;
-//     // std::cout << fc << std::endl;
-//     fileContent = fc;
-//     _response.setBody(fileContent);
-// }
+// SETTERS
 
 void Request::setResponseString(std::string &rs)
 {
