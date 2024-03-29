@@ -91,6 +91,7 @@ int main(int argc, char** argv) {
             // CGI Handling
             CGIHandler *cgiHandler = new CGIHandler(*request);
             cgiHandler->executeCGI();
+            rawResponse = cgiHandler->getOutputCGI();
         }
         catch(const CustomError &e)
         {

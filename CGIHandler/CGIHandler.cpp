@@ -6,6 +6,7 @@
 #include <cstring>
 #include <signal.h>
 #include <fcntl.h>
+#include <cerrno>
 
 // Constructor for CGI class, initializes environment variables for CGI execution
 CGIHandler::CGIHandler(Request & req) : _req(req)
@@ -17,10 +18,9 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
     if ((_envvar = new char*[10]) == NULL)
         throw CustomError(500, "Malloc failed during environment variable allocation\n");
 
-
     // Set up environment variables
-    // int i = 0;
-    // _envvar[i++] = strdup("SERVER_PROTOCOL=HTTP/1.1");
+    int i = 0;
+    _envvar[i++] = strdup("SERVER_PROTOCOL=HTTP/1.1");
     // _envvar[i++] = strdup(("PATH_INFO="+ req.getPath()).c_str());
     // _envvar[i++] = strdup(("SCRIPT_FILENAME=" + current_dir + req.getPath().substr(1)).c_str());
     // _envvar[i++] = strdup(("SCRIPT_NAME=" + req.getPath()).c_str());
@@ -37,15 +37,15 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
     //     _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
     //     _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
     // }
-    // _envvar[i++] = NULL;
+    _envvar[i++] = NULL;
 
     // Allocate memory for arguments
     if ((_args = new char*[3]) == NULL)
         throw std::runtime_error("Error on a cgi malloc\n");
 
     // Set up arguments for executing CGI script
-    _args[0] = strdup("python3");
-    _args[1] = strdup((current_dir + "/test/cgi_scripts/hello_world.py").c_str());
+    _args[0] = strdup("/usr/bin/python3"); // Why need to set absolute path here?
+    _args[1] = strdup("./test/cgi_scripts/hello_world.py");
     _args[2] = NULL;
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
@@ -90,7 +90,7 @@ bool CGIHandler::executeCGI()
     int pipe_out[2];
 
     // Create pipes for communication between parent and child processes
-    if (pipe(pipe_in) < 0 || pipe(pipe_out) < 0){
+    if (pipe(pipe_in) < 0 || pipe(pipe_out) < 0) {
         perror("pipe failed");
         close (pipe_in[1]);
         close (pipe_in[0]);
@@ -131,32 +131,33 @@ bool CGIHandler::executeCGI()
 // Child process
 void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
 {
-    std::cout << "Fork successfull" << std::endl;
     // Install signal handler to exit on alarm signal
     signal(SIGALRM, exit_on_alarm);
 
-    // Close unnecessary pipe ends
-    close(pipe_out[0]);
-    close(pipe_in[0]);
-    close(pipe_in[1]);
-    std::cout << "Closing done" << std::endl;
-
     // Redirect stdout to pipe_out
-    dup2(pipe_out[1], STDOUT_FILENO);
+    if(dup2(pipe_out[1], STDOUT_FILENO) < 0){
+        throw CustomError(500, "dup2 pipe_out failed");
+    }
+    close(pipe_out[0]);
     close(pipe_out[1]);
 
     // Redirect stdin to pipe_in
-    dup2(pipe_in[0], STDIN_FILENO);
+    if(dup2(pipe_in[0], STDIN_FILENO) < 0){
+        throw CustomError(500, "dup2 pipe_in failed");
+    }
     close(pipe_in[0]);
+    close(pipe_in[1]);
 
     // Execute CGI script
-    std::cout << "Executing CGI script..." << std::endl;
-    std::cout << "CGI script arguments: " << _args[0] << " " << _args[1] << std::endl;
-    execve(_args[0], _args, _envvar);
+    int ret = execve(_args[0], _args, _envvar);
+    if(ret < 0){
+        std::cout << "execve failed with error code: " << ret << std::endl;
+        std::cout << "Error: " << strerror(errno) << std::endl;
+        throw CustomError(500, "execve failed");
+    }
 
     // Terminate child process if execve fails
     // TODO : throw an exception if execve fails ?
-    std::cout << "Execve failed" << std::endl;
     exit(EXIT_FAILURE);
 }
 
@@ -212,10 +213,14 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
             // TODO 
         } else {
             std::cout << "CGI execution failed with exit status: " << exitStatus << std::endl;
+            std::cout << "Output from CGI script: " << std::endl;
+            std::cout << outputCGI << std::endl;
             // TODO 
         }
     } else {
         std::cout << "CGI execution failed due to an unknown reason." << std::endl;
+        std::cout << "Output from CGI script: " << std::endl;
+        std::cout << outputCGI << std::endl;
             // TODO 
     }
 }
