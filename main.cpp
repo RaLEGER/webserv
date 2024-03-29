@@ -6,6 +6,7 @@
 
 #include "Request/Request.hpp"
 #include "RequestHandler/RequestHandler.hpp"
+#include "CGIHandler/CGIHandler.hpp"
 #include "CustomError/CustomError.hpp"
 
 int main(int argc, char** argv) {
@@ -80,11 +81,16 @@ int main(int argc, char** argv) {
         try
         {
             Request *request = new Request(rawRequest);
-            RequestHandler *requestHandler = new RequestHandler(*request);
-            // std::cout << *request << std::endl;
-            requestHandler->handleRequest();
-            requestHandler->setResponseHeaders();
-            rawResponse = requestHandler->getResponse().getSerializedResponse();
+
+            // Normal Request Handling
+            // RequestHandler *requestHandler = new RequestHandler(*request);
+            // requestHandler->handleRequest();
+            // requestHandler->setResponseHeaders();
+            // rawResponse = requestHandler->getResponse().getSerializedResponse();
+
+            // CGI Handling
+            CGIHandler *cgiHandler = new CGIHandler(*request);
+            cgiHandler->executeCGI();
         }
         catch(const CustomError &e)
         {
