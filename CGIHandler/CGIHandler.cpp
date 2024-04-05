@@ -118,7 +118,7 @@ bool CGIHandler::executeCGI()
         close (pipe_in[0]);
         close (pipe_out[1]);
         close (pipe_out[0]);
-        // TODO : Throw an exception if fork fails ?
+        throw CustomError(500, "CGI fork failed");
         return false;
     }
     else if (pid == 0)  // Child process
