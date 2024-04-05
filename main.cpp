@@ -6,11 +6,11 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:04:29 by rleger            #+#    #+#             */
-/*   Updated: 2024/02/02 17:57:09 by rleger           ###   ########.fr       */
+/*   Updated: 2024/02/02 19:32:25 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Parser/Parser.hpp"
+#include "Parser.hpp"
 
 
 int main() {

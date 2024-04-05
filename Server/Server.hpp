@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/02/02 17:56:22 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/05 15:13:12 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Server {
 		
 		std::string getServerName( );
 		Location* getLocation(const std::string& path);	
+		int		getSocket();
 };
 
 #endif
