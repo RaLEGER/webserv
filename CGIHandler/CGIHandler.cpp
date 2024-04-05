@@ -45,7 +45,7 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
 
     // Set up arguments for executing CGI script
     _args[0] = strdup("/usr/bin/python3"); // Why need to set absolute path here?
-    _args[1] = strdup("./test/cgi_scripts/hello_world.py");
+    _args[1] = strdup("./test/cgi_scripts/invalid_syntax.py");
     _args[2] = NULL;
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
@@ -74,12 +74,13 @@ CGIHandler::~CGIHandler()
 
 // Signal handler to ignore SIGALRM
 void ignore_alarm(int) {
+    std::cout << "Parent : alarm signal, child is terminated." << std::endl;
     // Do nothing
 }
 
 // Signal handler to handle SIGALRM by terminating the process
 void exit_on_alarm(int) {
-    std::cerr << "Process terminated due to alarm signal." << std::endl;
+    std::cout << "Child : Process terminated due to timeout alarm signal." << std::endl;
     exit(EXIT_FAILURE);
 }
 
@@ -106,6 +107,9 @@ bool CGIHandler::executeCGI()
     //     WebServ::delFd2Select(pipe_in[1]);
     // }
 
+    // Set alarm for 5 seconds
+    alarm(5);
+
     // Fork a child process for CGI execution
     pid_t pid = fork();
     if (pid == -1) {
@@ -131,6 +135,8 @@ bool CGIHandler::executeCGI()
 // Child process
 void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
 {
+        alarm(5);
+
     // Install signal handler to exit on alarm signal
     signal(SIGALRM, exit_on_alarm);
 
@@ -194,6 +200,10 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
         }
     } while (wait_result == 0);
 
+    // Debugging purposes
+    // std::cout << "Output from CGI script: " << std::endl;
+    // std::cout << outputCGI << std::endl;
+
     // Cancel the alarm
     alarm(0);
 
@@ -208,19 +218,12 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
         int exitStatus = WEXITSTATUS(status);
         if (exitStatus == 0) {
             std::cout << "CGI execution was successful." << std::endl;
-            std::cout << "Output from CGI script: " << std::endl;
-            std::cout << outputCGI << std::endl;
             // TODO 
         } else {
             std::cout << "CGI execution failed with exit status: " << exitStatus << std::endl;
-            std::cout << "Output from CGI script: " << std::endl;
-            std::cout << outputCGI << std::endl;
-            // TODO 
+            throw CustomError(500, "CGI execution failed with known exit status");
         }
     } else {
-        std::cout << "CGI execution failed due to an unknown reason." << std::endl;
-        std::cout << "Output from CGI script: " << std::endl;
-        std::cout << outputCGI << std::endl;
-            // TODO 
+        throw CustomError(500, "CGI execution failed due to an unknown reason.");
     }
 }

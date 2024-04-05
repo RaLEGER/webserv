@@ -95,7 +95,6 @@ int main(int argc, char** argv) {
         }
         catch(const CustomError &e)
         {
-            std::cerr << e.what() << std::endl;
             Response *errorResponse = new Response(e.getErrorCode(), e.what());
             rawResponse = errorResponse->getSerializedResponse();
         }

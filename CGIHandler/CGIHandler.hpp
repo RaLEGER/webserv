@@ -16,6 +16,7 @@
 
 #include "../Response/Response.hpp"
 #include "../Request/Request.hpp"
+#include "../CustomError/CustomError.hpp"
 
 class CGIHandler {
     private:
