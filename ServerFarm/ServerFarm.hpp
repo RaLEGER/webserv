@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:57 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/05 19:44:43 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:35:09 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class ServerFarm {
 		ServerFarm( );
 		std::vector <int> _fdsToSend;
 		std::map <int, Server*> _serverSocketServer;
-		std::map <int, Server*>	_clientSocketSever;
+		std::map <int, Server*>	_clientSocketServer;
 		fd_set	_read_fds;
 		fd_set	_write_fds;	
 		int		_maxFd;	

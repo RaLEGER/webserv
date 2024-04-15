@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/03/30 13:46:49 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/15 19:03:06 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void Server::setNonBlocking(int socket) {
     int flags = fcntl(socket, F_GETFL, 0);
     
     if (flags == -1) {
-        perror("fcntl");
+    	std::cerr << "fcntl" << std::endl;
 		//error
     }
 
     // Set the non-blocking and close-on-exec flags
     if (fcntl(socket, F_SETFL, flags | O_NONBLOCK | FD_CLOEXEC) == -1) {
-        perror("fcntl");
+    	std::cerr << "fcntl" << std::endl;
 		//error
     }
 
@@ -93,10 +93,49 @@ Location* Server::getLocation(const std::string& path) {
 	return _locations[path];
 }
 
-fd_set* Server::getFds( ) {
-	return _read_fds;
-}
-
 int	Server::getSocket( ) {
 	return _serverSocket;
+}
+
+int	Server::getClientSocket() {
+	int	clientSocket = accept(_serverSocket, NULL, NULL);
+
+	if (clientSocket == -1) {
+		std::cerr << "Error" << std::endl;
+	}
+	else {
+		if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1)
+			std::cerr << "Error" << std::endl;	
+	}
+	_requests.insert(std::make_pair(clientSocket, ""));
+	return clientSocket;
+}
+
+int	Server::readData(int clientSocket) {
+	char	buffer[BUFF_SIZE];
+	int bytes_received = recv(clientSocket, buffer, BUFF_SIZE, 0);
+	
+	if (!bytes_received || bytes_received == -1) {
+		std::cerr << "Error or no data received" << std::endl;
+		
+	}
+	
+	_requests[clientSocket] += buffer;
+	if (_requests[clientSocket].find("\r\n\r\n") != std::string::npos) {
+		if (_requests[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos)
+			return (0);
+		//determine if chunked or not
+	}
+	return 1; 
+}
+
+int	Server::processRequest(int clientSocket) {
+	Request	request(_requests[clientSocket]);
+	//check chunk
+	_requests.erase(clientSocket);
+	return 1
+}
+
+int	Server::sendResponse(int clientSocket) {
+
 }

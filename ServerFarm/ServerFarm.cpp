@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/05 19:53:34 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/15 19:00:24 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,36 +82,41 @@ void ServerFarm::run() {
 			//send data
 			for (std::vector<int>::iterator it = _fdsToSend.begin() ; it != _fdsToSend.end() ; it++) {
 				if (FD_ISSET(*it, &_write_fds)) {
-					//get fd from fds (*it) and process it thorugh server
-					// with the _clientSocketServer map
+					_clientSocketServer[*it]->sendResponse(*it);
+					_fdsToSend.erase(it);
+					FD_CLR(*it, &_write_fds);
+					FD_SET(*it, &_read_fds);
 					break;
 				}
 			}
 			
 			//process client sockets (create fds)
-			for (std::map<int, Server *>::iterator it = _clientSocketSever.begin() ; it != _clientSocketSever.end() ; it++){
-				long	socket = it->first;
+			for (std::map<int, Server *>::iterator it = _clientSocketServer.begin() ; it != _clientSocketServer.end() ; it++){
+				int	clientSocket = it->first;
 
-				if (FD_ISSET(socket, &_read_fds)) {
-					//process socket
-					//write to fd
-					//add to fdsToSend
+				if (FD_ISSET(clientSocket, &_read_fds)) {
+					
+					if (it->second->readData(clientSocket)) {
+						it->second->processRequest(clientSocket);
+						FD_CLR(clientSocket, &_read_fds);
+						_fdsToSend.push_back(clientSocket);
+					}
 					break;
 				}
 			}
 			
 			//detect activated server socket, get client socket (accept) and associate to server socket
 			for (std::map<int, Server*>::iterator it = _serverSocketServer.begin(); it != _serverSocketServer.end(); it++) {
-				int fd = it->first;
+				int serverSocket = it->first;
 
-				if (FD_ISSET(fd, &_read_fds))
+				if (FD_ISSET(serverSocket, &_read_fds))
 				{
-					//get client socket with accpet func
-					int clientSocket =0;
-					//add clietn socket to _read_fds
-					FD_SET(clientSocket, &_read_fds);
-					//associate to server by making a pair
-					_clientSocketSever.insert(std::make_pair(clientSocket, it->second));
+					int clientSocket = it->second->getClientSocket();
+					if (clientSocket != -1) {
+						FD_SET(clientSocket, &_read_fds);
+						_clientSocketServer.insert(std::make_pair(clientSocket, it->second));
+						_maxFd = std::max(_maxFd, clientSocket);
+					}
 					break;
 				}
 			}
