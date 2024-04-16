@@ -15,9 +15,10 @@
 # define SERVER_HPP
 
 #include "Location.hpp"
-
+#include "RequestHandler.hpp"
 
 # define BUFF_SIZE 32768
+
 class Server {
 	private:
 		Location* 							_defLoc; 
@@ -26,8 +27,7 @@ class Server {
     	std::vector<int> 					_clientSockets;
 
 		std::map <int, std::string > _readData;
-		std::map <int, std::string > _response;
-
+		std::map <int, RequestHandler > _requestHandlers;
 		
 		void setupServerSocket();
 
@@ -44,7 +44,7 @@ class Server {
 		int		getClientSocket();
 		int		readData(int clientSocket);
 		int		processRequest(int clientSocket);
-		int		sendResponse(int clientSocket, std::string response) {
+		int		sendResponse(int clientSocket, std::string response); 
 
 		
 		void	addLocation(Location* location);

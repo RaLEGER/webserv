@@ -130,10 +130,15 @@ int	Server::readData(int clientSocket) {
 }
 
 int	Server::processRequest(int clientSocket) {
-	Request	request(_readData[clientSocket]);
-	_response[clientsocket] = request.response();
-	//check chunk
+	RequestHandler requestHandler(_readData[clientSocket]);
+
+	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
+
+	requestHandler.process();
+
+	// clear buffer 
 	_readData.erase(clientSocket);
+
 	return 1;
 }
 
