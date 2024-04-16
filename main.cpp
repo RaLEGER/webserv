@@ -12,7 +12,6 @@
 
 #include "Parser.hpp"
 
-
 int main() {
 
     std::string filename = "/Users/rleger/Desktop/42off/webserv/default copy.conf";

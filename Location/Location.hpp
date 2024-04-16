@@ -24,6 +24,7 @@
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <fcntl.h>
+#include <vector>
 
 class Location {
 	private:

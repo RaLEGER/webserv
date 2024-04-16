@@ -15,31 +15,36 @@
 #include "Utils.hpp"
 
 class RequestHandler {
-public:
-    void listDirectory();
-    void handleRequest();
-    void Get();
-    void Post();
-    void Delete();
-    void CGI();
-    void setResponseHeaders();
-    void getFinalPath();
+    public:
 
-    // Canonical
-    RequestHandler();
-    RequestHandler(Request &request);
-    ~RequestHandler();
+        // Canonical
+        RequestHandler();
+        RequestHandler(std::string requestString, int clientSocket);
+        ~RequestHandler();
 
-    // Getters & Setters
-    void getRequest(Request &request);
-    Response &getResponse();
+        // Handling methods
+        void listDirectory();
+        void process();
+        void handleRequest();
+        void setResponseHeaders();
+        void getFinalPath();
 
-private:
-    Response _response;
-    Request _request;
-    std::string path;
+        // Getters & Setters
+        void getRequest(Request &request);
+        Response &getResponse();
 
-    std::string getSerializedResponse();
+    private:
+        Response _response;
+        Request _request;
+        std::string path;
+
+        // Handling methods
+        void Get();
+        void Post();
+        void Delete();
+        void CGI();
+
+        std::string getSerializedResponse();
 };
 
 #endif // REQUESTHANDLER_HPP

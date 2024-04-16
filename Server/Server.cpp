@@ -130,11 +130,11 @@ int	Server::readData(int clientSocket) {
 }
 
 int	Server::processRequest(int clientSocket) {
-	// RequestHandler requestHandler(_readData[clientSocket]);
+	RequestHandler requestHandler(_readData[clientSocket], clientSocket);
 
-	// _requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
+	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
 
-	// requestHandler.process();
+	requestHandler.process();
 
 	// clear buffer 
 	_readData.erase(clientSocket);

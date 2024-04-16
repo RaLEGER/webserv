@@ -14,6 +14,7 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
+#include <cstring>
 #include "Location.hpp"
 #include "RequestHandler.hpp"
 
