@@ -34,7 +34,6 @@ Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket
 Request::Request(std::string &rawRequest) {
     // std::cout << "Request Constructor with RawRequest" << std::endl;
     requestString = rawRequest;
-    parseRequest();
 }
 
         /* Constructors & Destructors */
@@ -49,7 +48,7 @@ Request::~Request() {
 }
 
 // This function parses the request string and fills the request object
-bool Request::parseRequest(){
+bool Request::parse(){
 
     // lastActivityTime = ft_now();
 

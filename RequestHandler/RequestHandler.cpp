@@ -8,8 +8,8 @@ RequestHandler::RequestHandler()
 
 RequestHandler::RequestHandler(std::string requestString, int clientSocket)
 {
-    (void) requestString;
-    (void) clientSocket;
+    _request = Request(requestString);
+    _clientSocket = clientSocket;
     std::cout << "RequestHandler constructor called" << std::endl;
     // _request = request;
 }
@@ -18,7 +18,6 @@ RequestHandler::~RequestHandler()
 {
     std::cout << "RequestHandler destructor called" << std::endl;
 }
-
 
 void RequestHandler::getFinalPath() 
 {
@@ -128,6 +127,31 @@ void RequestHandler::handleRequest()
     else 
     {
         throw CustomError(405, "Method Not Implemented");
+    }
+}
+
+void RequestHandler::process()
+{
+
+    try
+    {
+        // Parse the request
+        _request.parse();
+
+        // Handle the request
+        handleRequest();
+
+        // Set the response headers
+        setResponseHeaders();
+
+        // CGI Handling
+        // CGIHandler *cgiHandler = new CGIHandler(_request);
+        // cgiHandler->executeCGI();
+    }
+    catch(const CustomError &e)
+    {
+        // In case of error, set the response to a standard error response
+        _response = Response(e.getErrorCode(), e.what());
     }
 }
 
@@ -245,11 +269,6 @@ void RequestHandler::CGI()
 
 }
 
-void RequestHandler::process()
-{
-
-}
-
 void RequestHandler::setResponseHeaders()
 {
     // if the response has no body, return 
@@ -296,4 +315,9 @@ void RequestHandler::setResponseHeaders()
 Response &RequestHandler::getResponse()
 {
     return _response;
+}
+
+std::string RequestHandler::getResponseString()
+{
+    return _response.getSerializedResponse();
 }

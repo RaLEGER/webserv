@@ -144,7 +144,7 @@ int	Server::processRequest(int clientSocket) {
 
 int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
-	std::string responseString = "bonjour";//_requestHandlers[clientSocket].getResponseString();
+	std::string responseString = _requestHandlers[clientSocket].getResponseString();
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
 	return 1;

@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
+#include "CGIHandler.hpp"
 #include "Response.hpp"
 #include "Request.hpp"
 #include "Utils.hpp"
@@ -30,12 +31,14 @@ class RequestHandler {
         void getFinalPath();
 
         // Getters & Setters
-        void getRequest(Request &request);
+        std::string getResponseString();
         Response &getResponse();
 
     private:
         Response _response;
         Request _request;
+        // CGIHandler _cgiHandler;
+        int _clientSocket;
         std::string path;
 
         // Handling methods
