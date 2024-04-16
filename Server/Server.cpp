@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 11:37:05 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 14:18:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	Server::addDefLoc(Location* location) {
 	_defLoc = location;
 }
 
+void Server::start() {
+	setupServerSocket();
+}
+
 int Server::createSocket() {
     int newSocket = socket(AF_INET, SOCK_STREAM, 0);
 	int opt = 1;
@@ -36,10 +40,10 @@ int Server::createSocket() {
         perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
-	if( setsockopt(_serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,  
+	if( setsockopt(newSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,  
           sizeof(opt)) < 0 )   
     {   
-        perror("setsockopt");   
+        perror("setsockopta");   
         exit(EXIT_FAILURE);   
     }   
     setNonBlocking(newSocket);
@@ -66,11 +70,12 @@ void Server::setNonBlocking(int socket) {
 void Server::setupServerSocket() {
     _serverSocket = createSocket();
 
-    struct sockaddr_in serverAddr;
+	 struct sockaddr_in serverAddr;
     std::memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY; // need to convert host to address _defLoc->getHost();
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(_defLoc->getPort()); // Adjust port as needed
+	std::cout << "Port: " << _defLoc->getPort() << std::endl;
 
     if (bind(_serverSocket, reinterpret_cast<struct sockaddr*>(&serverAddr), sizeof(serverAddr)) < 0) {
         perror("Bind failed");
@@ -121,6 +126,7 @@ int	Server::readData(int clientSocket) {
 	}
 	
 	_readData[clientSocket] += buffer;
+	std::cout << "<<" << buffer << ">>" << std::endl;
 	if (_readData[clientSocket].find("\r\n\r\n") != std::string::npos) {
 		if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos)
 			return (0);
@@ -144,8 +150,8 @@ int	Server::processRequest(int clientSocket) {
 
 int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
-	std::string responseString = "bonjour";//_requestHandlers[clientSocket].getResponseString();
-	send(clientSocket, responseString.c_str(), responseString.size(), flags);
+	std::string responseString = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello World";//_requestHandlers[clientSocket].getResponseString();
+	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	//check if all is sent//
 	return 1;
 }

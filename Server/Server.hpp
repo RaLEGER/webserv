@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 11:01:27 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 14:15:42 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 #include <cstring>
 #include "Location.hpp"
 #include "RequestHandler.hpp"
+#include <iostream>
+#include <cstring>
+#include <arpa/inet.h>
+#include <netdb.h>
 
-# define BUFF_SIZE 32768
+# define BUFF_SIZE 255
 
 class Server {
 	private:
