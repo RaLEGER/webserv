@@ -130,11 +130,11 @@ int	Server::readData(int clientSocket) {
 }
 
 int	Server::processRequest(int clientSocket) {
-	RequestHandler requestHandler(_readData[clientSocket]);
+	// RequestHandler requestHandler(_readData[clientSocket]);
 
-	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
+	// _requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
 
-	requestHandler.process();
+	// requestHandler.process();
 
 	// clear buffer 
 	_readData.erase(clientSocket);
@@ -142,8 +142,9 @@ int	Server::processRequest(int clientSocket) {
 	return 1;
 }
 
-int	Server::sendResponse(int clientSocket,) {
+int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
+	std::string responseString = "bonjour";//_requestHandlers[clientSocket].getResponseString();
 	send(clientSocket, _response[clientSocket].c_str(), _response[clientSocket].size(), flags);
 	//check if all is sent//
 }

@@ -44,7 +44,7 @@ class Server {
 		int		getClientSocket();
 		int		readData(int clientSocket);
 		int		processRequest(int clientSocket);
-		int		sendResponse(int clientSocket, std::string response); 
+		int		sendResponse(int clientSocket); 
 
 		
 		void	addLocation(Location* location);
