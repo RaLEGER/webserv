@@ -22,9 +22,9 @@
 #include <fcntl.h>
 #include <cerrno>
 
-#include "../Response/Response.hpp"
-#include "../Request/Request.hpp"
-#include "../CustomError/CustomError.hpp"
+#include "Response.hpp"
+#include "Request.hpp"
+#include "CustomError.hpp"
 
 class CGIHandler {
     private:
@@ -41,6 +41,7 @@ class CGIHandler {
         void childProcess(int pipe_out[2], int pipe_in[2]);
 
     public:
+        CGIHandler();
         CGIHandler(Request & req);
 		~CGIHandler();
         std::string _req_body;

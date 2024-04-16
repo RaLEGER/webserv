@@ -111,7 +111,7 @@ class Request {
         void listDirectoryResponse();
 
         // parsing methods
-        bool parseRequest();
+        bool parse();
         void parseMethodToken(const std::string& token);
         bool parseHTTPVersion(const std::string& token);
         bool parseHeaders();

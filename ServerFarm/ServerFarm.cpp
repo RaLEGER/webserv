@@ -79,7 +79,7 @@ void ServerFarm::run() {
 			}
 			runningWriteFds = _write_fds;
 
-			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, nullptr, &timeout);
+			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, NULL, &timeout);
 		}
 		
 		if (activity < 0) {

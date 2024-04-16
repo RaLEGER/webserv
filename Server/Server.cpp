@@ -150,8 +150,9 @@ int	Server::processRequest(int clientSocket) {
 
 int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
-	std::string responseString = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello World";//_requestHandlers[clientSocket].getResponseString();
+	std::string responseString = _requestHandlers[clientSocket].getResponseString();
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
+	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
 	return 1;
 }
