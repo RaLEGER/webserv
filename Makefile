@@ -6,7 +6,7 @@
 #    By: rleger <rleger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/19 14:22:30 by rleger            #+#    #+#              #
-#    Updated: 2024/04/16 11:36:20 by rleger           ###   ########.fr        #
+#    Updated: 2024/04/16 11:52:35 by rleger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 # Directories
-INC_DIRS = Parser Location Server RequestHandler Response CustomError CGIHandler
+INC_DIRS = Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request
 INC_FLAGS = $(addprefix -I,$(INC_DIRS))
 
 # Headers and Source files

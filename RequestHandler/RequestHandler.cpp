@@ -1,5 +1,4 @@
 #include "RequestHandler.hpp"
-#include "../Utils/Utils.cpp"
 
 // CANONICAL 
 RequestHandler::RequestHandler()

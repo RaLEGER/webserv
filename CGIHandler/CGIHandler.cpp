@@ -1,18 +1,12 @@
 #include "CGIHandler.hpp"
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <iostream>
-#include <cstring>
-#include <signal.h>
-#include <fcntl.h>
-#include <cerrno>
 
 // Constructor for CGI class, initializes environment variables for CGI execution
 CGIHandler::CGIHandler(Request & req) : _req(req)
 {
     // Retrieve current working directory
-    std::string current_dir = get_current_dir_name();
+	char name[256];
+	getcwd(name, sizeof(name));
+    std::string current_dir = name;//get_current_dir_name();
 
     // Allocate memory for environment variables
     if ((_envvar = new char*[10]) == NULL)

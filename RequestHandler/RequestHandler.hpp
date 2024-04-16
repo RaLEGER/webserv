@@ -10,8 +10,9 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 
-#include "../Response/Response.hpp"
-#include "../Request/Request.hpp"
+#include "Response.hpp"
+#include "Request.hpp"
+#include "Utils.hpp"
 
 class RequestHandler {
 public:

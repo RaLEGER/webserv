@@ -13,6 +13,14 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <list>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <iostream>
+#include <cstring>
+#include <signal.h>
+#include <fcntl.h>
+#include <cerrno>
 
 #include "../Response/Response.hpp"
 #include "../Request/Request.hpp"

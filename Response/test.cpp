@@ -1,3 +1,4 @@
+/*
 try 
 {
     // Parse Request 
@@ -11,3 +12,4 @@ catch (const std::exception& e)
     Response ErrorResponse = new ErrorResponse(e)
     return 1;
 }
+*/
