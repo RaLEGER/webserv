@@ -22,7 +22,7 @@ RequestHandler::~RequestHandler()
 void RequestHandler::getFinalPath() 
 {
     // temp : we set this variable by hand, but they will depend on the Server and Location
-    std::string root =  "/home/teliet/webserv-2/test";
+    std::string root =  "/home/teliet/42/test";
     std::string index = "index.html";
     std::string type = "none";
 

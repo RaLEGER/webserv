@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>404 - Not Found</title>
+        <style type="text/css">
+            /* CSS styles here */
+            @font-face {
+                font-family: 'PixelArtFont';
+                src: url('https://example.com/pixelartfont.woff2') format('woff2'),
+                     url('https://example.com/pixelartfont.woff') format('woff');
+                /* Add more font formats as needed */
+                font-weight: normal;
+                font-style: normal;
+            }
+            body {
+                background-color: #000000;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                color: #00FF00; /* Greenish font color */
+                font-family: 'PixelArtFont', 'Courier New', monospace;
+                text-align: center;
+            }
+            .title {
+                font-size: 48px;
+                margin-bottom: 20px;
+            }
+            .subtitle {
+                font-size: 24px;
+                margin-bottom: 40px;
+            }
+            .game-container {
+                position: relative;
+                width: 600px;
+                height: 200px;
+                margin-bottom: 40px;
+            }
+            .player {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 40px;
+                background-color: #FFFFFF;
+            }
+            .obstacle {
+                position: absolute;
+                bottom: 0;
+                width: 40px;
+                height: 40px;
+                background-color: #FF0000;
+            }
+            .webserv {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                color: #00FF00; /* Greenish font color */
+                font-family: 'Courier New', monospace;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1 class="title">404 - Not Found</h1>
+            <p class="subtitle">Oops! The page you're looking for could not be found.</p>
+            <div class="game-container">
+                <div class="player"></div>
+                <div class="obstacle"></div>
+            </div>
+            <div class="game-over" style="display: none;">Game Over</div>
+            <div class="webserv">webserv</div>
+        </div>
+    </body>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the player and obstacle elements
+            const player = document.querySelector('.player');
+            const obstacle = document.querySelector('.obstacle');
+            const container = document.querySelector('.game-container');
+            const gameOverDiv = document.querySelector('.game-over');
+            let gameStarted = false; // Flag to track if the game has started
+    
+            // Set the initial position of the player
+            let playerBottom = 0;
+            let playerJumping = false;
+            let score = 0;
+            let gravity = 4; // Adjust the gravity value as needed
+            let gameInterval; // Declare the gameInterval variable
+            let gravityInterval; // Declare the gravityInterval variable
+            let initialSpeed = 5; // Initial speed of the game
+            let accelerationRate = 0.1; // Acceleration rate of the game
+            let minHeight = 40; // Minimum obstacle height
+            let maxHeight = 120; // Maximum obstacle height
+    
+            // Function to make the player jump
+            function jump() {
+                if (playerJumping) return;
+                playerJumping = true;
+                let jumpInterval = setInterval(() => {
+                    if (playerBottom >= 200) {
+                        clearInterval(jumpInterval);
+                        playerJumping = false;
+                    }
+                    playerBottom += 20;
+                    player.style.bottom = playerBottom + 'px';
+                }, 20);
+            }
+    
+            // Function to apply gravity to the player
+            function applyGravity() {
+                gravityInterval = setInterval(() => {
+                    if (playerBottom > 0) {
+                        playerBottom -= gravity;
+                        player.style.bottom = playerBottom + 'px';
+                    }
+                }, 20);
+            }
+    
+            // Function to check for collisions
+            function checkCollision() {
+                let playerBottom = parseInt(window.getComputedStyle(player).getPropertyValue('bottom'));
+                let playerLeft = parseInt(window.getComputedStyle(player).getPropertyValue('left'));
+                let playerRight = playerLeft + parseInt(window.getComputedStyle(player).getPropertyValue('width'));
+                let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
+                let obstacleRight = obstacleLeft + parseInt(window.getComputedStyle(obstacle).getPropertyValue('width'));
+                let obstacleHeight = parseInt(window.getComputedStyle(obstacle).getPropertyValue('height'));
+    
+                if (
+                    playerBottom >= 0 && playerBottom <= obstacleHeight &&
+                    (playerLeft >= obstacleLeft && playerLeft <= obstacleRight ||
+                    playerRight >= obstacleLeft && playerRight <= obstacleRight)
+                ) {
+                    console.log("Game Over");
+                    clearInterval(gameInterval);
+                    clearInterval(gravityInterval);
+                    container.style.display = 'none'; // Hide the game container
+                    gameOverDiv.style.display = 'block'; // Show the game over div
+                }
+            }
+    
+            // Function to move the obstacles
+            function moveObstacles() {
+                let obstacleLeft = container.clientWidth; // Start the obstacles on the right side of the player
+                let speed = initialSpeed; // Initialize the speed
+                gameInterval = setInterval(() => {
+                    if (obstacleLeft <= -40) {
+                        clearInterval(gameInterval);
+                        obstacle.style.left = container.clientWidth + 'px'; // Reset the obstacle position
+                        score++;
+                        // Randomize the obstacle height and separation
+                        let randomHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+                        let randomSeparation = Math.floor(Math.random() * (200 - randomHeight + 1));
+                        obstacle.style.height = randomHeight + 'px';
+                        obstacle.style.bottom = randomSeparation + 'px';
+                        moveObstacles();
+                    }
+                    obstacleLeft -= speed; // Update the obstacle position based on the speed
+                    obstacle.style.left = obstacleLeft + 'px';
+                    checkCollision();
+                }, 20);
+    
+                setInterval(() => {
+                    speed += accelerationRate; // Increase the speed by the acceleration rate
+                }, 1000); // Adjust the interval duration as desired
+            }
+    
+            // Event listener for spacebar key press to make the player jump and start the game
+            document.addEventListener('keydown', (event) => {
+                if (event.code === 'Space') {
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        moveObstacles();
+                        applyGravity();
+                    }
+                    jump();
+                }
+            });
+        });
+    </script>
+    
+</html>
