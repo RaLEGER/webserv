@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 14:15:42 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 18:20:49 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-# define BUFF_SIZE 255
+# define BUFF_SIZE 2048
 
 class Server {
 	private:
@@ -49,7 +49,7 @@ class Server {
 		int		getClientSocket();
 		int		readData(int clientSocket);
 		int		processRequest(int clientSocket);
-		int		sendResponse(int clientSocket); 
+		void	sendResponse(int clientSocket); 
 
 		
 		void	addLocation(Location* location);
@@ -59,5 +59,7 @@ class Server {
 		Location* getLocation(const std::string& path);	
 		int		getSocket();
 };
+
+
 
 #endif

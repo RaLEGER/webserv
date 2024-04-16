@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 14:09:15 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 18:29:33 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,20 @@ void ServerFarm::set() {
 	FD_ZERO(&_read_fds);
 	
 	for (it = _servers.begin(); it < _servers.end(); it++) {
-		(*it)->start();
+		try {
+			(*it)->start();
+		} catch (const CustomError& e) {
+			std::cerr << "ServerFarm setup Error: ";
+			throw;
+		}
 		int server_socket = (*it)->getSocket();
-		std::cout << "ici " << server_socket << std::endl;
 		FD_SET(server_socket, &_read_fds);
 		_serverSocketServer.insert(std::make_pair(server_socket, *it));
 		_maxFd = std::max(server_socket, _maxFd);
 		
 	}
 	if (!_maxFd) {
-		std::cerr << "errora" << std::endl;
+		std::cerr << "No socket found" << std::endl;
 	}
 }
 
@@ -83,10 +87,7 @@ void ServerFarm::run() {
 		}
 		
 		if (activity < 0) {
-			//error
-			std::cerr << "Error" << std::endl;
-			//close clear 
-			//throw raiseError();
+			std::cerr << "Activity error" << std::endl;
 		}
 		else {
 			//send data
@@ -108,13 +109,17 @@ void ServerFarm::run() {
 				
 				if (FD_ISSET(clientSocket, &runningReadFds)) {
 					std::cout << "activated client loop" << std::endl;
-					
-					if (it->second->readData(clientSocket)) {
+					int readStatus = it->second->readData(clientSocket);
+					if (readStatus) {
 						std::cout << "cleint data read" << std::endl;
 						it->second->processRequest(clientSocket);
 						FD_CLR(clientSocket, &_read_fds); //mandatory ? %
 						_fdsToSend.push_back(clientSocket);
 						std::cout << "fd1: " << _fdsToSend[0] << std::endl;
+					}
+					else if (readStatus == -1) {
+						FD_CLR(clientSocket, &_read_fds);
+						close(clientSocket);	
 					}
 					break;
 				}
