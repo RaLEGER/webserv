@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 11:07:57 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:37:05 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int	Server::processRequest(int clientSocket) {
 int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
 	std::string responseString = "bonjour";//_requestHandlers[clientSocket].getResponseString();
-	send(clientSocket, _response[clientSocket].c_str(), _response[clientSocket].size(), flags);
+	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
+	return 1;
 }
