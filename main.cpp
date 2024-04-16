@@ -15,7 +15,7 @@
 
 int main() {
 
-    std::string filename = "/Users/rleger/Desktop/42off/webserv/default copy.conf";
+    std::string filename = "./default_copy.conf";
 	Parser parser_obj(filename);
 
 	std::vector <Server*> servers;
