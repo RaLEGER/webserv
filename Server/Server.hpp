@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/15 19:02:00 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:01:27 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class Server {
 		int									_serverSocket;
     	std::vector<int> 					_clientSockets;
 
-		std::map <int, std::string > _requests;
+		std::map <int, std::string > _readData;
+		std::map <int, std::string > _response;
+
 		
 		void setupServerSocket();
 
@@ -42,7 +44,7 @@ class Server {
 		int		getClientSocket();
 		int		readData(int clientSocket);
 		int		processRequest(int clientSocket);
-		int		sendResponse(int clientSocket);
+		int		sendResponse(int clientSocket, std::string response) {
 
 		
 		void	addLocation(Location* location);

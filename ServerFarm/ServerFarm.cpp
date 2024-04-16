@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/15 19:00:24 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:59:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,25 @@ void ServerFarm::run() {
 		}
 		else {
 			//send data
-			for (std::vector<int>::iterator it = _fdsToSend.begin() ; it != _fdsToSend.end() ; it++) {
+			for (std::vector<int>::iterator it = _fdsToSend.begin(); it != _fdsToSend.end(); it++) {
 				if (FD_ISSET(*it, &_write_fds)) {
 					_clientSocketServer[*it]->sendResponse(*it);
 					_fdsToSend.erase(it);
 					FD_CLR(*it, &_write_fds);
-					FD_SET(*it, &_read_fds);
+					FD_SET(*it, &_read_fds); //mandatory ? %
 					break;
 				}
 			}
 			
 			//process client sockets (create fds)
-			for (std::map<int, Server *>::iterator it = _clientSocketServer.begin() ; it != _clientSocketServer.end() ; it++){
+			for (std::map<int, Server *>::iterator it = _clientSocketServer.begin() ; it != _clientSocketServer.end(); it++) {
 				int	clientSocket = it->first;
 
 				if (FD_ISSET(clientSocket, &_read_fds)) {
 					
 					if (it->second->readData(clientSocket)) {
 						it->second->processRequest(clientSocket);
-						FD_CLR(clientSocket, &_read_fds);
+						FD_CLR(clientSocket, &_read_fds); //mandatory ? %
 						_fdsToSend.push_back(clientSocket);
 					}
 					break;

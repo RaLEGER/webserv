@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/15 19:03:06 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 10:59:55 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,15 @@ int	Server::readData(int clientSocket) {
 }
 
 int	Server::processRequest(int clientSocket) {
-	Request	request(_requests[clientSocket]);
+	//Request	request(_requests[clientSocket]);
+	_response[clientsocket] = request.response();
 	//check chunk
 	_requests.erase(clientSocket);
 	return 1
 }
 
-int	Server::sendResponse(int clientSocket) {
-
+int	Server::sendResponse(int clientSocket,) {
+	int flags = 0;
+	send(clientSocket, _response[clientSocket].c_str(), _response[clientSocket].size(), flags);
+	//check if all is sent//
 }
