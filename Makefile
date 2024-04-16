@@ -18,7 +18,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 # Directories
-INC_DIRS = Parser Location Server
+INC_DIRS = Parser Location Server Request Response RequestHandler
 INC_FLAGS = $(addprefix -I,$(INC_DIRS))
 
 # Headers and Source files

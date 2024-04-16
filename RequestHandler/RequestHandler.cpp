@@ -7,10 +7,10 @@ RequestHandler::RequestHandler()
     std::cout << "RequestHandler default constructor called" << std::endl;
 }
 
-RequestHandler::RequestHandler(Request &request)
+RequestHandler::RequestHandler(std::string requestString, int clientSocket)
 {
     std::cout << "RequestHandler constructor called" << std::endl;
-    _request = request;
+    // _request = request;
 }
 
 RequestHandler::~RequestHandler()
@@ -240,6 +240,11 @@ void RequestHandler::Delete()
 }
 
 void RequestHandler::CGI()
+{
+
+}
+
+void RequestHandler::process()
 {
 
 }

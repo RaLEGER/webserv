@@ -15,19 +15,18 @@
 
 class RequestHandler {
 public:
-    void listDirectory();
-    void handleRequest();
-    void Get();
-    void Post();
-    void Delete();
-    void CGI();
-    void setResponseHeaders();
-    void getFinalPath();
 
     // Canonical
     RequestHandler();
     RequestHandler(Request &request);
     ~RequestHandler();
+
+    // Handling methods
+    void listDirectory();
+    void process();
+    void handleRequest(std::string requestString, int clientSocket);
+    void setResponseHeaders();
+    void getFinalPath();
 
     // Getters & Setters
     void getRequest(Request &request);
@@ -37,6 +36,12 @@ private:
     Response _response;
     Request _request;
     std::string path;
+
+    // Handling methods
+    void Get();
+    void Post();
+    void Delete();
+    void CGI();
 
     std::string getSerializedResponse();
 };
