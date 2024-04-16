@@ -33,12 +33,12 @@ class RequestHandler {
         // Getters & Setters
         std::string getResponseString();
         Response &getResponse();
+        int _clientSocket;
 
     private:
         Response _response;
         Request _request;
         // CGIHandler _cgiHandler;
-        int _clientSocket;
         std::string path;
 
         // Handling methods

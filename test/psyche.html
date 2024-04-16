@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Psychedelic Animations</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set the canvas size to match the window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Create an array to store the particles
+        const particles = [];
+
+        // Create a Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Function to create particles on mouse move
+        function createParticles(e) {
+            const xPos = e.clientX;
+            const yPos = e.clientY;
+
+            for (let i = 0; i < 5; i++) {
+                particles.push(new Particle(xPos, yPos));
+            }
+        }
+
+        // Function to animate the particles
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Event listener for mouse move
+        window.addEventListener('mousemove', createParticles);
+
+        // Start the animation
+        animateParticles();
+    </script>
+</body>
+</html>

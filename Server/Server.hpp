@@ -32,7 +32,7 @@ class Server {
     	std::vector<int> 					_clientSockets;
 
 		std::map <int, std::string > _readData;
-		std::map <int, RequestHandler > _requestHandlers;
+		std::map <int, RequestHandler* > _requestHandlers;
 		
 		void setupServerSocket();
 

@@ -92,7 +92,7 @@ void RequestHandler::handleRequest()
     // }
 
     // TEMPORARY : we set the path manually
-    path = "/mnt/nfs/homes/teliet/dev/new-webserv/test" + _request.getPath();
+    path = "/home/teliet/42/test" + _request.getPath();
 
     std::cout << "Path before method routing :" << path << std::endl;
 
@@ -319,5 +319,6 @@ Response &RequestHandler::getResponse()
 
 std::string RequestHandler::getResponseString()
 {
+    
     return _response.getSerializedResponse();
 }

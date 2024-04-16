@@ -92,7 +92,7 @@ void Response::loadFileContent(const std::string& path)
     fileContent = buffer.str();
     file.close();
     
-    setBody(fileContent);   
+    setBody(fileContent);  
 }
 
 void Response::setError(int statusCode, std::string error_msg)
