@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 10:59:55 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:07:57 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	Server::getClientSocket() {
 		if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1)
 			std::cerr << "Error" << std::endl;	
 	}
-	_requests.insert(std::make_pair(clientSocket, ""));
+	_readData.insert(std::make_pair(clientSocket, ""));
 	return clientSocket;
 }
 
@@ -120,9 +120,9 @@ int	Server::readData(int clientSocket) {
 		
 	}
 	
-	_requests[clientSocket] += buffer;
-	if (_requests[clientSocket].find("\r\n\r\n") != std::string::npos) {
-		if (_requests[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos)
+	_readData[clientSocket] += buffer;
+	if (_readData[clientSocket].find("\r\n\r\n") != std::string::npos) {
+		if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos)
 			return (0);
 		//determine if chunked or not
 	}
@@ -130,11 +130,11 @@ int	Server::readData(int clientSocket) {
 }
 
 int	Server::processRequest(int clientSocket) {
-	//Request	request(_requests[clientSocket]);
+	Request	request(_readData[clientSocket]);
 	_response[clientsocket] = request.response();
 	//check chunk
-	_requests.erase(clientSocket);
-	return 1
+	_readData.erase(clientSocket);
+	return 1;
 }
 
 int	Server::sendResponse(int clientSocket,) {
