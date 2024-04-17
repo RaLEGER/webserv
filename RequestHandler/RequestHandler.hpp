@@ -24,7 +24,6 @@ class RequestHandler {
         ~RequestHandler();
 
         // Handling methods
-        void listDirectory();
         void process();
         void handleRequest();
         void setResponseHeaders();
@@ -46,8 +45,9 @@ class RequestHandler {
         void Post();
         void Delete();
         void CGI();
+        void redirect(std::string address);
+        void listDirectory();
 
-        std::string getSerializedResponse();
 };
 
 #endif // REQUESTHANDLER_HPP
