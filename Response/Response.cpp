@@ -9,6 +9,7 @@ Response::Response()
     setProtocol("HTTP/1.1");
     setStatusCode("200");
     setStatusText("OK");
+    setContentType("");
 }
 
 Response::Response(int statusCode, std::string error_msg)

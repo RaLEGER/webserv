@@ -153,9 +153,9 @@ void	Server::sendResponse(int clientSocket) {
 	int flags = 0;
 
 	std::string responseString = _requestHandlers[clientSocket]->getResponseString();
-	// std::cout << "************** responseString: ****************" << std::endl;
-	// std::cout << responseString << std::endl;
-	// std::cout << "***********************************************" << std::endl;
+	std::cout << "************** responseString: ****************" << std::endl;
+	std::cout << responseString << std::endl;
+	std::cout << "***********************************************" << std::endl;
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//

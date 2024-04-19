@@ -71,40 +71,24 @@ void RequestHandler::getFinalPath()
 void RequestHandler::handleRequest() 
 {
     // Handle redirection
-    // if(type == "http")
+    // if(true)
     // {
-    //     std::cout << "-------- Redirection -------" << std::endl;
-    //     fileContent = getRedirectionHTML(_config->getPath());
-    //     _response.setStatusCode("303");
-    //     _response.setStatusText("Other");
-    //     _response.setContentType("text/html");
-    //     _response.setProtocol("HTTP/1.1");
-    //     _response.setBody(fileContent);
-    //     _response.send();
+    //     redirect("http://www.google.com");
     //     return;
     // }
+
+    // TEMPORARY : we set the path manually
+    path = "./test" + _request.getPath();
+
+    std::cout << "Path before method routing :" << path << std::endl;
+
+    // Method routing
 
     // Check that the method is allowed for this location
     // if ((method == "GET" && !_config->isGetAllowed()) || (method == "POST" && !_config->isPostAllowed()))
     // {    
     //     // _response.setError(405, ": Method not allowed");
     //     return false;
-    // }
-
-    // TEMPORARY : we set the path manually
-    path = "/home/teliet/42/test" + _request.getPath();
-
-    std::cout << "Path before method routing :" << path << std::endl;
-
-    // Method routing
-
-    // if (getFileExtension(path) == "php" || getFileExtension(path) == "py") {
-    //     if (_config->getType() == "cgi")
-    //         this->routingCGI();
-    //     else {
-    //         _response.setError(405, "Don't match config file");
-    //         return;
-    //     }
     // }
 
     std::string method = _request.getMethod();
@@ -153,6 +137,19 @@ void RequestHandler::process()
         // In case of error, set the response to a standard error response
         _response = Response(e.getErrorCode(), e.what());
     }
+}
+
+// Function to redirect the client to an other http address
+void RequestHandler::redirect(std::string address)
+{
+    std::cout << "-------- Redirection -------" << std::endl;
+    std::string redirectPage = getRedirectionHTML(address);
+    _response.setStatusCode("303");
+    _response.setStatusText("Other");
+    _response.setContentType("text/html");
+    _response.setProtocol("HTTP/1.1");
+    _response.setBody(redirectPage);
+    return;
 }
 
 // Function to send an html page which lists the content of a directory (autoindex)
@@ -273,6 +270,10 @@ void RequestHandler::setResponseHeaders()
 {
     // if the response has no body, return 
     if(_response.getBody() == "")
+        return;
+
+    // If the response content type has already been set, return
+    if(_response.getContentType() != "")
         return;
     
     // Determine file name and extension
