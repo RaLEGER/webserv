@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/18 18:51:27 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 18:14:48 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 #include <fcntl.h>
 #include <vector>
 
-class Location {
+class Location {	_fnSetter["return"] = &Location::setReturn;
+
 	private:
 		std::map <std::string, void (Location::*)(const std::string &)> _fnSetter;
 		std::string							_name;
@@ -69,6 +70,9 @@ class Location {
 		std::string	getName();
 		std::string	getHost();
 		int			getPort();
+		std::string	getReturn();
+		std::string	getAutoIndex();
+		std::string	getHost();
 };
 
 #endif

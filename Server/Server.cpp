@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/18 19:08:10 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 18:17:42 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void Server::setupServerSocket() {
 }
 
 std::string Server::getServerName( ) {
-	return (_defLoc->getHost());
+	return (_defLoc->getName());
 }
 
 Location* Server::getLocation(const std::string& path) {

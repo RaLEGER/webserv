@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 19:39:00 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:01:49 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,9 @@ std::string	Location::getName( ) {
 int	Location::getPort( ) {
 	return _port;	
 }
-
+std::string	Location::getReturn( ) {
+	return _return;	
+}
+std::string	Location::getAutoIndex( ) {
+	return _autoIndex;	
+}
