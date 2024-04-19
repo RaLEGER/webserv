@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 19:04:51 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 20:40:44 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ class Location {
 		int			getPort();
 		std::string	getReturn();
 		std::string	getAutoIndex();
-		std::string	getHost();
 };
 
 #endif

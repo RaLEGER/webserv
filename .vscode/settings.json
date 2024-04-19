@@ -71,6 +71,8 @@
 		"mutex": "cpp",
 		"optional": "cpp",
 		"ratio": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"ranges": "cpp",
+		"span": "cpp"
 	}
 }

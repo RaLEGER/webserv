@@ -6,33 +6,13 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/18 19:05:21 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 21:20:06 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ServerFarm.hpp"
 
-ServerFarm::ServerFarm( ) {
-	
-}
-
-ServerFarm::ServerFarm(const ServerFarm &rhs) {
-(void) rhs;	
-}
-
 ServerFarm::~ServerFarm( ) {
-	
-}
-
-ServerFarm& ServerFarm::operator=(const ServerFarm &rhs) {
-	if (this == &rhs) return *this;
-	
-	return *this;
-}
-
-ServerFarm::ServerFarm(std::vector <Server*> servers) {
-	_servers = servers;
-	set();	
 	
 }
 
@@ -41,19 +21,24 @@ void ServerFarm::set() {
 	std::vector <Server*>::iterator	it;
 	_maxFd = 0;
 	FD_ZERO(&_read_fds);
-	
+	std::map<std::string, Socket*>::iterator tempSocket;
 	for (it = _servers.begin(); it < _servers.end(); it++) {
+		std::string	tempAddress = (*it)->getAddress();
+		tempSocket = _addressSocket.find(tempAddress);
 		try {
-			(*it)->start();
-		} catch (const CustomError& e) {
+			if (tempSocket != _addressSocket.end())
+				tempSocket->second->addServer(*it);
+			else {
+				Socket *socket = new Socket(*it);
+				_addressSocket.insert(std::make_pair(tempAddress, socket));
+				int fd = socket->getSocket();
+				FD_SET(fd, &_read_fds);
+				_maxFd = std::max(fd, _maxFd);
+			}
+		} catch (CustomError& e) {
 			std::cerr << "ServerFarm setup Error: ";
 			throw;
-		}
-		int server_socket = (*it)->getSocket();
-		FD_SET(server_socket, &_read_fds);
-		_serverSocketServer.insert(std::make_pair(server_socket, *it));
-		_maxFd = std::max(server_socket, _maxFd);
-		
+		}	
 	}
 	if (!_maxFd) {
 		std::cerr << "No socket found" << std::endl;
@@ -77,8 +62,8 @@ void ServerFarm::run() {
 			FD_ZERO(&_write_fds);
 			//add fd to send to writing set
 			std::cout << "running" << std::endl;
-			for (std::vector<int>::iterator it = _fdsToSend.begin() ; it != _fdsToSend.end() ; it++) {
-				std::cout << "fd to send " <<*it << std::endl;
+			for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
+				std::cout << "client socket ready " <<*it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
@@ -91,11 +76,11 @@ void ServerFarm::run() {
 		}
 		else {
 			//send data
-			for (std::vector<int>::iterator it = _fdsToSend.begin(); it != _fdsToSend.end(); it++) {
+			for (std::vector<int>::iterator it = _clientSocketReady.begin(); it != _clientSocketReady.end(); it++) {
 				if (FD_ISSET(*it, &runningWriteFds)) {
 					std::cout << "fd to send loop" << std::endl;
-					_clientSocketServer[*it]->sendResponse(*it);
-					_fdsToSend.erase(it);
+					_clientSocketSocket[*it]->sendResponse(*it);
+					_clientSocketSocket.erase(*it);
 					FD_CLR(*it, &_write_fds);
 					close(*it);
 					break;
@@ -103,7 +88,7 @@ void ServerFarm::run() {
 			}
 			
 			//process client sockets (create fds)
-			for (std::map<int, Server *>::iterator it = _clientSocketServer.begin() ; it != _clientSocketServer.end(); it++) {
+			for (std::map<int, Socket*>::iterator it = _clientSocketSocket.begin() ; it != _clientSocketSocket.end(); it++) {
 				int	clientSocket = it->first;
 				std::cout << "client socket loop" << std::endl;
 				
@@ -114,8 +99,7 @@ void ServerFarm::run() {
 						std::cout << "cleint data read" << std::endl;
 						it->second->processRequest(clientSocket);
 						FD_CLR(clientSocket, &_read_fds); //mandatory ? %
-						_fdsToSend.push_back(clientSocket);
-						std::cout << "fd1: " << _fdsToSend[0] << std::endl;
+						_clientSocketReady.push_back(clientSocket);
 					}
 					else if (readStatus == -1) {
 						FD_CLR(clientSocket, &_read_fds);
@@ -126,8 +110,8 @@ void ServerFarm::run() {
 			}
 			
 			//detect activated server socket, get client socket (accept) and associate to server socket
-			for (std::map<int, Server*>::iterator it = _serverSocketServer.begin(); it != _serverSocketServer.end(); it++) {
-				int serverSocket = it->first;
+			for (std::map<std::string, Socket*>::iterator it = _addressSocket.begin(); it != _addressSocket.end(); it++) {
+				int serverSocket = it->second->getSocket();
 				std::cout << "sever socket loop" << std::endl;
 				if (FD_ISSET(serverSocket, &runningReadFds))
 				{
@@ -136,7 +120,7 @@ void ServerFarm::run() {
 					std::cout << "client socket " << clientSocket << std::endl;
 					if (clientSocket != -1) {
 						FD_SET(clientSocket, &_read_fds);
-						_clientSocketServer.insert(std::make_pair(clientSocket, it->second));
+						_clientSocketSocket.insert(std::make_pair(clientSocket, it->second));
 						_maxFd = std::max(_maxFd, clientSocket);
 					}
 					break;
