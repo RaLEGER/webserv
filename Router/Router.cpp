@@ -37,5 +37,6 @@ Location *routeRequestToLocation(Request* request, std::map <std::string, Locati
     }
 
     // 3. If no match, return the first location
+    // TODO : use defloc
     return Locations.begin()->second;
 }

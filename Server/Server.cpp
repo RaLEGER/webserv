@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 16:11:33 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/19 18:21:49 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void Server::setNonBlocking(int socket) {
 void Server::setupServerSocket() {
     _serverSocket = createSocket();
 
-	 struct sockaddr_in serverAddr;
+	struct sockaddr_in serverAddr;
     std::memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
