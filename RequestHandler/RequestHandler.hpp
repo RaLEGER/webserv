@@ -12,8 +12,12 @@
 
 #include "CGIHandler.hpp"
 #include "Response.hpp"
+#include "Location.hpp"
 #include "Request.hpp"
 #include "Utils.hpp"
+
+class Server;
+class Router;
 
 class RequestHandler {
     public:
@@ -24,7 +28,7 @@ class RequestHandler {
         ~RequestHandler();
 
         // Handling methods
-        void process();
+        void process(std::vector<Server *> servers);
         void handleRequest();
         void setResponseHeaders();
         void getFinalPath();
@@ -35,8 +39,11 @@ class RequestHandler {
         int _clientSocket;
 
     private:
-        Response _response;
-        Request _request;
+        Response    _response;
+        Request     _request;
+        Server      *_server;
+        Location    *_location;
+
         // CGIHandler _cgiHandler;
         std::string path;
 

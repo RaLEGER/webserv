@@ -31,6 +31,7 @@
 class Request {
     private:
         /* Header */
+        std::string hostname;
         std::string method;
         std::string path;
         std::string originalPath;
@@ -80,6 +81,7 @@ class Request {
         std::string         getMethod();
         std::string         getBody();
         std::string         getQuery();
+        std::string         getHostname();
         int                 getMethodCode();
         std::string         getRequestString();
         int                 getClientSocket();

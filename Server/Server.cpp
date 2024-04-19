@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 11:57:30 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:11:33 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ Location* Server::getLocation(const std::string& path) {
 	return _locations[path];
 }
 
+std::map<std::string, Location*>	Server::getLocations()
+{
+	return _locations;
+}
+
 int	Server::getSocket( ) {
 	return _serverSocket;
 }
@@ -140,7 +145,7 @@ int	Server::processRequest(int clientSocket) {
 
 	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
 
-	requestHandler->process();
+	// requestHandler->process();
 
 	// clear buffer 
 	_readData.erase(clientSocket);

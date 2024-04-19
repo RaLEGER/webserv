@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 14:15:42 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:06:53 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,22 @@ class Server {
 		Server( );
 		~Server( );
 		
-		void	start();
-		void	stop();
+		void			start();
+		void			stop();
 		
-		int		getClientSocket();
-		int		readData(int clientSocket);
-		int		processRequest(int clientSocket);
-		int		sendResponse(int clientSocket); 
+		int				getClientSocket();
+		int				readData(int clientSocket);
+		int				processRequest(int clientSocket);
+		int				sendResponse(int clientSocket); 
 
 		
-		void	addLocation(Location* location);
-		void	addDefLoc(Location* location);
+		void			addLocation(Location* location);
+		void			addDefLoc(Location* location);
 		
-		std::string getServerName( );
-		Location* getLocation(const std::string& path);	
-		int		getSocket();
+		std::string 							getServerName( );
+		Location* 								getLocation(const std::string& path);	
+		std::map <std::string, Location*> 		getLocations();	
+		int										getSocket();
 };
 
 #endif

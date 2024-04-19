@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rleger <rleger@student.42.fr>              +#+  +:+       +#+         #
+#    By: teliet <teliet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/19 14:22:30 by rleger            #+#    #+#              #
-#    Updated: 2024/04/16 12:28:51 by rleger           ###   ########.fr        #
+#    Updated: 2024/04/19 12:21:05 by teliet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 # Directories
-INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request
+INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request Router
 INC_FLAGS = $(addprefix -I,$(INC_DIRS))
 
 # Headers and Source files

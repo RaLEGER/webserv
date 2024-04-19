@@ -2,37 +2,40 @@
 
 Server *routeRequestToServer(Request* request, std::vector<Server*> servers)
 {
-    // 1. Loop through the servers and match the request host name and host:port pair
+    // Loop through the servers and match the request host name 
+    // We consider that host:port is already matched by the server farm
     std::vector<Server*>::iterator it;
     for (it = servers.begin(); it < servers.end(); it++)
     {
-        if ((*it)->getServerName() == request->getHost() && (*it)->getPort() == request->getPort())
+        if ((*it)->getServerName() == request->getHostname())
         {
             return *it;
         }
     }
-    return NULL;
 
 
-    // 2. If no match, return the default server
-    // TODO : default server
-
-    //
+    // 2. If no match, return the first server
+    return servers[0];
 }
 
-Location *routeRequestToLocation(Request* request, Server* server)
+Location *routeRequestToLocation(Request* request, std::map <std::string, Location*> Locations)
 {
-    // 1. Loop through the locations and match the exact request uri
-    // std::vector<Location*>::iterator it;
-    // for (it = server->getLocations().begin(); it < server->getLocations().end(); it++)
-    // {
-    //     if (request->getUri().find((*it)->getRootDirName()) != std::string::npos)
-    //     {
-    //         return *it;
-    //     }
-    // }
-    // return NULL;
+    std::string path = request->getPath();
 
-    // 2. If no match, return the default location
-    // TODO : default location
+    // 1. Try to match the exact request uri with the location uri
+    if(Locations.count(request->getPath()) == 1)
+        return Locations[request->getPath()];
+
+    // 2. If no exact match, return the first location whose uri is a prefix of the request uri
+    std::map <std::string, Location*>::iterator it;
+    for (it = Locations.begin(); it != Locations.end(); it++)
+    {
+        if (path.find(it->first) == 0)
+        {
+            return it->second;
+        }
+    }
+
+    // 3. If no match, return the first location
+    return Locations.begin()->second;
 }

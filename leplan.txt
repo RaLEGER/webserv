@@ -39,7 +39,7 @@ These are just some of the classes you can consider for organizing your nginx-li
 
 
 TODO : 
-- Check listDirectory
+- Check listDirectory ✅
 - Implement routing
 - Implement getFinalPath
 - Reintegrate/finish CGIHandler

@@ -1,5 +1,8 @@
 #include "RequestHandler.hpp"
 
+#include "Server.hpp"
+#include "Router.hpp"
+
 // CANONICAL 
 RequestHandler::RequestHandler()
 {
@@ -67,13 +70,16 @@ void RequestHandler::getFinalPath()
     // path = "." + path;
 }
 
-void RequestHandler::process()
+void RequestHandler::process(std::vector<Server *> servers)
 {
-
     try
     {
         // Parse the request
         _request.parse();
+
+        // Root the request 
+        _server = routeRequestToServer(&_request, servers);
+        _location = routeRequestToLocation(&_request, _server->getLocations());
 
         // Handle the request
         handleRequest();

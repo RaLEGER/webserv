@@ -193,6 +193,7 @@ bool Request::parseHeaders()
     //Check that Host header is present
     if (headers.count("Host") == 0)
         throw CustomError(400, "Host header is required");
+    hostname = headers["Host"];
 
     //get contentLength if any
     if (headers.count("Content-Length") == 1)
@@ -276,6 +277,11 @@ std::string Request::getHeader(std::string key) {
     if (headers.count(key) == 1)
         return headers[key];
     return "";
+}
+
+std::string Request::getHostname()
+{
+    return hostname;
 }
 
 // SETTERS
