@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 18:29:33 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/18 19:05:21 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void ServerFarm::run() {
 			//add fd to send to writing set
 			std::cout << "running" << std::endl;
 			for (std::vector<int>::iterator it = _fdsToSend.begin() ; it != _fdsToSend.end() ; it++) {
-				std::cout << "fd to sednd " <<*it << std::endl;
+				std::cout << "fd to send " <<*it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;

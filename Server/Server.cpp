@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 19:13:00 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/18 19:08:10 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,28 +121,28 @@ int	Server::readData(int clientSocket) {
 	char	buffer[BUFF_SIZE];
 	ssize_t bytes_received;
 	ssize_t total_bytes = 0;
+	
     while ((bytes_received = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
 		_readData[clientSocket] += buffer;
 		total_bytes += bytes_received;
     }
-
 	if (!total_bytes) {
 		std::cerr << "Connection closed, nothing to read" << std::endl;
 		return -1;
 	}
-	if (bytes_received == -1) {
+	if (total_bytes == -1) {
 		_readData.erase(clientSocket);
 		std::cerr << "Error reading from client socket" << std::endl;
 		return -1;
 	}
-	
-	if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos)
-			return 0;
+	if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos) {
+		return 0;
+	}
 	return 1; 
 }
 
 int	Server::processRequest(int clientSocket) {
-	RequestHandler *requestHandler = new RequestHandler(_readData[clientSocket], clientSocket);
+	RequestHandler *requestHandler = new RequestHandler(_readData[clientSocket], clientSocket); //+ host:port et ou tous les serverus associés a la pair
 	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
 	requestHandler->process();
 	_readData.erase(clientSocket);
