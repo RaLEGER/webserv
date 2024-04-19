@@ -22,7 +22,7 @@ RequestHandler::~RequestHandler()
 void RequestHandler::getFinalPath() 
 {
     // temp : we set this variable by hand, but they will depend on the Server and Location
-    std::string root =  "/home/teliet/42/test";
+    std::string root =  "/home/teliet/42/";
     std::string index = "index.html";
     std::string type = "none";
 
@@ -77,10 +77,21 @@ void RequestHandler::handleRequest()
     //     return;
     // }
 
+
     // TEMPORARY : we set the path manually
-    path = "./test" + _request.getPath();
+    path = "." + _request.getPath();
 
     std::cout << "Path before method routing :" << path << std::endl;
+
+    // Handle listDirectory
+    // if path is a directory and autoindex is set to true
+    // TODO : check if autoindex is set to true
+    if (path.at(path.length() - 1) == '/')
+    {
+        listDirectory();
+        return;
+    }
+
 
     // Method routing
 
