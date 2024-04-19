@@ -86,10 +86,6 @@ void RequestHandler::process(std::vector<Server *> servers)
 
         // Set the response headers
         setResponseHeaders();
-
-        // CGI Handling
-        // CGIHandler *cgiHandler = new CGIHandler(_request);
-        // cgiHandler->executeCGI();
     }
     catch(const CustomError &e)
     {
@@ -121,7 +117,17 @@ void RequestHandler::handleRequest()
         listDirectory();
         return;
     }
-
+    
+    // CGI Handling
+    if(true)
+    {
+        std::cout << "CGI Handling" << std::endl;
+        _cgiHandler = new CGIHandler(_request);
+        _cgiHandler->executeCGI();
+        _response.setBody(_cgiHandler->getOutputCGI());  
+        _response.setDefaultSuccess();
+        return;  
+    }
 
     // Method routing
 

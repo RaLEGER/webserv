@@ -39,7 +39,7 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
 
     // Set up arguments for executing CGI script
     _args[0] = strdup("/usr/bin/python3"); // Why need to set absolute path here?
-    _args[1] = strdup("./test/cgi_scripts/invalid_syntax.py");
+    _args[1] = strdup("./test/cgi_scripts/hello_world.py");
     _args[2] = NULL;
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
