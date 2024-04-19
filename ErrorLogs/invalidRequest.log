@@ -1,0 +1,94 @@
+Port: 8081
+Server socket setup completed.
+ici 3
+running
+running
+running
+running
+running
+running
+running
+running
+running
+running
+running
+running
+running
+running
+sever socket loop
+accepted new co
+client socket 4
+running
+client socket loop
+activated client loop
+<<GET /test/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en>>
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /test/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en
+Parsing line: GET /test/ HTTP/1.1
+Parsing line: Host: localhost:8081
+Parsing line: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Parsing line: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Path before method routing :./test/
+LIST DIRECTORY
+URL : index.html
+URL : favicon.ico
+URL : cgi_scripts
+URL : psyche.html
+URL : test.wtf
+URL : psyche2.html
+URL : forbidden.html
+URL : testPost.html
+URL : fr.subject.pdf
+URL : ..
+URL : .
+fd1: 4
+sever socket loop
+running
+fd to sednd 4
+fd to send loop
+send value 630
+RequestHandler destructor called
+Request destroyed
+client socket loop
+sever socket loop
+running
+running
+client socket loop
+sever socket loop
+accepted new co
+client socket 4
+running
+running
+running
+running
+running
+running
+client socket loop
+activated client loop
+Error or no data received
+<<(
+   ��>>
+cleint data read
+Request destroyed
+RequestHandler constructor called
+----- ERROR ------
+(⊙…⊙ ) 400 Invalid number of tokens in first line of request
+------------------
+Sending file ./data/default/400.html
+fd1: 4
+sever socket loop
+running
+fd to sednd 4
+fd to send loop
+send value 1130

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/16 14:18:01 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 11:57:30 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ int	Server::sendResponse(int clientSocket) {
 	int flags = 0;
 
 	std::string responseString = _requestHandlers[clientSocket]->getResponseString();
-	std::cout << "************** responseString: ****************" << std::endl;
-	std::cout << responseString << std::endl;
-	std::cout << "***********************************************" << std::endl;
+	// std::cout << "************** responseString: ****************" << std::endl;
+	// std::cout << responseString << std::endl;
+	// std::cout << "***********************************************" << std::endl;
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//

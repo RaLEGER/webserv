@@ -22,7 +22,7 @@ RequestHandler::~RequestHandler()
 void RequestHandler::getFinalPath() 
 {
     // temp : we set this variable by hand, but they will depend on the Server and Location
-    std::string root =  "/home/teliet/42/";
+    std::string root =  "/";
     std::string index = "index.html";
     std::string type = "none";
 
@@ -64,9 +64,33 @@ void RequestHandler::getFinalPath()
     // }
 
     // add . at the beginning of the path
-    // path = "." + path;s
+    // path = "." + path;
 }
 
+void RequestHandler::process()
+{
+
+    try
+    {
+        // Parse the request
+        _request.parse();
+
+        // Handle the request
+        handleRequest();
+
+        // Set the response headers
+        setResponseHeaders();
+
+        // CGI Handling
+        // CGIHandler *cgiHandler = new CGIHandler(_request);
+        // cgiHandler->executeCGI();
+    }
+    catch(const CustomError &e)
+    {
+        // In case of error, set the response to a standard error response
+        _response = Response(e.getErrorCode(), e.what());
+    }
+}
 
 void RequestHandler::handleRequest() 
 {
@@ -125,31 +149,6 @@ void RequestHandler::handleRequest()
     }
 }
 
-void RequestHandler::process()
-{
-
-    try
-    {
-        // Parse the request
-        _request.parse();
-
-        // Handle the request
-        handleRequest();
-
-        // Set the response headers
-        setResponseHeaders();
-
-        // CGI Handling
-        // CGIHandler *cgiHandler = new CGIHandler(_request);
-        // cgiHandler->executeCGI();
-    }
-    catch(const CustomError &e)
-    {
-        // In case of error, set the response to a standard error response
-        _response = Response(e.getErrorCode(), e.what());
-    }
-}
-
 // Function to redirect the client to an other http address
 void RequestHandler::redirect(std::string address)
 {
@@ -182,8 +181,10 @@ void RequestHandler::listDirectory()
     ss << "<ul>" << std::endl;
     while (!fileList.empty())
     {
+        std::string url = fileList.back();
+        std::cout << "URL : " << url << std::endl;
         if (fileList.back() != ".." && fileList.back() != ".")
-            ss << "<li><a href=\"" << path << fileList.back() << "\">" << fileList.back() << "</a></li>" << std::endl;
+            ss << "<li><a href=\"" << url << "\">" << fileList.back() << "</a></li>" << std::endl;
         fileList.pop_back();
     }
     ss << "</ul>" << std::endl;
