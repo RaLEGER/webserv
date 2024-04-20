@@ -42,5 +42,10 @@ TODO :
 - Check listDirectory ✅
 - Implement routing
 - Implement getFinalPath
+- Implement add index to path
 - Reintegrate/finish CGIHandler
 - Handle chunked requests 
+
+- check Method not Allowed
+- check redirect
+- check autoindex

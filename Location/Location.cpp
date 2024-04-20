@@ -51,6 +51,16 @@ Location::Location (std::map <std::string, std::string> dictLoc, std::string nam
 	}
 }
 
+
+bool	Location::isMethodAllowed(std::string method) {
+	
+	for (size_t i = 0; i < _methods.size(); i++) {
+		if (!_methods[i].compare(method))
+			return true;
+	}
+	return false;
+}
+
 void	Location::setFnSetter( ) {
 	
 	_fnSetter["listen"] = &Location::setPort;
@@ -161,4 +171,8 @@ std::string	Location::getReturn( ) {
 
 std::string	Location::getAutoIndex( ) {
 	return _autoIndex;	
+}
+
+std::string	Location::getRootDirName() {
+	return _rootDirName;
 }

@@ -22,7 +22,7 @@ RequestHandler::~RequestHandler()
     std::cout << "RequestHandler destructor called" << std::endl;
 }
 
-void RequestHandler::getFinalPath() 
+void RequestHandler::buildFinalPath() 
 {
     // temp : we set this variable by hand, but they will depend on the Server and Location
     std::string root =  "/";
@@ -67,7 +67,8 @@ void RequestHandler::getFinalPath()
     // }
 
     // add . at the beginning of the path
-    // path = "." + path;
+    path =  _location->getRootDirName() + _request.getPath();
+    std::cout << "Final path : " << path << std::endl;
 }
 
 void RequestHandler::process(std::vector<Server *> servers)
@@ -79,8 +80,11 @@ void RequestHandler::process(std::vector<Server *> servers)
 
         // Root the request 
         _server = routeRequestToServer(&_request, servers);
-        _location = routeRequestToLocation(&_request, _server->getLocations());
-        // _location->print();
+        _location = routeRequestToLocation(&_request, _server);
+        _location->print();
+
+        // build final path
+        buildFinalPath();
 
         // Handle the request
         handleRequest();
@@ -103,10 +107,6 @@ void RequestHandler::handleRequest()
     //     redirect("http://www.google.com");
     //     return;
     // }
-
-
-    // TEMPORARY : we set the path manually
-    path = "." + _request.getPath();
 
     std::cout << "Path before method routing :" << path << std::endl;
 
@@ -133,11 +133,8 @@ void RequestHandler::handleRequest()
     // Method routing
 
     // Check that the method is allowed for this location
-    // if ((method == "GET" && !_config->isGetAllowed()) || (method == "POST" && !_config->isPostAllowed()))
-    // {    
-    //     // _response.setError(405, ": Method not allowed");
-    //     return false;
-    // }
+    if (!_location->isMethodAllowed(_request.getMethod()))
+        throw CustomError(405, "Method Not Allowed");
 
     std::string method = _request.getMethod();
     if (method == "GET")

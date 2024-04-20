@@ -48,7 +48,7 @@ class Location {
 
 		Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host);
 
-		bool	isAllowed(std::string method);
+		bool	isMethodAllowed(std::string method);
 		//void	handleRequest(Request* requestHandler);
 
 		void	setName(const std::string& host);
@@ -73,6 +73,7 @@ class Location {
 		int			getPort();
 		std::string	getReturn();
 		std::string	getAutoIndex();
+		std::string	getRootDirName();
 };
 
 #endif

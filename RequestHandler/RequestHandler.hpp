@@ -31,7 +31,7 @@ class RequestHandler {
         void process(std::vector<Server *> servers);
         void handleRequest();
         void setResponseHeaders();
-        void getFinalPath();
+        void buildFinalPath();
 
         // Getters & Setters
         std::string getResponseString();

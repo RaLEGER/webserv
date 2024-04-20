@@ -63,3 +63,7 @@ std::string	Server::getHost( ) {
 int	Server::getPort( ) {
 	return _defLoc->getPort();
 }
+
+Location* 	Server::getDefaultLocation() {
+	return _defLoc;
+}

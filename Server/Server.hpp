@@ -40,8 +40,10 @@ public:
 	int 								getPort();
 	void 								setAddress(std::string host, std::string port);
 	std::string 						getAddress();
+	std::string 						getServerRoot();
 	Location* 							getLocation(const std::string &path);
 	std::map<std::string, Location *> 	getLocations();
+	Location* 							getDefaultLocation();
 
 	void 								setSocket(int socket);
 	int 								getSocket();

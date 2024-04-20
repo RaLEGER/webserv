@@ -21,17 +21,18 @@ Server *routeRequestToServer(Request* request, std::vector<Server*> servers)
     return servers[0];
 }
 
-Location *routeRequestToLocation(Request* request, std::map <std::string, Location*> Locations)
+Location *routeRequestToLocation(Request* request, Server* server)
 {
     std::string path = request->getPath();
+    std::map <std::string, Location*> locations = server->getLocations();
 
     // 1. Try to match the exact request uri with the location uri
-    if(Locations.count(request->getPath()) == 1)
-        return Locations[request->getPath()];
+    if(locations.count(request->getPath()) == 1)
+        return locations[request->getPath()];
 
     // 2. If no exact match, return the first location whose uri is a prefix of the request uri
     std::map <std::string, Location*>::iterator it;
-    for (it = Locations.begin(); it != Locations.end(); it++)
+    for (it = locations.begin(); it != locations.end(); it++)
     {
         if (path.find(it->first) == 0)
         {
@@ -41,5 +42,5 @@ Location *routeRequestToLocation(Request* request, std::map <std::string, Locati
 
     // 3. If no match, return the first location
     // TODO : use defloc
-    return Locations.begin()->second;
+    return server->getDefaultLocation();
 }
