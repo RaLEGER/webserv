@@ -31,6 +31,7 @@ class ServerFarm {
 		fd_set	_read_fds;
 		fd_set	_write_fds;	
 		int		_maxFd;	
+		void	printClientSocketReady();
 		
 	public:
 		ServerFarm(std::vector <Server*> servers);

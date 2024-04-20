@@ -169,7 +169,7 @@ bool Request::parseHeaders()
     {
         // extract the current line and remove it from the request string
         std::string line = tmpRequestString.substr(0, delimiterPos);
-        std::cout << "Parsing line: " << line << std::endl;
+        
         tmpRequestString.erase(0, delimiterPos + delimiter.length());
 
         // If the line is empty, the headers are finished

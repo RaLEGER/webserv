@@ -21,7 +21,7 @@ Server::~Server( ) {
 }
 
 void	Server::setAddress(std::string host, std::string port) {
-	_address = host + port;
+	_address = host + ":" + port;
 }
 
 std::string	Server::getAddress() {

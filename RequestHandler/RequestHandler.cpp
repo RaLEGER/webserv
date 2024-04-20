@@ -80,6 +80,7 @@ void RequestHandler::process(std::vector<Server *> servers)
         // Root the request 
         _server = routeRequestToServer(&_request, servers);
         _location = routeRequestToLocation(&_request, _server->getLocations());
+        // _location->print();
 
         // Handle the request
         handleRequest();
@@ -119,15 +120,15 @@ void RequestHandler::handleRequest()
     }
     
     // CGI Handling
-    if(true)
-    {
-        std::cout << "CGI Handling" << std::endl;
-        _cgiHandler = new CGIHandler(_request);
-        _cgiHandler->executeCGI();
-        _response.setBody(_cgiHandler->getOutputCGI());  
-        _response.setDefaultSuccess();
-        return;  
-    }
+    // if(true)
+    // {
+    //     std::cout << "CGI Handling" << std::endl;
+    //     _cgiHandler = new CGIHandler(_request);
+    //     _cgiHandler->executeCGI();
+    //     _response.setBody(_cgiHandler->getOutputCGI());  
+    //     _response.setDefaultSuccess();
+    //     return;  
+    // }
 
     // Method routing
 

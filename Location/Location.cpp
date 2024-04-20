@@ -64,6 +64,25 @@ void	Location::setFnSetter( ) {
 	_fnSetter["extension"] = &Location::setExtenstion;
 }
 
+void	Location::print() {
+	std::cout << "-------- Location ------------- " << _name << std::endl;
+	std::cout << "Host: " << _host << std::endl;
+	std::cout << "Port: " << _port << std::endl;
+	std::cout << "Client body size: " << _clientBodySize << std::endl;
+	std::cout << "Root dir name: " << _rootDirName << std::endl;
+	std::cout << "Index: " << _index << std::endl;
+	std::cout << "Methods: ";
+	for (size_t i = 0; i < _methods.size(); i++) {
+		std::cout << _methods[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "Autoindex: " << _autoIndex << std::endl;
+	std::cout << "Return: " << _return << std::endl;
+	std::cout << "Cgi path: " << _cgiPath << std::endl;
+	std::cout << "Extension: " << _extension << std::endl;
+	std::cout << "-------------------------------- " << std::endl;
+}
+
 void	Location::setHost(const std::string& host) {
 	_host = host;	
 }
@@ -139,6 +158,7 @@ int	Location::getPort( ) {
 std::string	Location::getReturn( ) {
 	return _return;	
 }
+
 std::string	Location::getAutoIndex( ) {
 	return _autoIndex;	
 }

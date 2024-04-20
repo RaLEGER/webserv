@@ -12,6 +12,13 @@
 
 #include "Socket.hpp"
 
+Socket::Socket(Server *server) {
+	_port = server->getPort();
+	_host = server->getHost();
+	_setupSocket();
+	
+}
+
 bool	Socket::_isDuplicate(std::string serverName) {
 	
 	for (std::vector<Server*>::iterator it = _servers.begin(); it != _servers.end(); it++) {
@@ -63,7 +70,11 @@ int Socket::_createSocket() {
 
 void	Socket::_setupSocket() {
 	_fd = _createSocket();
-	
+
+	std::cout << "created a new socket with fd: " << _fd << std::endl;
+	std::cout << "port: " << _port << std::endl;
+	std::cout << "host: " << _host << std::endl;
+
 	struct sockaddr_in serverAddr;
     std::memset(&serverAddr, 0, sizeof(serverAddr));
 	
@@ -80,14 +91,6 @@ void	Socket::_setupSocket() {
     }
 
     std::cout << "Socket setup completed." << std::endl;
-}
-
-
-Socket::Socket(Server *server) {
-	_port = server->getPort();
-	_host = server->getHost();
-	_setupSocket();
-	
 }
 
 int Socket::getSocket() {
@@ -145,12 +148,13 @@ void	Socket::sendResponse(int clientSocket) {
 	int flags = 0;
 
 	std::string responseString = _requestHandlers[clientSocket]->getResponseString();
-	std::cout << "************** responseString: ****************" << std::endl;
-	std::cout << responseString << std::endl;
-	std::cout << "***********************************************" << std::endl;
+	// std::cout << "************** responseString: ****************" << std::endl;
+	// std::cout << responseString << std::endl;
+	// std::cout << "***********************************************" << std::endl;
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
 	delete _requestHandlers[clientSocket];
 	_requestHandlers.erase(clientSocket);
+	// remove from 
 }

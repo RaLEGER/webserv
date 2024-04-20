@@ -2,17 +2,20 @@
 
 Server *routeRequestToServer(Request* request, std::vector<Server*> servers)
 {
+
+    std::cout << "Routing request to server" << std::endl;
+    std::cout << "number of servers : " << servers.size() << std::endl;
     // Loop through the servers and match the request host name 
     // We consider that host:port is already matched by the server farm
     std::vector<Server*>::iterator it;
     for (it = servers.begin(); it < servers.end(); it++)
     {
+        std::cout << "Server name: " << (*it)->getServerName() << std::endl;
         if ((*it)->getServerName() == request->getHostname())
         {
             return *it;
         }
     }
-
 
     // 2. If no match, return the first server
     return servers[0];

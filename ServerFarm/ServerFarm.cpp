@@ -12,37 +12,75 @@
 
 #include "ServerFarm.hpp"
 
+
+ServerFarm::ServerFarm(std::vector <Server*> servers){
+	_servers = servers;
+}
+
 ServerFarm::~ServerFarm( ) {
 	
 }
 
 void ServerFarm::set() {
 	
+	std::cout << "Setting sockets " << std::endl;
 	std::vector <Server*>::iterator	it;
 	_maxFd = 0;
 	FD_ZERO(&_read_fds);
-	std::map<std::string, Socket*>::iterator tempSocket;
-	for (it = _servers.begin(); it < _servers.end(); it++) {
-		std::string	tempAddress = (*it)->getAddress();
-		tempSocket = _addressSocket.find(tempAddress);
-		try {
-			if (tempSocket != _addressSocket.end())
-				tempSocket->second->addServer(*it);
+
+	std::map<std::string, Socket*>::iterator addressSocketPair;
+
+	try {
+		// Iterate through servers and create sockets 
+		for (it = _servers.begin(); it < _servers.end(); it++) {
+			std::string	serverAdress = (*it)->getAddress();
+			addressSocketPair = _addressSocket.find(serverAdress);
+
+			std::cout << "Checking server : " << (*it)->getServerName() << " - " <<(*it)->getAddress() << std::endl;
+			if (addressSocketPair != _addressSocket.end())
+			{
+				// If a socket already exists for this address (host:port), add the server to the socket object
+				addressSocketPair->second->addServer(*it);
+			}
 			else {
+				// If no socket exists for this address, create a new socket and add the server to it
+				std::cout << " Creating new socket " << std::endl;
 				Socket *socket = new Socket(*it);
-				_addressSocket.insert(std::make_pair(tempAddress, socket));
+				_addressSocket.insert(std::make_pair(serverAdress, socket));
+				socket->addServer(*it);
+
 				int fd = socket->getSocket();
 				FD_SET(fd, &_read_fds);
 				_maxFd = std::max(fd, _maxFd);
 			}
-		} catch (CustomError& e) {
-			std::cerr << "ServerFarm setup Error: ";
-			throw;
-		}	
-	}
+		}
+	} catch (CustomError& e) {
+		std::cerr << "ServerFarm setup Error: ";
+		throw;
+	}	
+	// Check if there are no sockets
 	if (!_maxFd) {
 		std::cerr << "No socket found" << std::endl;
 	}
+}
+
+void printFdSet(const fd_set& fds) {
+    std::cout << "{ ";
+    for (int fd = 0; fd < FD_SETSIZE; ++fd) {
+        if (FD_ISSET(fd, &fds)) {
+            std::cout << fd << " ";
+        }
+    }
+    std::cout << "}" << std::endl;
+}
+
+void ServerFarm::printClientSocketReady() {
+	std::cout << "Client socket ready: ";
+	std::cout << "{ ";
+	for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
+		std::cout << *it << " ";
+	}
+	std::cout << "}" << std::endl;
 }
 
 void ServerFarm::run() {
@@ -60,19 +98,29 @@ void ServerFarm::run() {
 			timeout.tv_sec = 1; // Timeout of 1 second
 			timeout.tv_usec = 0; // Microseconds (optional, set to 0 for whole seconds)
 			FD_ZERO(&_write_fds);
+
 			//add fd to send to writing set
 			std::cout << "running" << std::endl;
 			for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
-				std::cout << "client socket ready " <<*it << std::endl;
+				std::cout << "client socket ready " <<* it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
+
+			std::cout << "selecting" << std::endl;
+			std::cout << "max fd: " << _maxFd << std::endl;
+            std::cout << "Read fds: ";
+            printFdSet(runningReadFds);
+            std::cout << "Write fds: ";
+            printFdSet(runningWriteFds);
+			printClientSocketReady();
 
 			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, NULL, &timeout);
 		}
 		
 		if (activity < 0) {
 			std::cerr << "Activity error" << std::endl;
+			std::cerr << strerror(errno) << std::endl;
 		}
 		else {
 			//send data
@@ -81,6 +129,7 @@ void ServerFarm::run() {
 					std::cout << "fd to send loop" << std::endl;
 					_clientSocketSocket[*it]->sendResponse(*it);
 					_clientSocketSocket.erase(*it);
+					_clientSocketReady.erase(it);
 					FD_CLR(*it, &_write_fds);
 					close(*it);
 					break;

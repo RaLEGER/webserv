@@ -22,6 +22,7 @@ int main() {
 	servers = parser_obj.getServers();
 	try {
 		ServerFarm serverfarm_obj(servers);
+		serverfarm_obj.set();
 		serverfarm_obj.run();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;

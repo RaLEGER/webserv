@@ -62,6 +62,7 @@ class Location {
 		void	setReturn(const std::string& value);
 		void	setCgi(const std::string& path);
 		void	setExtenstion(const std::string& extension);
+		void	print();
 
 		void	setFnSetter();
 
