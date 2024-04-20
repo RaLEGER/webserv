@@ -44,6 +44,7 @@ class Location {
 		std::string							_extension;
 	public:
 		Location( );
+		Location(Location &rhs);
 		~Location( );
 
 		Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host);

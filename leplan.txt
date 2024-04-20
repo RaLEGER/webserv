@@ -40,12 +40,13 @@ These are just some of the classes you can consider for organizing your nginx-li
 
 TODO : 
 - Check listDirectory ✅
-- Implement routing
-- Implement getFinalPath
+- Implement routing ✅
+- Implement getFinalPath ✅
 - Implement add index to path
 - Reintegrate/finish CGIHandler
 - Handle chunked requests 
 
-- check Method not Allowed
-- check redirect
+- check Method not Allowed ✅
+- check redirect ✅
 - check autoindex
+- fix initialize locations on defloc issue

@@ -16,6 +16,22 @@ Location::Location( ) {
 	
 }
 
+Location::Location( Location &rhs) {
+	setName(rhs.getName());
+	setHost(rhs.getHost());
+	setPort(std::to_string(rhs.getPort()));
+	setClientBodySize(std::to_string(rhs._clientBodySize));
+	_errPages = rhs._errPages;
+	_rootDirName = rhs._rootDirName;
+	_index = rhs._index;
+	_methods = rhs._methods;
+	_autoIndex = rhs._autoIndex;
+	_return = rhs._return;
+	_cgiPath = rhs._cgiPath;
+	_extension = rhs._extension;
+}
+
+
 Location::~Location( ) {
 	
 }

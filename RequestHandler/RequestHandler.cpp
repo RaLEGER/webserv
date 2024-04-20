@@ -101,12 +101,16 @@ void RequestHandler::process(std::vector<Server *> servers)
 
 void RequestHandler::handleRequest() 
 {
+    // Check that the method is allowed for this location
+    if (!_location->isMethodAllowed(_request.getMethod()))
+        throw CustomError(405, "Method Not Allowed");
+
     // Handle redirection
-    // if(true)
-    // {
-    //     redirect("http://www.google.com");
-    //     return;
-    // }
+    if(_location->getReturn() != "")
+    {
+        redirect(_location->getReturn());
+        return;
+    }
 
     std::cout << "Path before method routing :" << path << std::endl;
 
@@ -131,10 +135,6 @@ void RequestHandler::handleRequest()
     // }
 
     // Method routing
-
-    // Check that the method is allowed for this location
-    if (!_location->isMethodAllowed(_request.getMethod()))
-        throw CustomError(405, "Method Not Allowed");
 
     std::string method = _request.getMethod();
     if (method == "GET")
