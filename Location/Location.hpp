@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/02/02 17:58:15 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 20:40:44 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@
 #include <vector>
 
 class Location {
+
 	private:
 		std::map <std::string, void (Location::*)(const std::string &)> _fnSetter;
+		std::string							_name;
 		std::string							_host;
 		int									_port;
 		int									_clientBodySize;
@@ -44,11 +46,12 @@ class Location {
 		Location( );
 		~Location( );
 
-		Location (std::map <std::string, std::string> dictLoc, std::string name);
+		Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host);
 
 		bool	isAllowed(std::string method);
 		//void	handleRequest(Request* requestHandler);
 
+		void	setName(const std::string& host);
 		void	setHost(const std::string& host);
 		void	setPort(const std::string& strPort);
 		void	setClientBodySize(const std::string& strSize);
@@ -64,8 +67,11 @@ class Location {
 
 		void	addErrPage(const std::string& key, const std::string&value);
 		
+		std::string	getName();
 		std::string	getHost();
 		int			getPort();
+		std::string	getReturn();
+		std::string	getAutoIndex();
 };
 
 #endif

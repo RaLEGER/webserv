@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/02/02 10:40:51 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:01:49 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ Location::~Location( ) {
 	
 }
 
-Location::Location (std::map <std::string, std::string> dictLoc, std::string name) {
+Location::Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host) {
 	
-	setHost(name);
-	
+	setName(name);
+	setHost(host);
 	setFnSetter();
 	std::map <std::string, void (Location::*)(const std::string &)>::iterator it1;
 	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
@@ -66,6 +66,10 @@ void	Location::setFnSetter( ) {
 
 void	Location::setHost(const std::string& host) {
 	_host = host;	
+}
+
+void	Location::setName(const std::string& name) {
+	_name = name;	
 }
 
 void	Location::setPort(const std::string& strPort) {
@@ -126,8 +130,15 @@ std::string	Location::getHost( ) {
 	return _host;	
 }
 
-
+std::string	Location::getName( ) {
+	return _name;	
+}
 int	Location::getPort( ) {
 	return _port;	
 }
-
+std::string	Location::getReturn( ) {
+	return _return;	
+}
+std::string	Location::getAutoIndex( ) {
+	return _autoIndex;	
+}
