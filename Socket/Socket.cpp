@@ -136,7 +136,7 @@ int	Socket::readData(int clientSocket) {
 int	Socket::processRequest(int clientSocket) {
 	RequestHandler *requestHandler = new RequestHandler(_readData[clientSocket], clientSocket); //+ host:port et ou tous les serverus associés a la pair
 	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
-	requestHandler->process();
+	requestHandler->process(_servers);
 	_readData.erase(clientSocket);
 	return 1;
 }

@@ -18,7 +18,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 # Directories
-INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request Router
+INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request Router Socket
 INC_FLAGS = $(addprefix -I,$(INC_DIRS))
 
 # Headers and Source files

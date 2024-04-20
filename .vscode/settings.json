@@ -73,6 +73,7 @@
 		"ratio": "cpp",
 		"variant": "cpp",
 		"ranges": "cpp",
-		"span": "cpp"
+		"span": "cpp",
+		"set": "cpp"
 	}
 }
