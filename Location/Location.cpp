@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 19:01:49 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 11:57:54 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,31 @@ Location::Location( ) {
 	
 }
 
-Location::Location( Location &rhs) {
-	setName(rhs.getName());
-	setHost(rhs.getHost());
-	setPort(std::to_string(rhs.getPort()));
-	setClientBodySize(std::to_string(rhs._clientBodySize));
-	_errPages = rhs._errPages;
-	_rootDirName = rhs._rootDirName;
-	_index = rhs._index;
-	_methods = rhs._methods;
-	_autoIndex = rhs._autoIndex;
-	_return = rhs._return;
-	_cgiPath = rhs._cgiPath;
-	_extension = rhs._extension;
+Location::Location(const Location& defLoc, std::map <std::string, std::string> dictLoc,  std::string name) {
+	_setFnSetter(false);
+	setName(name);
+	_host = defLoc._host;
+	_errPages = _deepCopyMap(defLoc._errPages);
+
+	std::map <std::string, void (Location::*)(const std::string &)>::iterator it1;
+	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
+		if (dictLoc.find(it1->first) != dictLoc.end())
+			(this->*it1->second)(dictLoc.at(it1->first));
+	}
+	
+	std::map<std::string, std::string>::iterator it2;
+	for (it2 = dictLoc.begin(); it2 != dictLoc.end(); ++it2) {
+		const std::string& key = it2->first;
+		const std::string& value = it2->second;
+		
+		if (key.compare(0, 11, "error_page:") == 0) {
+			addErrPage(key.substr(key.find(':')), value);
+		}
+		else if (_fnSetter.find(key) == _fnSetter.end() ) {
+			throw CustomError(1, std::string("Invalid Field: " + key).c_str());
+		}
+	}
+	
 }
 
 
@@ -36,11 +48,9 @@ Location::~Location( ) {
 	
 }
 
-Location::Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host) {
+Location::Location (std::map <std::string, std::string> dictLoc) {
 	
-	setName(name);
-	setHost(host);
-	setFnSetter();
+	_setFnSetter(true);
 	std::map <std::string, void (Location::*)(const std::string &)>::iterator it1;
 	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
 		if (dictLoc.find(it1->first) != dictLoc.end())
@@ -58,11 +68,8 @@ Location::Location (std::map <std::string, std::string> dictLoc, std::string nam
 			addErrPage(key.substr(key.find(':')), value);
 		}
 		else if (_fnSetter.find(key) == _fnSetter.end() 
-					&& key.compare("host") != 0
-					&& key.compare("server_name") != 0
 					&& key.compare("location") != 0) {
-			std::cout << "err " << key  << std::endl;
-			//throw;
+			throw CustomError(1, std::string("Invalid Field: " + key).c_str());
 		}
 	}
 }
@@ -77,8 +84,11 @@ bool	Location::isMethodAllowed(std::string method) {
 	return false;
 }
 
-void	Location::setFnSetter( ) {
-	
+void	Location::_setFnSetter(bool def) {
+	if (def) {
+		_fnSetter["server_name"] = &Location::setName;
+		_fnSetter["host"] = &Location::setHost;
+	}
 	_fnSetter["listen"] = &Location::setPort;
 	_fnSetter["client_max_body_size"] = &Location::setClientBodySize;
 	_fnSetter["root"] = &Location::setRootDirName;
@@ -191,4 +201,28 @@ std::string	Location::getAutoIndex( ) {
 
 std::string	Location::getRootDirName() {
 	return _rootDirName;
+}
+
+std::map<std::string, std::string> Location::_deepCopyMap(const std::map<std::string, std::string>& original) {
+    std::map<std::string, std::string> copyMap;
+
+    // Iterate through the original map
+    for (std::map<std::string, std::string>::const_iterator it = original.begin(); it != original.end(); ++it) {
+        // Insert each key-value pair into the copy map
+        copyMap.insert(std::make_pair(it->first, it->second));
+    }
+
+    return copyMap;
+}
+
+std::vector<std::string> Location::_deepCopyVector(const std::vector<std::string>& original) {
+    std::vector<std::string> copyVector;
+
+    // Iterate through the original vector
+    for (std::vector<std::string>::const_iterator it = original.begin(); it != original.end(); ++it) {
+        // Copy each element to the copy vector
+        copyVector.push_back(*it);
+    }
+
+    return copyVector;
 }

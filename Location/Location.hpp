@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 20:40:44 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 11:58:02 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@
 #include <fstream>
 #include <algorithm>
 #include <unistd.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <sys/select.h>
-#include <fcntl.h>
 #include <vector>
+#include "CustomError.hpp"
 
 class Location {
 
@@ -44,10 +41,10 @@ class Location {
 		std::string							_extension;
 	public:
 		Location( );
-		Location(Location &rhs);
 		~Location( );
 
-		Location (std::map <std::string, std::string> dictLoc, std::string name, std::string host);
+		Location (std::map <std::string, std::string> dictLoc);
+		Location(const Location &defLoc, std::map <std::string, std::string> dictLoc,  std::string name);
 
 		bool	isMethodAllowed(std::string method);
 		//void	handleRequest(Request* requestHandler);
@@ -65,7 +62,7 @@ class Location {
 		void	setExtenstion(const std::string& extension);
 		void	print();
 
-		void	setFnSetter();
+		void	_setFnSetter(bool def);
 
 		void	addErrPage(const std::string& key, const std::string&value);
 		
@@ -75,6 +72,9 @@ class Location {
 		std::string	getReturn();
 		std::string	getAutoIndex();
 		std::string	getRootDirName();
+
+		std::vector<std::string> _deepCopyVector(const std::vector<std::string>& original);
+		std::map<std::string, std::string> _deepCopyMap(const std::map<std::string, std::string>& original);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 19:55:05 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:08:46 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,7 @@ void	Parser::addPair(size_t lhs, size_t rhs) {
 		std::string value = _line.substr(lhs + 1, rhs - lhs - 1);
 		if (!key.compare("location")) {
 			if (_line.find('{') == std::string::npos)
-				//throw error
-				std::cout << "pas bon? ";
+				throw CustomError(1, "Parsing error: missing bracket");
 			else {
 				_routeNames[_servCount - 1].push_back(value);
 			}
@@ -167,21 +166,18 @@ void	Parser::addPair(size_t lhs, size_t rhs) {
 		switch (_depth) {
 			case 0: {
 				_globalVar[key] = value;
-				// std::cout << "glob : "" << key << "=" << value << std::endl;
 				break;
 			}
 			case 1: {
 				_serverDict[_servCount - 1][key] = value;
-				// std::cout << "serv : " << key << "=" << value << std::endl;
 				break;
 			}
 			case 2: {
 				_routeDict[_servCount - 1][_routeCount][key] = value;
-				// std::cout << "route " << _routeNames[_routeCount] << " : " << key << "=" << value << std::endl;
 				break;
 			}
 			default: {
-				std::cout << "unexpected depth" << std::endl;
+				throw CustomError(1, "Parsing error: unexpected depth");
 				break;
 			}
 		}
@@ -206,10 +202,10 @@ std::vector <Server*> Parser::getServers( ) {
 		servers.push_back(tempServ);
 		tempServ->setAddress(serverMap.at("listen"), serverMap.at("host"));
 		
-		Location* defLoc = new Location(serverMap, serverMap.at("server_name"), serverMap.at("host"));
+		Location* defLoc = new Location(serverMap);
 		tempServ->addDefLoc(defLoc);	
 		for (size_t i = 0; i < _routeNames[servCount].size(); i ++) {
-			Location* tempLoc = new Location(_routeDict[servCount][i], _routeNames[servCount][i], "");
+			Location* tempLoc = new Location(*defLoc, _routeDict[servCount][i], _routeNames[servCount][i]);
 			tempServ->addLocation(tempLoc);
 		}	
 		servCount ++;

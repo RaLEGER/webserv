@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 21:04:08 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 11:22:13 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,9 @@ int	Socket::getClientSocket() {
 		std::cerr << "Accept error, could not retrieve client Socket" << std::endl;	
 		return -1;
 	}
-	else {
-		if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
-			std::cerr << "Accept error, could not retrieve client Socket" << std::endl;	
-			return -1;
-		}
+	if (fcntl(clientSocket, F_SETFL, O_NONBLOCK) == -1) {
+		std::cerr << "fcntl error, could not retrieve client Socket" << std::endl;	
+		return -1;
 	}
 	_readData.insert(std::make_pair(clientSocket, ""));
 	return clientSocket;
