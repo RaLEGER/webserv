@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 12:45:44 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/22 01:04:28 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,24 +114,62 @@ int	Socket::getClientSocket() {
 
 int	Socket::readData(int clientSocket) {
 	char	buffer[BUFF_SIZE];
-	
-    int bytes_received = recv(clientSocket, buffer, sizeof(buffer), 0);
-	
-	if (!bytes_received) {
+	int		bytes_received = recv(clientSocket, buffer, sizeof(buffer), 0);
+
+	if (bytes_received <= 0) {
 		_readData.erase(clientSocket);
-		std::cerr << "Connection closed, nothing to read" << std::endl;
+		if (bytes_received < 0) {
+			std::cerr << "Error reading from client socket" << std::endl;
+		} else {
+			std::cerr << "Connection closed, nothing to read" << std::endl;
+		}
 		return -1;
 	}
-	if (bytes_received == -1) {
-		_readData.erase(clientSocket);
-		std::cerr << "Error reading from client socket" << std::endl;
-		return -1;
-	}
-	_readData[clientSocket] += buffer;
+
+	_readData[clientSocket] += std::string(buffer, bytes_received);
+
+	// Check if the request is chunked
 	if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos) {
+		// Process the chunked data
+		while (true) {
+			// Find the end of the current chunk size
+			size_t pos = _readData[clientSocket].find("\r\n");
+			if (pos == std::string::npos) {
+				// Chunk size not complete, need more data
+				return 0;
+			}
+
+			// Extract the chunk size
+			std::string chunkSizeStr = _readData[clientSocket].substr(0, pos);
+			size_t chunkSize = std::stoul(chunkSizeStr, nullptr, 16);
+			if (chunkSize == 0) {
+				// End of chunks
+				return 1;
+			}
+
+			// Check if we have received the entire chunk
+			size_t totalChunkSize = pos + 2 /* for \r\n */ + chunkSize + 2 /* for \r\n */;
+			if (_readData[clientSocket].size() < totalChunkSize) {
+				// Chunk not complete, need more data
+				return 0;
+			}
+
+			// Extract the chunk data
+			std::string chunkData = _readData[clientSocket].substr(pos + 2, chunkSize);
+			// Remove the processed chunk from the buffer
+			_readData[clientSocket] = _readData[clientSocket].substr(totalChunkSize);
+
+			// Process the chunkData (e.g., handle or store it)
+			// Example: std::cout << "Received chunk: " << chunkData << std::endl;
+		}
+	}
+
+	// If not chunked, return 0 if entire request is not loaded
+	if (_readData[clientSocket].find("\r\n\r\n") == std::string::npos) {
 		return 0;
 	}
-	return 1; 
+
+	return 1;
 }
 
 int	Socket::processRequest(int clientSocket) {
