@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 21:20:06 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 14:22:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void ServerFarm::run() {
 			//send data
 			for (std::vector<int>::iterator it = _clientSocketReady.begin(); it != _clientSocketReady.end(); it++) {
 				if (FD_ISSET(*it, &runningWriteFds)) {
-					std::cout << "fd to send loop" << std::endl;
 					_clientSocketSocket[*it]->sendResponse(*it);
 					_clientSocketSocket.erase(*it);
 					_clientSocketReady.erase(it);
@@ -151,6 +150,7 @@ void ServerFarm::run() {
 						_clientSocketReady.push_back(clientSocket);
 					}
 					else if (readStatus == -1) {
+						_clientSocketSocket.erase(it);
 						FD_CLR(clientSocket, &_read_fds);
 						close(clientSocket);	
 					}

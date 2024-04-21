@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 11:22:13 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 14:24:56 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,17 @@ void	Socket::sendResponse(int clientSocket) {
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
-	delete _requestHandlers[clientSocket];
+	try {
+		delete _requestHandlers[clientSocket];
+	} catch (const std::exception& e) {
+		std::cerr << "Error deleting RequestHandler: " << e.what() << std::endl;
+	}
+	try {
+		_requestHandlers.erase(clientSocket);
+		delete _requestHandlers[clientSocket];
+	} catch (const std::exception& e) {
+		std::cerr << "Error erasing RequestHandler: " << e.what() << std::endl;
+	}
 	_requestHandlers.erase(clientSocket);
 	// remove from 
 }

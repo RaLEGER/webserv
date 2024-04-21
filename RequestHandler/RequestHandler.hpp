@@ -44,7 +44,7 @@ class RequestHandler {
         Server      *_server;
         Location    *_location;
 
-        CGIHandler *_cgiHandler;
+        //CGIHandler *_cgiHandler;
         std::string path;
 
         // Handling methods
