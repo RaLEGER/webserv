@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 11:57:54 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 21:02:41 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,28 @@ Location::Location( ) {
 	
 }
 
-Location::Location(const Location& defLoc, std::map <std::string, std::string> dictLoc,  std::string name) {
-	_setFnSetter(false);
-	setName(name);
-	_host = defLoc._host;
-	_errPages = _deepCopyMap(defLoc._errPages);
+Location& Location::operator=(const Location& rhs) {
+	if (this == &rhs) return *this;
+	_errPages = _deepCopyMap(rhs._errPages);
+	setName(rhs._name);
+	setHost(rhs._host);
+	_port = rhs._port;
+ 	_clientBodySize = rhs._clientBodySize;
+	setRootDirName(rhs._rootDirName);
+	setIndex(rhs._index);
+	_methods = _deepCopyVector(rhs._methods);
+	setAutoIndex(rhs._autoIndex);
+	setReturn(rhs._return);
+	setCgi(rhs._cgiPath);
+	setExtenstion(rhs._extension);
+	return *this;
+}
 
+Location::Location(const Location& defLoc, std::map <std::string, std::string> dictLoc, std::string name) {
+	*this = defLoc;
+	_setFnSetter(false);
+	if (name != "")
+		setName(name);
 	std::map <std::string, void (Location::*)(const std::string &)>::iterator it1;
 	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
 		if (dictLoc.find(it1->first) != dictLoc.end())

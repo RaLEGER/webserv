@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 14:24:56 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:45:44 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,10 +159,8 @@ void	Socket::sendResponse(int clientSocket) {
 	}
 	try {
 		_requestHandlers.erase(clientSocket);
-		delete _requestHandlers[clientSocket];
 	} catch (const std::exception& e) {
 		std::cerr << "Error erasing RequestHandler: " << e.what() << std::endl;
 	}
-	_requestHandlers.erase(clientSocket);
 	// remove from 
 }

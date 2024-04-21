@@ -1,1 +1,4 @@
 build/
+vgcore*
+tester
+webserv_tester/

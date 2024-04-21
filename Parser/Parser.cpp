@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 12:08:46 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 17:09:39 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ void Parser::setPos() {
 	_bracePos = _line.find('{');
 	_eqPos = _line.find('=');
 	_closeBracePos = _line.find('}');
+	_minPos = std::min(std::min(_bracePos, _eqPos), _closeBracePos);
 }
 
 Parser::Parser(const std::string& filename) {
 	_servCount = 0;
-	_routeCount = -1;
+	_routeCount = 0;
 	_depth = 0;
 	
     std::ifstream 	file(filename.c_str());
@@ -58,30 +59,28 @@ Parser::Parser(const std::string& filename) {
 			removeCharset(_line);
 			if (_line.empty())
 				continue;
-			size_t minPos = 0;
-			while (minPos != std::string::npos) {
+			_minPos = 0;
+			while (_minPos != std::string::npos) {
+				std::cout << _line << std::endl;
 				setPos();	
 				if (_bracePos < _eqPos) {
 					// { =
 					if (_eqPos < _closeBracePos) {
 						// { = }
-						minPos = _bracePos;
 						openBrace(_bracePos);
 						addPair(_eqPos, _closeBracePos);
-						closeBrace(_closeBracePos);
+						closeBrace();
 					}
 					else if (_closeBracePos < _bracePos) {
 						// } { =
-						minPos = _bracePos;
-						closeBrace(_closeBracePos);
+						closeBrace();
 						openBrace(_bracePos);
 						addPair(_eqPos, _line.size());
 					}
 					else {
 						// { } =
-						minPos = _bracePos;
 						openBrace(_bracePos);
-						closeBrace(_closeBracePos);
+						closeBrace();
 						addPair(_eqPos, _line.size());
 					}
 				}
@@ -89,23 +88,20 @@ Parser::Parser(const std::string& filename) {
 					// = {
 					if (_bracePos < _closeBracePos) {
 						// = { }
-						minPos = _eqPos;
-						addPair(_eqPos, std::min(_bracePos, _closeBracePos));
+						addPair(_eqPos, _bracePos);
 						openBrace(_bracePos);
-						closeBrace(_closeBracePos);
+						closeBrace();
 					}
 					else if (_closeBracePos < _eqPos) {
 						// } = {
-						minPos = _closeBracePos;
-						closeBrace(_closeBracePos);
+						closeBrace();
 						addPair(_eqPos, _bracePos);
 						openBrace(_bracePos);
 					}
 					else {
 						// = } {
-						minPos = _eqPos;
-						addPair(_eqPos, std::min(_bracePos, _closeBracePos));
-						closeBrace(_closeBracePos);
+						addPair(_eqPos, _closeBracePos);
+						closeBrace();
 						openBrace(_bracePos);
 					}	
 				}
@@ -120,9 +116,8 @@ void	Parser::openBrace(size_t pos) {
 		_depth ++;
 		if (_depth == 1) {
 			_servCount++;
-			if (_line.substr(0, _bracePos).compare("server"))
-				//eroor 
-				std::cout << "pas biueno" << std::endl;
+			if (_line.substr(0, _bracePos).compare("server")) 
+				throw CustomError(1, "Parsing Error: expected 'server' key");
 			_serverDict.push_back(std::map<std::string, std::string>());
 			_routeDict.push_back(std::vector <std::map<std::string, std::string> >());
 			_routeNames.push_back(std::vector <std::string>());
@@ -138,15 +133,19 @@ void	Parser::openBrace(size_t pos) {
 	}
 }
 
-void	Parser::closeBrace(size_t pos) {
-	if (pos != std::string::npos) {
+void	Parser::closeBrace() {
+
+	while (_minPos == _closeBracePos && _closeBracePos != std::string::npos) {
 		_depth --;
-		if (_depth == 0)
+		if (_depth == 0) {
 			_routeCount = 0;
-		if (pos != _line.size())
-			pos++;
-		_line = _line.substr(pos, _line.size() - pos);
-		setPos();	
+		}
+		if (_depth < 0)
+			throw CustomError(1, "Parsing error: unexpected closed bracket");
+		if (_closeBracePos != _line.size())
+			_closeBracePos++;
+		_line = _line.substr(_closeBracePos, _line.size() - _closeBracePos);
+		setPos();
 	}
 }
 
@@ -173,12 +172,11 @@ void	Parser::addPair(size_t lhs, size_t rhs) {
 				break;
 			}
 			case 2: {
-				_routeDict[_servCount - 1][_routeCount][key] = value;
+				_routeDict[_servCount - 1][_routeCount - 1][key] = value;
 				break;
 			}
 			default: {
 				throw CustomError(1, "Parsing error: unexpected depth");
-				break;
 			}
 		}
 		_line = _line.substr(rhs, _line.size() - rhs);
@@ -200,7 +198,20 @@ std::vector <Server*> Parser::getServers( ) {
 		std::map<std::string, std::string>& serverMap = *servIt;
 		Server* tempServ = new Server();
 		servers.push_back(tempServ);
-		tempServ->setAddress(serverMap.at("listen"), serverMap.at("host"));
+		std::string host, port;
+		try {
+			host = serverMap.at("host");
+		}
+		catch (const std::exception &e) {
+			throw CustomError(1, "Parsing Error: 'host' not found");
+		}
+		try {
+			port = serverMap.at("listen");
+		}
+		catch (const std::exception &e) {
+			throw CustomError(1, "Parsing Error: 'port' not found");
+		}
+		tempServ->setAddress(host, port);
 		
 		Location* defLoc = new Location(serverMap);
 		tempServ->addDefLoc(defLoc);	

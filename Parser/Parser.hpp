@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:58:40 by rleger            #+#    #+#             */
-/*   Updated: 2024/01/31 17:22:45 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/21 16:42:14 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class Parser {
 		int			_routeCount;
 		int			_depth;
 		std::string	_line;
+		size_t		_minPos;
 		size_t		_bracePos;
 		size_t		_eqPos;
 		size_t		_closeBracePos;
@@ -39,7 +40,7 @@ class Parser {
 		Parser(const std::string& filename);
 		void	openBrace(size_t pos);
 		void	addPair(size_t lhs, size_t rhs);
-		void	closeBrace(size_t pos);
+		void	closeBrace();
 		void	removeCharset(std::string &str);
 		void	setPos();
 		std::map <std::string, std::string> getGlobalVars( );
