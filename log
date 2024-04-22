@@ -1,0 +1,3956 @@
+client_max_body_size=10000
+server{listen=8081
+server_name=localhost
+host=127.0.0.1
+root=.
+index=index.html
+methods=GET,POST
+client_max_body_size=10000
+error_page:404=/custom/404.html
+error_page:500=/custom/500.html
+autoindex=on
+location=/cgi{root=./data
+root=./data
+methods=GET
+index=custom.html
+}location=/default{root=./data
+root=./data
+methods=GET
+autoindex=on
+}location=/google{methods=GET,POST
+methods=GET,POST
+return=https://www.google.com
+}location=cgiPython{extension=py
+extension=py
+methods=GET,POST
+cgi_path=/usr/bin/python3
+}location=cgiPHP{extension=php
+extension=php
+methods=GET,POST
+cgi_path=/usr/bin/php-cgi
+}location=cgiBla{extension=bla
+extension=bla
+methods=POST
+cgi_path=ubuntu_cgi_tester
+}}
+Parsed
+Setting sockets 
+Checking server : localhost - 127.0.0.1:8081
+ Creating new socket 
+created a new socket with fd: 3
+port: 8081
+host: 127.0.0.1
+Socket setup completed.
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /*/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./*/
+Path before method routing :./*/
+HANDLING METHOD GET
+Requesting ressource at path : ./*/
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /test/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./test/
+Path before method routing :./test/
+HANDLING METHOD GET
+Requesting ressource at path : ./test/
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /dzqdqz/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./dzqdqz/
+Path before method routing :./dzqdqz/
+HANDLING METHOD GET
+Requesting ressource at path : ./dzqdqz/
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test
+Path before method routing :./data/test
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 277
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/
+Path before method routing :./data/test/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/
+Handling directory
+Sending file ./data/test/index.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 140
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/psyche.html
+Path before method routing :./data/test/psyche.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/psyche.html
+Sending file ./data/test/psyche.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 2566
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/psyche.html
+Path before method routing :./data/test/psyche.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/psyche.html
+Sending file ./data/test/psyche.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 2566
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/dazdd HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/dazdd
+Path before method routing :./data/test/dazdd
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/dazdd
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/v HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/v
+Path before method routing :./data/test/v
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/v
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/ho HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/ho
+Path before method routing :./data/test/ho
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/ho
+----- ERROR ------
+(⊙…⊙ ) 404 File does not exists
+------------------
+Sending file ./data/default/404.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 8090
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data
+Path before method routing :./data
+HANDLING METHOD GET
+Requesting ressource at path : ./data
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 262
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test
+Path before method routing :./data/test
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 277
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/test/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/
+Path before method routing :./data/test/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/
+Handling directory
+Sending file ./data/test/index.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 140
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi
+Path before method routing :./data/cgi
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 274
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/hello_world.py HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/cgi/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/hello_world.py
+Path before method routing :./data/cgi/hello_world.py
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/hello_world.py
+Sending file ./data/cgi/hello_world.py
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 133
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/default HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/default
+Path before method routing :./data/default
+HANDLING METHOD GET
+Requesting ressource at path : ./data/default
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 286
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/default/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/default/
+Path before method routing :./data/default/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/default/
+Handling directory
+LIST DIRECTORY
+URL : 403.html
+URL : 413.html
+URL : 400.html
+URL : 414.html
+URL : 505.html
+URL : 431.html
+URL : 405.html
+URL : 301.html
+URL : 408.html
+URL : 501.html
+URL : .
+URL : 500.html
+URL : 404.html
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 689
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/default/413.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/default/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/default/413.html
+Path before method routing :./data/default/413.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/default/413.html
+Sending file ./data/default/413.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 1134
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/default/400.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/default/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/default/400.html
+Path before method routing :./data/default/400.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/default/400.html
+Sending file ./data/default/400.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 1121
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/default/405.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/default/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/default/405.html
+Path before method routing :./data/default/405.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/default/405.html
+Sending file ./data/default/405.html
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 1136
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/
+Path before method routing :./data/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/
+Handling directory
+LIST DIRECTORY
+URL : default
+URL : test
+URL : cgi
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 300
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi
+Path before method routing :./data/cgi
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi
+Handling directory
+-------- Redirection -------
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 274
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/invalid_syntax.py HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/cgi/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/invalid_syntax.py
+Path before method routing :./data/cgi/invalid_syntax.py
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/invalid_syntax.py
+Sending file ./data/cgi/invalid_syntax.py
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 157
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/get_test.py HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/cgi/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/get_test.py
+Path before method routing :./data/cgi/get_test.py
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/get_test.py
+Sending file ./data/cgi/get_test.py
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 770
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/hello_world.py HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:8081/data/cgi/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/hello_world.py
+Path before method routing :./data/cgi/hello_world.py
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/hello_world.py
+Sending file ./data/cgi/hello_world.py
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 133
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+cleint data read
+Request destroyed
+RequestHandler constructor called
+Parsing headers
+RequestString: GET /data/cgi/ HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/cgi/
+Path before method routing :./data/cgi/
+HANDLING METHOD GET
+Requesting ressource at path : ./data/cgi/
+Handling directory
+LIST DIRECTORY
+URL : get_test.py
+URL : hello_world.py
+URL : infinite_loop.py
+URL : invalid_syntax.py
+URL : .
+URL : ..
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+send value 413
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }

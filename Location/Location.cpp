@@ -211,6 +211,11 @@ std::string	Location::getReturn( ) {
 	return _return;	
 }
 
+
+std::string	Location::getIndex() {
+	return _index;	
+}
+
 std::string	Location::getAutoIndex( ) {
 	return _autoIndex;	
 }

@@ -141,7 +141,7 @@ int	Socket::readData(int clientSocket) {
 
 			// Extract the chunk size
 			std::string chunkSizeStr = _readData[clientSocket].substr(0, pos);
-			size_t chunkSize = std::stoul(chunkSizeStr, nullptr, 16);
+			size_t chunkSize = std::atol(chunkSizeStr.c_str());
 			if (chunkSize == 0) {
 				// End of chunks
 				return 1;

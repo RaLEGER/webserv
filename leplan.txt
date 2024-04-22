@@ -50,3 +50,9 @@ TODO :
 - check redirect ✅
 - check autoindex
 - fix initialize locations on defloc issue
+- make POST directories forbidden
+- implement DELETE directories
+
+
+1. Si la requête est vide, il faut renvoyer 400 
+2. La requête n'est pas vide

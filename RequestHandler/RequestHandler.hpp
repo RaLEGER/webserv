@@ -27,7 +27,7 @@ class RequestHandler {
         RequestHandler(std::string requestString, int clientSocket);
         ~RequestHandler();
 
-        // Handling methods
+        // Handling 
         void process(std::vector<Server *> servers);
         void handleRequest();
         void setResponseHeaders();
@@ -55,6 +55,9 @@ class RequestHandler {
         void redirect(std::string address);
         void listDirectory();
 
+        // Helpers
+        void getFileContent(std::string filepath);
+        void handleGetDirectory();
 };
 
 #endif // REQUESTHANDLER_HPP

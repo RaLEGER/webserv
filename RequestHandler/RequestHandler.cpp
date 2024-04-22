@@ -115,13 +115,7 @@ void RequestHandler::handleRequest()
     std::cout << "Path before method routing :" << path << std::endl;
 
     // Handle listDirectory
-    // if path is a directory and autoindex is set to true
-    // TODO : check if autoindex is set to true
-    if (path.at(path.length() - 1) == '/')
-    {
-        listDirectory();
-        return;
-    }
+
     
     // CGI Handling
     // if(true)
@@ -207,17 +201,81 @@ void RequestHandler::listDirectory()
     _response.setContentType("text/html");
 }
 
+bool isPathDirectory(std::string path)
+{
+    struct stat s;
+    if (stat(path.c_str(), &s) == 0)
+    {
+        if (s.st_mode & S_IFDIR)
+            return true;
+    }
+    return false;
+}
+
 void RequestHandler::Get() 
 {
     std::cout << "HANDLING METHOD GET" << std::endl;
     std::cout << "Requesting ressource at path : " << path << std::endl;
-    if(!::fileExists(path))
+
+    // Directory handling
+    // if path leads to a directory 
+    if (isPathDirectory(path))
+        return handleGetDirectory(); 
+
+    // Get file content
+    getFileContent(path);
+
+}
+
+void RequestHandler::handleGetDirectory()
+{
+    std::cout << "Handling directory" << std::endl;
+
+    // If the path does not end with a /, redirect to the same path with a /
+    if(path.at(path.length() - 1) != '/')
+    {
+        redirect(_request.getPath() + "/");
+        return;
+    }
+
+    // If there is an index, try to get the index file
+    if(_location->getIndex() != "")
+    {
+        std::string indexPath = path + _location->getIndex();
+        try {
+            if(fileExists(indexPath))
+            {
+                path = indexPath;
+                getFileContent(indexPath);
+                return;
+            }
+        }
+        catch(const CustomError &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+
+    // If no index file, and listDirectory is possible, do it
+    if(_location->getAutoIndex() == "on" && path.at(path.length() - 1) == '/' )
+    {
+        listDirectory();
+        return;
+    }
+
+    // If no valid index file and no directory listing, respond 404
+    throw CustomError(404, "Ressource is a directory, but no index and directory listing not allowed");
+}
+
+void RequestHandler::getFileContent(std::string filepath)
+{
+    if(!::fileExists(filepath))
         throw CustomError(404, "File does not exists");
-    else if(!::fileIsReadable(path))
+    else if(!::fileIsReadable(filepath))
         throw CustomError(403, "File is not readable");
     else
     {
-        _response.loadFileContent(path);
+        _response.loadFileContent(filepath);
         _response.setDefaultSuccess();
     }
 }

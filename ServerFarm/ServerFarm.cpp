@@ -143,7 +143,7 @@ void ServerFarm::run() {
 				if (FD_ISSET(clientSocket, &runningReadFds)) {
 					std::cout << "activated client loop" << std::endl;
 					int readStatus = it->second->readData(clientSocket);
-					if (readStatus) {
+					if (readStatus == 1) {
 						std::cout << "cleint data read" << std::endl;
 						it->second->processRequest(clientSocket);
 						FD_CLR(clientSocket, &_read_fds); //mandatory ? %
