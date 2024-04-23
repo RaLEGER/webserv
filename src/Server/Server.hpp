@@ -17,6 +17,7 @@
 #include "Location.hpp"
 #include <iostream>
 
+// #define HEADER_BUFF_SIZE 2048
 #define BUFF_SIZE 2048
 
 class Server

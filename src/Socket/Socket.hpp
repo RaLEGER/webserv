@@ -29,6 +29,9 @@ class Socket
 		
     	std::vector<int> 					_clientSockets;
 		std::map <int, std::string >		_readData;
+		
+		std::map <int, std::string >		_headers;
+		std::map <int, std::string >		_body;
 		std::map <int, RequestHandler* >	_requestHandlers;
 		
 		bool	_isDuplicate(std::string serverName);
@@ -45,8 +48,9 @@ class Socket
 
 		int		getSocket();
 		int		getClientSocket();
+		bool 	readHeaders(int clientSocket);
+		bool	readBody(int clientSocketFd);
 		int		readData(int clientSocket);
-		int		processRequest(int clientSocket);
 		void	sendResponse(int clientSocket);
 		
 };

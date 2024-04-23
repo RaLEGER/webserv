@@ -36,7 +36,7 @@ class Request {
         std::string path;
         std::string originalPath;
         std::string protocol;
-        std::string requestString;
+        std::string headersString;
         std::string body;
         std::string query;
         std::string responseString;
@@ -83,7 +83,6 @@ class Request {
         std::string         getQuery();
         std::string         getHostname();
         int                 getMethodCode();
-        std::string         getRequestString();
         int                 getClientSocket();
         int                 getServerSocket();
         std::string         getResponseString();
@@ -91,32 +90,30 @@ class Request {
         void                addHeader(std::string key, std::string value);
         std::map<std::string, std::string>        &getHeaders();
         void                getRequestConfig();
-        // Location*           getConfig();
-        // Response&           getResponse(){return _response;}
 
+        void                setBody(std::string &body);
+        void                appendToBody(std::string &body);
         void                setFileContent(std::string &fileContent);
         void                setResponseString(std::string &response);
-        void                setRequestString(std::string &request);
-        void                appendRequestString(std::string request);
-        // void                setConfig(Location* config);
-
+        bool                isChunked();
 
         /* Methods */
 
         // handling methods
-        void routingGet();
-        void routingPost();
-        void routingDelete();
-        void routingCGI();
-        void handleRequest(); 
-        void buildResponse();
-        void listDirectoryResponse();
+        // void routingGet();
+        // void routingPost();
+        // void routingDelete();
+        // void routingCGI();
+        // void handleRequest(); 
+        // void buildResponse();
+        // void listDirectoryResponse();
 
         // parsing methods
         bool parse();
         void parseMethodToken(const std::string& token);
         bool parseHTTPVersion(const std::string& token);
-        bool parseHeaders();
+        bool parseHeaders(std::string headersString);
+        bool parseHeadersList(std::string headersString);
         bool parseBody();
         bool parseURI(std::string token);
         

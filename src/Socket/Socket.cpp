@@ -111,48 +111,163 @@ int	Socket::getClientSocket() {
 	return clientSocket;
 }
 
-int	Socket::readData(int clientSocket) {
-	char	buffer[BUFF_SIZE];
-	int		bytes_received = recv(clientSocket, buffer, sizeof(buffer), 0);
-	bool	firstRecv = _readData.find(clientSocket) == _readData.end();
+bool Socket::readHeaders(int clientSocketFd) {
+	// by default, nginx sets 4 buffers of 8k bytes
+	char	buffer[8192];
+	int 	nb_buffers = 4;
+	int 	bytesRead;
 
-	
-	if (bytes_received < 0) {
-		std::cerr << "Error reading from client socket" << std::endl;
-		if (!firstRecv)
-			_readData.erase(clientSocket);
-		return -1;
+	std::string headers;
+	std::string body = "";
+
+	// Read headers until a blank line (end of headers) is encountered
+    while (nb_buffers && (bytesRead = recv(clientSocketFd, buffer, sizeof(buffer), 0)) > 0) {
+        headers.append(buffer, bytesRead);
+        // Check for end of headers (double CRLF)
+        if (headers.find("\r\n\r\n") != std::string::npos) {
+			std::cout << "End of headers found" << std::endl;
+
+			// Splice the beginning of the body from the headers
+			body = headers.substr(headers.find("\r\n\r\n") + 4);
+			headers = headers.substr(0, headers.find("\r\n\r\n") + 4);
+
+			std::cout << "Headers: " << std::endl << headers << std::endl;
+			std::cout << "Body: " << std::endl << body << std::endl;
+
+            break;
+        }
+		nb_buffers--;
+    }
+
+	// check if the body is fully read
+	// todo : fix issue of perfectly sized request
+	if(bytesRead < 8192) {
+		std::cout << "request fully read" << std::endl;
+		_requestHandlers[clientSocketFd]->setIsBodyComplete(true);
 	}
-	if (bytes_received  == 0) {
-		if (firstRecv) {
-			std::cerr << "Connection closed, nothing to read" << std::endl;
+
+	if (bytesRead < 0) {
+		std::cerr << "Error reading from client socket" << std::endl;
+		throw CustomError(1, "Error reading from client socket");
+	}
+
+	// If no data was read, return an error
+	if (headers.empty()) {
+		std::cerr << "No headers read from client socket" << std::endl;
+		return false;
+	}
+
+	// If headers are too long, return an error
+	if (headers.find("\r\n\r\n") == std::string::npos)
+	{
+		std::cerr << "Headers too long" << std::endl;
+		// TODO : set a response
+		return false;
+	}
+
+	std::cout << "Headers Successfully Read : " << std::endl << headers << std::endl;
+
+	// Else add headers and beginning of body to the maps and return success
+	_headers.insert(std::make_pair(clientSocketFd, headers));
+	_body.insert(std::make_pair(clientSocketFd, body));
+	return true;
+}
+
+// Returns true if the body is complete, false otherwise
+bool Socket::readBody(int clientSocketFd) {
+	// max 1MB body size in 8k buffers
+	char	buffer[8192];
+	int 	nb_buffers = 128;
+	int 	bytesRead;
+
+
+	if(_requestHandlers[clientSocketFd]->getIsChunkedRequest()) {
+		// read chunked body
+
+		std::string body = "";
+
+		std::cout << "reading chunked body in socket " << clientSocketFd << std::endl;
+
+		
+
+	}
+	else {
+		// read body
+		// TODO :until content length is read or else error
+		std::string body = "";
+
+		std::cout << "reading body in socket " << clientSocketFd << std::endl;
+
+		while (nb_buffers && (bytesRead = recv(clientSocketFd, buffer, sizeof(buffer), 0)) > 0) {
+			body.append(buffer, bytesRead);
+			nb_buffers--;
+		}
+
+		if (bytesRead < 0) {
+			std::cerr << "Error reading from client socket" << std::endl;
+			std::cerr << strerror(errno) << std::endl;
+			throw CustomError(1, "Error reading from client socket");
+		}
+
+
+		_body[clientSocketFd] = body;
+		return true;
+	}
+	return false;
+}
+
+int	Socket::readData(int clientSocket) {
+	// check if a request handler already exists for this client socket
+	bool requestHandlerExists = _requestHandlers.find(clientSocket) != _requestHandlers.end();
+	bool isBodyComplete = false;
+
+	// if not, create a new one and try to parse the headers
+	if(!requestHandlerExists) {
+		_requestHandlers[clientSocket] = new RequestHandler(clientSocket);
+
+		// read the headers
+		try {
+			readHeaders(clientSocket);
+		} catch (const std::exception& e) {
+			std::cerr << "Error reading headers: " << e.what() << std::endl;
 			return -1;
 		}
-		else 
-			return 1;
-	}
-	if (firstRecv)
-		_readData.insert(std::make_pair(clientSocket, std::string(buffer, bytes_received)));
-	else if (bytes_received)
-		_readData[clientSocket].append(std::string(buffer, bytes_received));
 
-	if (bytes_received == BUFF_SIZE) {
-		std::cout << "not all read" << std::endl;
+		// parse the headers
+		if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket]))
+		{
+			std::cerr << "Error parsing headers" << std::endl;
+			// TODO : clear the socket to prepare to send response
+			return -1;
+		}
+
+	}
+
+	// read the body 
+	try {
+		if(!_requestHandlers[clientSocket]->getIsBodyComplete())
+			isBodyComplete = readBody(clientSocket);
+		else 
+			isBodyComplete = true;
+	} catch (const std::exception& e) {
+		std::cerr << "Error reading body: " << e.what() << std::endl;
+		return -1;
+	}
+
+	// If the request is complete, process it and send the response
+	// Else, keep reading
+	if(isBodyComplete)
+	{
+		std::cout << "Body is complete" << std::endl;
+		std::cout << "processing request" << std::endl;
+		_requestHandlers[clientSocket]->setBody(_body[clientSocket]);
+		_requestHandlers[clientSocket]->process(_servers);
+		return 1;
+	}
+	else 
+	{
 		return 0;
 	}
-	//a crer ou pas
-	//if exist pas
-	RequestHandler *requestHandler = new RequestHandler(_readData[clientSocket], clientSocket); //+ host:port et ou tous les serverus associés a la pair
-	_requestHandlers.insert(std::make_pair(clientSocket, requestHandler));
-	_requestHandlers[clientSocket]->process(_servers);
-	_readData.erase(clientSocket);
-	//if exist
-	//_requestHandlers
-	//ret = _ReqsuestHandlers[clientSocket]->(); 
-	//call chunk
-	
-	std::cout << _readData[clientSocket] << std::endl;
-	return 1;
 }
 
 

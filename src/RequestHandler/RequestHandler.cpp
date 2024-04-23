@@ -9,9 +9,11 @@ RequestHandler::RequestHandler()
     std::cout << "RequestHandler default constructor called" << std::endl;
 }
 
-RequestHandler::RequestHandler(std::string requestString, int clientSocket)
+RequestHandler::RequestHandler(int clientSocket)
 {
-    _request = Request(requestString);
+    isValidHeaders = false;
+    isChunkedRequest = false;
+    _request = Request();
     _clientSocket = clientSocket;
     std::cout << "RequestHandler constructor called" << std::endl;
     // _request = request;
@@ -21,6 +23,31 @@ RequestHandler::~RequestHandler()
 {
     std::cout << "RequestHandler destructor called" << std::endl;
 }
+
+// PARSING METHODS 
+
+bool RequestHandler::parseHeaders(std::string headers)
+{
+    try {
+        _request.parseHeaders(headers);
+        isValidHeaders = true;
+        isChunkedRequest = _request.isChunked();
+        return true;
+    } catch (const CustomError &e) {
+        // if headers parsing failed, set a response with the error code
+        std::cerr << e.what() << std::endl;
+        _response = Response(e.getErrorCode(), e.what());
+        return false;
+    }
+}
+
+void RequestHandler::setBody(std::string body)
+{
+    _request.setBody(body);
+}
+
+
+// HANDLING METHODS
 
 void RequestHandler::buildFinalPath() 
 {
@@ -75,9 +102,6 @@ void RequestHandler::process(std::vector<Server *> servers)
 {
     try
     {
-        // Parse the request
-        _request.parse();
-
         // Root the request 
         _server = routeRequestToServer(&_request, servers);
         _location = routeRequestToLocation(&_request, _server);
@@ -402,4 +426,25 @@ std::string RequestHandler::getResponseString()
 {
     
     return _response.getSerializedResponse();
+}
+
+bool RequestHandler::getIsChunkedRequest()
+{
+    return isChunkedRequest;
+}
+
+bool RequestHandler::getIsValidHeaders()
+{
+    return isValidHeaders;
+}
+
+
+bool RequestHandler::getIsBodyComplete()
+{
+    return isBodyComplete;
+}
+
+void RequestHandler::setIsBodyComplete(bool value)
+{
+    isBodyComplete = value;
 }

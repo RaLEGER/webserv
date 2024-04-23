@@ -140,7 +140,12 @@ void ServerFarm::run() {
 				
 				if (FD_ISSET(clientSocket, &runningReadFds)) {
 					std::cout << "activated client loop" << std::endl;
+					// 1 : socket wants to go in write mode 
+					// 0 : socket wants to stay in read mode
+					// -1 : socket wants to be closed
 					int readStatus = it->second->readData(clientSocket);
+
+
 					if (readStatus == 1) {
 						std::cout << "cleint data read" << std::endl;
 						FD_CLR(clientSocket, &_read_fds);

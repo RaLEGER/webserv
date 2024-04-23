@@ -26,11 +26,6 @@ Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket
     // _config = NULL;
 }
 
-Request::Request(std::string &rawRequest) {
-    // std::cout << "Request Constructor with RawRequest" << std::endl;
-    requestString = rawRequest;
-}
-
         /* Constructors & Destructors */
 Request::Request()
 {
@@ -43,12 +38,12 @@ Request::~Request() {
 }
 
 // This function parses the request string and fills the request object
-bool Request::parse(){
+bool Request::parseHeaders(std::string headersString) {
 
     // lastActivityTime = ft_now();
 
     // Extract the first line of the request
-    std::string firstLine = requestString.substr(0, requestString.find("\r\n"));
+    std::string firstLine = headersString.substr(0, headersString.find("\r\n"));
     std::vector<std::string> tokens = splitWithSep(firstLine, ' ');
    
     // Check that the first line has the correct number of tokens (3) 
@@ -59,13 +54,8 @@ bool Request::parse(){
     parseMethodToken(tokens[0]);
     parseURI(tokens[1]);
     parseHTTPVersion(tokens[2]);
-    parseHeaders();
-
-    // if the method is POST, PUT or DELETE, parse the body
-    if (method == "POST" || method == "PUT" || method == "DELETE")
-        parseBody();
+    parseHeadersList(headersString);
         
-
     // std::cout << " ---------- HEADER VALUES ---------- " << std::endl;
     // std::cout << "Method: " << method << std::endl;
     // std::cout << "Path: " << path << std::endl;
@@ -140,32 +130,32 @@ void Request::addHeader(std::string key, std::string value)
 }
 
 // Check headers validity, parse and set them
-bool Request::parseHeaders()
+bool Request::parseHeadersList(std::string headersString)
 {
 
     std::cout << "Parsing headers" << std::endl;
-    std::cout << "RequestString: " << requestString << std::endl;
+    std::cout << "headersString: " << headersString << std::endl;
 
     // if (requestHeaderString.size() > MAX_HEADER_LEN)
     //     throw CustomError(431, "Header too long");
 
     std::string delimiter = "\r\n";
     std::string separator = ": ";
-    std::string tmpRequestString = requestString;
+    std::string tmpHeadersString = headersString;
 
     // If the request string does not contain a double line break, there are no headers
-    size_t sepPos = tmpRequestString.find(separator);
+    size_t sepPos = tmpHeadersString.find(separator);
     if (sepPos == std::string::npos) 
         throw CustomError(400, "No headers found in request. Host header is required.");
 
     // Iterate over the request string line by line
-    size_t delimiterPos = tmpRequestString.find(delimiter);
+    size_t delimiterPos = tmpHeadersString.find(delimiter);
     while (delimiterPos != std::string::npos)
     {
         // extract the current line and remove it from the request string
-        std::string line = tmpRequestString.substr(0, delimiterPos);
+        std::string line = tmpHeadersString.substr(0, delimiterPos);
         
-        tmpRequestString.erase(0, delimiterPos + delimiter.length());
+        tmpHeadersString.erase(0, delimiterPos + delimiter.length());
 
         // If the line is empty, the headers are finished
         if (line.empty()) 
@@ -182,7 +172,7 @@ bool Request::parseHeaders()
 
             addHeader(key, value);
         }
-        delimiterPos = tmpRequestString.find(delimiter);
+        delimiterPos = tmpHeadersString.find(delimiter);
     }
 
     //Check that Host header is present
@@ -207,22 +197,29 @@ bool Request::parseBody()
     std::cout << "Parsing body" << std::endl;
     
     // Check that the body size does not exceed the limit
-    if (requestString.size() > maxBodySize) 
+    if (body.size() > maxBodySize) 
         throw CustomError(413, "Body exceeds size limit");
 
     // Find the position of the first double line break
-    size_t bodyStartPos = requestString.find("\r\n\r\n");
-    if (bodyStartPos == std::string::npos) 
-    {
-        std::cout << "NO DOUBLE LINE BREAKS" << body << std::endl; 
-        // Double line break not found, body is empty
-        return true;
-    }
+    // size_t bodyStartPos = body.find("\r\n\r\n");
+    // if (bodyStartPos == std::string::npos) 
+    // {
+    //     std::cout << "NO DOUBLE LINE BREAKS" << body << std::endl; 
+    //     // Double line break not found, body is empty
+    //     return true;
+    // }
 
     // Extract the body from the requestString
-    body = requestString.substr(bodyStartPos + 4);
+    // body = requestString.substr(bodyStartPos + 4);
 
     return true;
+}
+
+
+bool    Request::isChunked()
+{
+    return headers.count("Transfer-Encoding") && headers["Transfer-Encoding"] == "chunked";
+
 }
 
 // GETTERS
@@ -256,10 +253,6 @@ int Request::getMethodCode() {
     return methodCode;
 }
 
-std::string Request::getRequestString() {
-    return requestString;
-}
-
 int Request::getClientSocket() {
     return clientSocket;
 }
@@ -281,19 +274,9 @@ std::string Request::getHostname()
 
 // SETTERS
 
-void Request::setResponseString(std::string &rs)
+void    Request::setBody(std::string &body)
 {
-    responseString = rs;
-}
-
-void Request::setRequestString(std::string &rs)
-{
-    requestString = rs;
-}
-
-void Request::appendRequestString(std::string rs)
-{
-    requestString = requestString + rs;
+    this->body = body;
 }
 
 void Request::clear(void)
@@ -302,9 +285,8 @@ void Request::clear(void)
     path.clear();
     originalPath.clear();
     protocol.clear();
-    requestString.clear();
+    headersString.clear();
     body.clear();
-    responseString.clear();
     fileContent.clear();
     headers.clear();
     // std::cout << "CLIENT SOCKET CLEARED: fd - " << getClientSocket() << ", curRequestTime=" << curRequestTime << std::endl;

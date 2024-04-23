@@ -24,8 +24,12 @@ class RequestHandler {
 
         // Canonical
         RequestHandler();
-        RequestHandler(std::string requestString, int clientSocket);
+        RequestHandler(int clientSocket);
         ~RequestHandler();
+
+        // Parsing
+        bool parseHeaders(std::string headers);
+        void setBody(std::string body);
 
         // Handling 
         void process(std::vector<Server *> servers);
@@ -34,15 +38,23 @@ class RequestHandler {
         void buildFinalPath();
 
         // Getters & Setters
+        bool getIsBodyComplete();
+        void setIsBodyComplete(bool value);
         std::string getResponseString();
         Response &getResponse();
         int _clientSocket;
+        bool getIsChunkedRequest();
+        bool getIsValidHeaders();
 
     private:
         Response    _response;
         Request     _request;
         Server      *_server;
         Location    *_location;
+
+        bool        isBodyComplete;
+        bool        isChunkedRequest;
+        bool        isValidHeaders;
 
         //CGIHandler *_cgiHandler;
         std::string path;
