@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 12:21:41 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/23 12:49:53 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	Socket::readData(int clientSocket) {
 	bool	firstRecv = _readData.find(clientSocket) == _readData.end();
 
 	
-	_readData.insert(std::make_pair(clientSocket, ""));
 	if (bytes_received < 0) {
 		std::cerr << "Error reading from client socket" << std::endl;
 		if (!firstRecv)
@@ -175,8 +174,10 @@ int	Socket::readData(int clientSocket) {
 
 	// If not chunked, return 0 if entire request is not loaded
 	if (bytes_received == BUFF_SIZE) {
+		std::cout << "not all read" << std::endl;
 		return 0;
 	}
+	std::cout << _readData[clientSocket] << std::endl;
 	return 1;
 }
 
