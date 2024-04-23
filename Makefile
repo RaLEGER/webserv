@@ -6,24 +6,28 @@
 #    By: rleger <rleger@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/19 14:22:30 by rleger            #+#    #+#              #
-#    Updated: 2024/04/21 14:30:47 by rleger           ###   ########.fr        #
+#    Updated: 2024/04/23 12:22:57 by rleger           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = webserv
+NAME = 		webserv
 BUILD_DIR = build
+SRC_DIR =	src
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 RM = rm -rf
 
 # Directories
-INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CustomError CGIHandler Utils Request Router Socket
-INC_FLAGS = $(addprefix -I,$(INC_DIRS))
+INC_DIRS = ServerFarm Parser Location Server RequestHandler Response CGIHandler Utils Request Router Socket
+INC_FLAGS = $(addprefix -I$(SRC_DIR)/,$(INC_DIRS))
 
 # Headers and Source files
-HEAD = $(wildcard $(addsuffix /*.hpp,$(INC_DIRS)))
-SRCS = $(wildcard $(addsuffix /*.cpp,$(INC_DIRS))) main.cpp
+
+SRCS := $(foreach dir,$(INC_DIRS),$(SRC_DIR)/$(dir)/$(dir).cpp)
+SRCS += main.cpp
+
+HEAD := $(foreach dir,$(INC_DIRS),$(SRC_DIR)/$(dir)/$(dir).hpp)
 
 OBJS = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 
