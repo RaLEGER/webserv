@@ -17,7 +17,7 @@ def test_upload(file_path):
             response = requests.post(url, files=files)
 
             # Check the response status code
-            if response.status_code == 200:
+            if response.status_code == 200 or response.status_code == 201:
                 print("File uploaded successfully!")
                 print(response.text)  # Assuming your server returns some confirmation
             else:

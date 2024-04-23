@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 12:49:53 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:34:03 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,13 @@ int	Socket::readData(int clientSocket) {
 	}
 	if (firstRecv)
 		_readData.insert(std::make_pair(clientSocket, std::string(buffer, bytes_received)));
-	else
+	else if (bytes_received)
 		_readData[clientSocket].append(std::string(buffer, bytes_received));
+
+	if (bytes_received == BUFF_SIZE) {
+		std::cout << "not all read" << std::endl;
+		return 0;
+	}
 
 	// Check if the request is chunked
 	if (_readData[clientSocket].find("Transfer-Encoding: chunked") != std::string::npos) {
@@ -173,10 +178,6 @@ int	Socket::readData(int clientSocket) {
 	}
 
 	// If not chunked, return 0 if entire request is not loaded
-	if (bytes_received == BUFF_SIZE) {
-		std::cout << "not all read" << std::endl;
-		return 0;
-	}
 	std::cout << _readData[clientSocket] << std::endl;
 	return 1;
 }

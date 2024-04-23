@@ -4311,9 +4311,9 @@ Accept-Encoding: gzip, deflate, br
 Accept: */*
 Connection: keep-alive
 Content-Length: 869896
-Content-Type: multipart/form-data; boundary=9d7541b81b7de2627e9ea0ddb85f675d
+Content-Type: multipart/form-data; boundary=2bc684882542d4e9fbb952e308091207
 
---9d7541b81b7de2627e9ea0ddb85f675d
+--2bc684882542d4e9fbb952e308091207
 Content-Disposition: form-data; name="file"; filename="English-Quran-plain-text.txt"
 
 THE HOLY
@@ -19315,7 +19315,7 @@ SURA 114. AN-NAS (MANKIND)
 310
 
 
---9d7541b81b7de2627e9ea0ddb85f675d--
+--2bc684882542d4e9fbb952e308091207--
 
 cleint data read
 Request destroyed
@@ -19328,9 +19328,9 @@ Accept-Encoding: gzip, deflate, br
 Accept: */*
 Connection: keep-alive
 Content-Length: 869896
-Content-Type: multipart/form-data; boundary=9d7541b81b7de2627e9ea0ddb85f675d
+Content-Type: multipart/form-data; boundary=2bc684882542d4e9fbb952e308091207
 
---9d7541b81b7de2627e9ea0ddb85f675d
+--2bc684882542d4e9fbb952e308091207
 Content-Disposition: form-data; name="file"; filename="English-Quran-plain-text.txt"
 
 THE HOLY
@@ -34332,7 +34332,7 @@ SURA 114. AN-NAS (MANKIND)
 310
 
 
---9d7541b81b7de2627e9ea0ddb85f675d--
+--2bc684882542d4e9fbb952e308091207--
 
 Parsing body
 Routing request to server
@@ -34353,7 +34353,7 @@ Extension:
  ---------- CURRENT LOCATION VALUES ---------- 
 Final path : ./data/result.txt
 Path before method routing :./data/result.txt
---9d7541b81b7de2627e9ea0ddb85f675d
+--2bc684882542d4e9fbb952e308091207
 Content-Disposition: form-data; name="file"; filename="English-Quran-plain-text.txt"
 
 THE HOLY
@@ -49355,9 +49355,9 @@ SURA 114. AN-NAS (MANKIND)
 310
 
 
---9d7541b81b7de2627e9ea0ddb85f675d--
+--2bc684882542d4e9fbb952e308091207--
 
-File don't exist
+File exist
 sever socket loop
 running
 client socket ready 4
@@ -49366,7 +49366,7 @@ max fd: 4
 Read fds: { 3 }
 Write fds: { 4 }
 Client socket ready: { 4 }
-send value 43
+send value 38
 RequestHandler destructor called
 Request destroyed
 sever socket loop
