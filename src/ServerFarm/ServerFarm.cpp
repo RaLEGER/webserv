@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 12:17:19 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:40:37 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ void ServerFarm::run() {
 					int readStatus = it->second->readData(clientSocket);
 					if (readStatus == 1) {
 						std::cout << "cleint data read" << std::endl;
-						it->second->processRequest(clientSocket);
 						FD_CLR(clientSocket, &_read_fds);
 						_clientSocketReady.push_back(clientSocket);
 					}
