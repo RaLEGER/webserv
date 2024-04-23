@@ -183,12 +183,23 @@ bool Socket::readBody(int clientSocketFd) {
 
 	if(_requestHandlers[clientSocketFd]->getIsChunkedRequest()) {
 		// read chunked body
-
+		std::string chunkSizeStr;
+		int chunkSize;
 		std::string body = "";
 
 		std::cout << "reading chunked body in socket " << clientSocketFd << std::endl;
 
+		// read chunk
+		recv(clientSocketFd, buffer, sizeof(buffer), 0);
+
+		// get chunk size
+		chunkSizeStr = buffer;
+		chunkSize = std::stoi(chunkSizeStr, 0, 16);
+
+		// read chunk
 		
+
+
 
 	}
 	else {
