@@ -45,6 +45,7 @@ class RequestHandler {
         int _clientSocket;
         bool getIsChunkedRequest();
         bool getIsValidHeaders();
+        bool isRequestFullyRead;
 
     private:
         Response    _response;

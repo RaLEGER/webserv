@@ -13,6 +13,7 @@ RequestHandler::RequestHandler(int clientSocket)
 {
     isValidHeaders = false;
     isChunkedRequest = false;
+    isRequestFullyRead = false;
     _request = Request();
     _clientSocket = clientSocket;
     std::cout << "RequestHandler constructor called" << std::endl;
@@ -51,10 +52,6 @@ void RequestHandler::setBody(std::string body)
 
 void RequestHandler::buildFinalPath() 
 {
-    // temp : we set this variable by hand, but they will depend on the Server and Location
-    std::string root =  "/";
-    std::string index = "index.html";
-    std::string type = "none";
 
 
     std::cout << " ---------- CURRENT LOCATION VALUES ---------- " << std::endl;
@@ -95,6 +92,7 @@ void RequestHandler::buildFinalPath()
 
     // add . at the beginning of the path
     path =  _location->getRootDirName() + _request.getPath();
+    std::cout << "Request path : " << _request.getPath() << std::endl;
     std::cout << "Final path : " << path << std::endl;
 }
 

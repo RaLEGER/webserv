@@ -28,10 +28,11 @@ class Socket
 		std::vector <Server*>	_servers;
 		
     	std::vector<int> 					_clientSockets;
-		std::map <int, std::string >		_readData;
 		
+		std::map <int, std::string >		_readData;
 		std::map <int, std::string >		_headers;
 		std::map <int, std::string >		_body;
+
 		std::map <int, RequestHandler* >	_requestHandlers;
 		
 		bool	_isDuplicate(std::string serverName);

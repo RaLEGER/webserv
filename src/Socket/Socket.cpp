@@ -131,20 +131,13 @@ bool Socket::readHeaders(int clientSocketFd) {
 			body = headers.substr(headers.find("\r\n\r\n") + 4);
 			headers = headers.substr(0, headers.find("\r\n\r\n") + 4);
 
-			std::cout << "Headers: " << std::endl << headers << std::endl;
-			std::cout << "Body: " << std::endl << body << std::endl;
+			// std::cout << "Headers: " << std::endl << headers << std::endl;
+			// std::cout << "Body: " << std::endl << body << std::endl;
 
             break;
         }
 		nb_buffers--;
     }
-
-	// check if the body is fully read
-	// todo : fix issue of perfectly sized request
-	if(bytesRead < 8192) {
-		std::cout << "request fully read" << std::endl;
-		_requestHandlers[clientSocketFd]->setIsBodyComplete(true);
-	}
 
 	if (bytesRead < 0) {
 		std::cerr << "Error reading from client socket" << std::endl;
@@ -165,11 +158,20 @@ bool Socket::readHeaders(int clientSocketFd) {
 		return false;
 	}
 
-	std::cout << "Headers Successfully Read : " << std::endl << headers << std::endl;
 
 	// Else add headers and beginning of body to the maps and return success
-	_headers.insert(std::make_pair(clientSocketFd, headers));
-	_body.insert(std::make_pair(clientSocketFd, body));
+	_headers.insert(std::make_pair(clientSocketFd, headers)); // USELESS ? better to return headers directly
+
+	// check if the body is fully read
+	// todo : fix issue of perfectly sized request
+	if(bytesRead < 8192) {
+		std::cout << "request fully read" << std::endl;
+		_requestHandlers[clientSocketFd]->setIsBodyComplete(true);
+		_requestHandlers[clientSocketFd]->isRequestFullyRead = true;
+	}
+
+	// put the beginning of the body in the readData
+	_readData.insert(std::make_pair(clientSocketFd, body));
 	return true;
 }
 
@@ -177,33 +179,34 @@ bool Socket::readHeaders(int clientSocketFd) {
 bool Socket::readBody(int clientSocketFd) {
 	// max 1MB body size in 8k buffers
 	char	buffer[8192];
-	int 	nb_buffers = 128;
+	int 	nb_buffers = 4;
 	int 	bytesRead;
 
 
 	if(_requestHandlers[clientSocketFd]->getIsChunkedRequest()) {
-		// read chunked body
-		std::string chunkSizeStr;
-		int chunkSize;
-		std::string body = "";
+		// Chunked body handling 
 
-		std::cout << "reading chunked body in socket " << clientSocketFd << std::endl;
+		// Read a certain amount of data (4 buffers of 4k bytes ?) and append it to the readData
 
-		// read chunk
-		recv(clientSocketFd, buffer, sizeof(buffer), 0);
+		// Parse the chunked body into blocks in _body(clientSocket)
 
-		// get chunk size
-		chunkSizeStr = buffer;
-		chunkSize = std::stoi(chunkSizeStr, 0, 16);
-
-		// read chunk
+		// If the request is fully read, set the body and isBodyComplete to true
+		// _request_handler[clientSocketFd]->setBody(_body[clientSocketFd])
+		// _request_handler[clientSocketFd]->setIsBodyComplete(true)
 		
-
-
 
 	}
 	else {
-		// read body
+		std::cout << "reading body in socket " << clientSocketFd << std::endl;
+		std::cout << "readData " << _readData[clientSocketFd] << std::endl;
+		// take remaining body from readData
+		_body[clientSocketFd] = _readData[clientSocketFd];
+		_readData[clientSocketFd] = "";
+
+		// If the request is fully read, return
+		if (_requestHandlers[clientSocketFd]->isRequestFullyRead) 
+			return true;
+
 		// TODO :until content length is read or else error
 		std::string body = "";
 
@@ -244,6 +247,9 @@ int	Socket::readData(int clientSocket) {
 			return -1;
 		}
 
+		// std::cout << "Headers read" << std::endl;
+		// std::cout << "Headers: " << _headers[clientSocket] << std::endl;
+
 		// parse the headers
 		if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket]))
 		{
@@ -256,16 +262,13 @@ int	Socket::readData(int clientSocket) {
 
 	// read the body 
 	try {
-		if(!_requestHandlers[clientSocket]->getIsBodyComplete())
-			isBodyComplete = readBody(clientSocket);
-		else 
-			isBodyComplete = true;
+		isBodyComplete = readBody(clientSocket);
 	} catch (const std::exception& e) {
 		std::cerr << "Error reading body: " << e.what() << std::endl;
 		return -1;
 	}
 
-	// If the request is complete, process it and send the response
+	// If the request body is complete, process it and send the response
 	// Else, keep reading
 	if(isBodyComplete)
 	{
@@ -292,6 +295,7 @@ void	Socket::sendResponse(int clientSocket) {
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
+
 	try {
 		delete _requestHandlers[clientSocket];
 	} catch (const std::exception& e) {
@@ -299,6 +303,9 @@ void	Socket::sendResponse(int clientSocket) {
 	}
 	try {
 		_requestHandlers.erase(clientSocket);
+		_headers.erase(clientSocket);
+		_body.erase(clientSocket);
+		_readData.erase(clientSocket);
 	} catch (const std::exception& e) {
 		std::cerr << "Error erasing RequestHandler: " << e.what() << std::endl;
 	}

@@ -1,0 +1,513 @@
+client_max_body_size=10000
+server{listen=8081
+server_name=localhost
+host=127.0.0.1
+root=.
+index=index.html
+methods=GET,POST
+client_max_body_size=10000
+error_page:404=/custom/404.html
+error_page:500=/custom/500.html
+autoindex=on
+location=/cgi{root=./data
+root=./data
+methods=GET
+index=custom.html
+}location=/default{root=./data
+root=./data
+methods=GET
+autoindex=on
+}location=/google{methods=GET,POST
+methods=GET,POST
+return=https://www.google.com
+}location=cgiPython{extension=py
+extension=py
+methods=GET,POST
+cgi_path=/usr/bin/python3
+}location=cgiPHP{extension=php
+extension=php
+methods=GET,POST
+cgi_path=/usr/bin/php-cgi
+}location=cgiBla{extension=bla
+extension=bla
+methods=POST
+cgi_path=ubuntu_cgi_tester
+}}
+Parsed
+Setting sockets 
+Checking server : localhost - 127.0.0.1:8081
+ Creating new socket 
+created a new socket with fd: 3
+port: 8081
+host: 127.0.0.1
+Socket setup completed.
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 3
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+Request destroyed
+RequestHandler constructor called
+End of headers found
+Headers: 
+GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Body: 
+
+Headers Successfully Read : 
+GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+request fully read
+Parsing headers
+headersString: GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+reading body in socket 4
+readData 
+Body is complete
+processing request
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/psyche.html
+Path before method routing :./data/test/psyche.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/psyche.html
+Sending file ./data/test/psyche.html
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 2471
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Psychedelic Animations</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set the canvas size to match the window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Create an array to store the particles
+        const particles = [];
+
+        // Create a Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Function to create particles on mouse move
+        function createParticles(e) {
+            const xPos = e.clientX;
+            const yPos = e.clientY;
+
+            for (let i = 0; i < 5; i++) {
+                particles.push(new Particle(xPos, yPos));
+            }
+        }
+
+        // Function to animate the particles
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Event listener for mouse move
+        window.addEventListener('mousemove', createParticles);
+
+        // Start the animation
+        animateParticles();
+    </script>
+</body>
+</html>
+***********************************************
+send value 2566
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+sever socket loop
+accepted new co
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+client socket loop
+activated client loop
+Request destroyed
+RequestHandler constructor called
+End of headers found
+Headers: 
+GET /data/test/p HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+Body: 
+
+Headers Successfully Read : 
+GET /data/test/p HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+request fully read
+Parsing headers
+headersString: GET /data/test/psyche.html HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+
+reading body in socket 4
+readData 
+Body is complete
+processing request
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- localhost
+Host: 127.0.0.1
+Port: 8081
+Client body size: 10000
+Root dir name: .
+Index: index.html
+Methods: GET POST 
+Autoindex: on
+Return: 
+Cgi path: 
+Extension: 
+-------------------------------- 
+ ---------- CURRENT LOCATION VALUES ---------- 
+Final path : ./data/test/psyche.html
+Path before method routing :./data/test/psyche.html
+HANDLING METHOD GET
+Requesting ressource at path : ./data/test/psyche.html
+Sending file ./data/test/psyche.html
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Disposition: inline
+Content-Type: text/html
+Content-Length: 2471
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Psychedelic Animations</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set the canvas size to match the window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Create an array to store the particles
+        const particles = [];
+
+        // Create a Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Function to create particles on mouse move
+        function createParticles(e) {
+            const xPos = e.clientX;
+            const yPos = e.clientY;
+
+            for (let i = 0; i < 5; i++) {
+                particles.push(new Particle(xPos, yPos));
+            }
+        }
+
+        // Function to animate the particles
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Event listener for mouse move
+        window.addEventListener('mousemove', createParticles);
+
+        // Start the animation
+        animateParticles();
+    </script>
+</body>
+</html>
+***********************************************
+send value 2566
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
