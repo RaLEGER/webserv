@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 13:40:37 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/23 23:19:56 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,34 +86,35 @@ void ServerFarm::printClientSocketReady() {
 void ServerFarm::run() {
 
 	fd_set runningReadFds;
+	fd_set runningWriteFds;
 	while (true) {
 
 		int	activity = 0;
 		struct timeval timeout;
 
 		while (!activity) {
+			runningReadFds = _read_fds;
 			
 			timeout.tv_sec = 1; // Timeout of 1 second
 			timeout.tv_usec = 0; // Microseconds (optional, set to 0 for whole seconds)
+			
 			FD_ZERO(&_write_fds);
-			runningReadFds = _read_fds;
-			std::memcpy(&runningReadFds, &_read_fds, sizeof(_read_fds));
 			//add fd to send to writing set
 			std::cout << "running" << std::endl;
 			for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
 				std::cout << "client socket ready " <<* it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
-
+			runningWriteFds = _write_fds;
 			std::cout << "selecting" << std::endl;
 			std::cout << "max fd: " << _maxFd << std::endl;
             std::cout << "Read fds: ";
             printFdSet(runningReadFds);
             std::cout << "Write fds: ";
-            printFdSet(_write_fds);
+            printFdSet(runningWriteFds);
 			printClientSocketReady();
 
-			activity = select(_maxFd + 1, &runningReadFds, &_write_fds, NULL, &timeout);
+			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, NULL, &timeout);
 		}
 		
 		if (activity < 0) {
@@ -123,7 +124,7 @@ void ServerFarm::run() {
 		else {
 			//send data
 			for (std::vector<int>::iterator it = _clientSocketReady.begin(); it != _clientSocketReady.end(); it++) {
-				if (FD_ISSET(*it, &_write_fds)) {
+				if (FD_ISSET(*it, &runningWriteFds)) {
 					_clientSocketSocket[*it]->sendResponse(*it);
 					_clientSocketSocket.erase(*it);
 					_clientSocketReady.erase(it);
