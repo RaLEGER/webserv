@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 13:41:47 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:52:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ bool Socket::readHeaders(int clientSocketFd) {
     }
 
 	if (bytesRead < 0) {
-		std::cerr << "Error reading from client socket" << std::endl;
 		throw CustomError(1, "Error reading from client socket");
 	}
 
@@ -180,7 +179,7 @@ bool Socket::readBody(int clientSocketFd) {
 	// max 1MB body size in 8k buffers
 	char	buffer[8192];
 	int 	nb_buffers = 4;
-	int 	bytesRead;
+	int 	bytesRead = 0;
 
 
 	if(_requestHandlers[clientSocketFd]->getIsChunkedRequest()) {
@@ -223,14 +222,16 @@ bool Socket::readBody(int clientSocketFd) {
 			throw CustomError(1, "Error reading from client socket");
 		}
 
-
-		_body[clientSocketFd] = body;
-		return true;
+		_body[clientSocketFd].append(body);
+		if (bytesRead < 8192)
+			return true;
+		else
+			return false;
 	}
 	return false;
 }
 
-int	Socket::readData(int clientSocket) {
+int	Socket::readData2(int clientSocket) {
 	// check if a request handler already exists for this client socket
 	bool requestHandlerExists = _requestHandlers.find(clientSocket) != _requestHandlers.end();
 	bool isBodyComplete = false;
@@ -279,9 +280,60 @@ int	Socket::readData(int clientSocket) {
 		return 1;
 	}
 	else 
-	{
 		return 0;
+}
+
+int	Socket::_readHeader(int clientSocket) {
+	char		buffer[8192];
+	int			bytesRead;
+	int			nb_buffers = 4;
+	std::string	rawData = "";
+
+	while (nb_buffers && (bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
+        rawData.append(buffer, bytesRead);
+        // Check for end of headers (double CRLF)
+		int headerPos = rawData.find("\r\n\r\n");
+        if (headerPos != std::string::npos) {
+			headerPos += 4;
+			std::cout << "End of headers found" << std::endl;
+
+			// Splice the beginning of the body from the headers
+			_body.insert(std::make_pair(clientSocket, rawData.substr(headerPos)));
+			_headers.insert(std::make_pair(clientSocket, rawData.substr(0, headerPos)));
+
+			// std::cout << "Headers: " << std::endl << headers << std::endl;
+			// std::cout << "Body: " << std::endl << body << std::endl;
+
+            break;
+        }
+		nb_buffers--;
+    }
+
+	if (bytesRead < 0)
+		throw CustomError(1, "Error reading from client socket");
+	
+}
+
+int	Socket::readData(int clientSocket) {
+	int status;
+	int	nb_buffers = 4;
+	
+	if (_headers.find(clientSocket) == _headers.end()) {
+		try {
+			nb_buffers = _readHeader(clientSocket);
+		} catch (const std::exception& e) {
+			std::cerr << e.what() << std::endl;
+			
+		}
 	}
+	try {
+		status = _readBody(clientSocket, nb_buffers);
+	}
+	catch (const std::exception& e){
+		std::cerr << "Error reading from socket: " << e.what() << std::endl;
+		return -1;
+	}
+	return status;
 }
 
 

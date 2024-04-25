@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 16:06:53 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:43:02 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include "Location.hpp"
 #include <iostream>
 
-// #define HEADER_BUFF_SIZE 2048
-#define BUFF_SIZE 2048
+// #define HEADER_BUFF_SIZE 
+#define BUFF_SIZE 8192
 
 class Server
 {

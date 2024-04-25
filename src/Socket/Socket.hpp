@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 21:08:58 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:28:12 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ class Socket
 		
     	std::vector<int> 					_clientSockets;
 		
-		std::map <int, std::string >		_readData;
 		std::map <int, std::string >		_headers;
 		std::map <int, std::string >		_body;
 
