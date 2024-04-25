@@ -13,7 +13,6 @@ RequestHandler::RequestHandler(int clientSocket)
 {
     isValidHeaders = false;
     isChunkedRequest = false;
-    isRequestFullyRead = false;
     _request = Request();
     _clientSocket = clientSocket;
     std::cout << "RequestHandler constructor called" << std::endl;

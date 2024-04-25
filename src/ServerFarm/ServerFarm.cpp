@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 23:19:56 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:18:18 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void ServerFarm::set() {
 	}
 }
 
+/*
 void printFdSet(const fd_set& fds) {
     std::cout << "{ ";
     for (int fd = 0; fd < FD_SETSIZE; ++fd) {
@@ -74,6 +75,19 @@ void printFdSet(const fd_set& fds) {
     std::cout << "}" << std::endl;
 }
 
+void copy_fd_set(fd_set& dest, const fd_set& src) {
+    dest = src; // Shallow copy
+    // Manually copy the file descriptor bits
+    for (int fd = 0; fd < FD_SETSIZE; ++fd) {
+        if (FD_ISSET(fd, &src)) {
+            FD_SET(fd, &dest);
+        } else {
+            FD_CLR(fd, &dest);
+        }
+    }
+}
+*/
+
 void ServerFarm::printClientSocketReady() {
 	std::cout << "Client socket ready: ";
 	std::cout << "{ ";
@@ -81,7 +95,20 @@ void ServerFarm::printClientSocketReady() {
 		std::cout << *it << " ";
 	}
 	std::cout << "}" << std::endl;
+	std::cout << "Client socket socket: ";
+	std::cout << "{ ";
+	for (std::map<int, Socket*>::iterator it = _clientSocketSocket.begin() ; it != _clientSocketSocket.end(); it++) {
+		std::cout << it->first << " ";
+	}
+	std::cout << "}" << std::endl;
+	std::cout << "Server socket ready: ";
+	std::cout << "{ ";
+	for (std::map<std::string, Socket*>::iterator it = _addressSocket.begin(); it != _addressSocket.end(); it++) {
+		std::cout << it->second->getSocket() << " ";
+	}
+	std::cout << "}" << std::endl;
 }
+
 
 void ServerFarm::run() {
 
@@ -94,7 +121,7 @@ void ServerFarm::run() {
 
 		while (!activity) {
 			runningReadFds = _read_fds;
-			
+			//copy_fd_set(runningReadFds, _read_fds);	
 			timeout.tv_sec = 1; // Timeout of 1 second
 			timeout.tv_usec = 0; // Microseconds (optional, set to 0 for whole seconds)
 			
@@ -102,16 +129,17 @@ void ServerFarm::run() {
 			//add fd to send to writing set
 			std::cout << "running" << std::endl;
 			for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
-				std::cout << "client socket ready " <<* it << std::endl;
+				std::cout << "client socket ready " << *it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
-			std::cout << "selecting" << std::endl;
-			std::cout << "max fd: " << _maxFd << std::endl;
-            std::cout << "Read fds: ";
-            printFdSet(runningReadFds);
-            std::cout << "Write fds: ";
-            printFdSet(runningWriteFds);
+			//copy_fd_set(runningWriteFds, _write_fds);	
+			//std::cout << "selecting" << std::endl;
+			//std::cout << "max fd: " << _maxFd << std::endl;
+            //std::cout << "Read fds: ";
+            //printFdSet(runningReadFds);
+            //std::cout << "Write fds: ";
+            //printFdSet(runningWriteFds);
 			printClientSocketReady();
 
 			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, NULL, &timeout);
@@ -167,7 +195,7 @@ void ServerFarm::run() {
 				std::cout << "sever socket loop" << std::endl;
 				if (FD_ISSET(serverSocket, &runningReadFds))
 				{
-					std::cout << "accepted new co" << std::endl;
+					std::cout << "accepted new co " << serverSocket << std::endl;
 					int clientSocket = it->second->getClientSocket();
 					std::cout << "client socket " << clientSocket << std::endl;
 					if (clientSocket != -1) {

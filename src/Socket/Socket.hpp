@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/24 19:28:12 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 10:42:33 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ class Socket
 		void	_setNonBlocking(int socket);
 		int		_createSocket();
 		void	_setupSocket();
+		
+		int 	_readHeader(int clientSocket);
+		int		_readBody(int clientSocket, int nb_buffers);
 	public:
 		~Socket();
 		Socket(Server* server);
@@ -48,8 +51,6 @@ class Socket
 
 		int		getSocket();
 		int		getClientSocket();
-		bool 	readHeaders(int clientSocket);
-		bool	readBody(int clientSocketFd);
 		int		readData(int clientSocket);
 		void	sendResponse(int clientSocket);
 		
