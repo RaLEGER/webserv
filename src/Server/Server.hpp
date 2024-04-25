@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:27 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/24 19:43:02 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:40:33 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <iostream>
 
 // #define HEADER_BUFF_SIZE 
-#define BUFF_SIZE 8192
+#define BUFF_SIZE 32768
 
 class Server
 {

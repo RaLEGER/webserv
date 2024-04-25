@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 10:42:33 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 13:55:29 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Socket
     	std::vector<int> 					_clientSockets;
 		
 		std::map <int, std::string >		_headers;
-		std::map <int, std::string >		_body;
+		std::map <int, std::string >		_bodies;
 
 		std::map <int, RequestHandler* >	_requestHandlers;
 		
@@ -40,14 +40,13 @@ class Socket
 		int		_createSocket();
 		void	_setupSocket();
 		
-		int 	_readHeader(int clientSocket);
-		int		_readBody(int clientSocket, int nb_buffers);
+		void 	_readHeader(int clientSocket);
+		int		_readBody(int clientSocket, bool firstIt);
 	public:
 		~Socket();
 		Socket(Server* server);
 
-		void					addServer(Server* server);
-		std::vector <Server*>	getServers();
+		void	addServer(Server* server);
 
 		int		getSocket();
 		int		getClientSocket();

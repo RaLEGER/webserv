@@ -112,6 +112,9 @@ void RequestHandler::process(std::vector<Server *> servers)
 
         // Set the response headers
         setResponseHeaders();
+	std::cout << "************** reponse body: ****************" << std::endl;
+		std::cout << _request.getBody()  << std::endl;
+	std::cout << "***********************************************" << std::endl;
     }
     catch(const CustomError &e)
     {

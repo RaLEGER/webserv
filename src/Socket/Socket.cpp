@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 11:02:59 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:35:11 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,99 +113,87 @@ int	Socket::getClientSocket() {
 
 
 // Returns true if the body is complete, false otherwise
-int	Socket::_readHeader(int clientSocket) {
+void	Socket::_readHeader(int clientSocket) {
 	char		buffer[BUFF_SIZE];
-	int			bytesRead;
-	int			nb_buffers = 4;
-	std::string	rawData = "";
 	
-	while (nb_buffers && (bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
-        rawData.append(buffer, bytesRead);
-        // Check for end of headers (double CRLF)
-		size_t headerPos = rawData.find("\r\n\r\n");
-        if (headerPos != std::string::npos) {
-			headerPos += 4;
-			std::cout << "End of headers found" << std::endl;
-
-			// Splice the beginning of the body from the headers
-			_body.insert(std::make_pair(clientSocket, rawData.substr(headerPos)));
-			_headers.insert(std::make_pair(clientSocket, rawData.substr(0, headerPos)));
-
-			// std::cout << "Headers: " << std::endl << headers << std::endl;
-			// std::cout << "Body: " << std::endl << body << std::endl;
-            break;
-        }
-		nb_buffers--;
-    }
-
-	if (bytesRead < 0)
+	int	bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+	if (bytesRead <= 0)
 		throw CustomError(-1, "Error reading from client socket");
-	if (_headers[clientSocket].empty())
-		throw CustomError(-1, "Request Error: wrong headers");
+	std::string	rawData(buffer, bytesRead);
+	size_t headerPos = rawData.find("\r\n\r\n");
+	if (headerPos != std::string::npos) {
+		headerPos += 4;
+		_bodies.insert(std::make_pair(clientSocket, rawData.substr(headerPos)));
+		_headers.insert(std::make_pair(clientSocket, rawData.substr(0, headerPos)));
+	}
+	else
+		throw CustomError(-1, "Request Error: header too long");
 	if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket]))
-		throw CustomError(1, "Request Error: wrong headers");
+		throw CustomError(1, "Request Error: wrong header");
+	std::cout << "************** bytesread1: ****************" << std::endl;
+	std::cout << bytesRead << std::endl;
+	std::cout << "***********************************************" << std::endl;
 	if (bytesRead < BUFF_SIZE) {
-		//chunked
 		_requestHandlers[clientSocket]->setIsBodyComplete(true);
 	}
-	return nb_buffers;
-
 }
 
-int	Socket::_readBody(int clientSocket, int nb_buffers) {
-	int 	bytesRead;
+int	Socket::_readBody(int clientSocket, bool firstIt) {
 	char	buffer[BUFF_SIZE];
-	int		init_nb_buffers = nb_buffers;
 	
 	if (_requestHandlers[clientSocket]->getIsBodyComplete())
 		return 1;
-	if (nb_buffers == 0)
-		return 0;
-	while (nb_buffers && (bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
-		_body[clientSocket].append(buffer, bytesRead);
-		nb_buffers--;
-		if (bytesRead < BUFF_SIZE)
-			break;
-	}
-	if (bytesRead <= 0 && init_nb_buffers - nb_buffers == 1)
-		throw CustomError(1, "Error reading from client socket");		
-	if (bytesRead == BUFF_SIZE || !nb_buffers)
+		
+	int	bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+	
+	if ((bytesRead == 0 && _bodies[clientSocket].empty()) || bytesRead < 0)
+		return -1;
+		
+	_bodies[clientSocket].append(buffer, bytesRead);
+	std::cout << "************** bytesread2: ****************" << std::endl;
+	std::cout << bytesRead << std::endl;
+	std::cout << firstIt << std::endl;
+	std::cout << "***********************************************" << std::endl;
+	if (bytesRead == BUFF_SIZE || firstIt)
 		return 0;
 	return 1;
 }
 	
 int	Socket::readData(int clientSocket) {
 	int status;
-	int	nb_buffers = 4;
 	
-	if (_headers.find(clientSocket) == _headers.end()) {
+	if (_requestHandlers.find(clientSocket) == _requestHandlers.end()) {
 		RequestHandler* handler = new RequestHandler(clientSocket);
 		_requestHandlers.insert(std::make_pair(clientSocket, handler));
 		try {
-			nb_buffers = _readHeader(clientSocket);
+			_readHeader(clientSocket);
 		} catch (const CustomError& e) {
 			std::cerr << e.what() << std::endl;
 			return e.getErrorCode();
 		}
+		status = _readBody(clientSocket, true);
 	}
-	try {
-		status = _readBody(clientSocket, nb_buffers);
+	else
+		status = _readBody(clientSocket, false);
+	if (status == -1)
+		std::cerr << "Error reading from clientsocket" << std::endl;
+	if (status == 0) {
+		return 0;
 	}
-	catch (const std::exception& e){
-		std::cerr << "Error reading from socket: " << e.what() << std::endl;
-		return -1;
-	}
-	return status;
+		
+	_requestHandlers[clientSocket]->setIsBodyComplete(true);
+	_requestHandlers[clientSocket]->setBody(_bodies[clientSocket]);
+	_requestHandlers[clientSocket]->process(_servers);
+	return 1;
 }
 
 
 void	Socket::sendResponse(int clientSocket) {
 	int flags = 0;
-
 	std::string responseString = _requestHandlers[clientSocket]->getResponseString();
-	// std::cout << "************** responseString: ****************" << std::endl;
-	// std::cout << responseString << std::endl;
-	// std::cout << "***********************************************" << std::endl;
+	std::cout << "************** responseString: ****************" << std::endl;
+	std::cout << responseString << std::endl;
+	std::cout << "***********************************************" << std::endl;
 	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
@@ -218,7 +206,7 @@ void	Socket::sendResponse(int clientSocket) {
 	try {
 		_requestHandlers.erase(clientSocket);
 		_headers.erase(clientSocket);
-		_body.erase(clientSocket);
+		_bodies.erase(clientSocket);
 	} catch (const std::exception& e) {
 		std::cerr << "Error erasing RequestHandler: " << e.what() << std::endl;
 	}

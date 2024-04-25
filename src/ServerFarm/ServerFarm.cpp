@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 11:18:18 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:26:07 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void ServerFarm::set() {
 	}
 }
 
-/*
+
 void printFdSet(const fd_set& fds) {
     std::cout << "{ ";
     for (int fd = 0; fd < FD_SETSIZE; ++fd) {
@@ -86,7 +86,7 @@ void copy_fd_set(fd_set& dest, const fd_set& src) {
         }
     }
 }
-*/
+
 
 void ServerFarm::printClientSocketReady() {
 	std::cout << "Client socket ready: ";
@@ -133,13 +133,13 @@ void ServerFarm::run() {
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
-			//copy_fd_set(runningWriteFds, _write_fds);	
-			//std::cout << "selecting" << std::endl;
-			//std::cout << "max fd: " << _maxFd << std::endl;
-            //std::cout << "Read fds: ";
-            //printFdSet(runningReadFds);
-            //std::cout << "Write fds: ";
-            //printFdSet(runningWriteFds);
+			copy_fd_set(runningWriteFds, _write_fds);	
+			std::cout << "selecting" << std::endl;
+			std::cout << "max fd: " << _maxFd << std::endl;
+            std::cout << "Read fds: ";
+            printFdSet(runningReadFds);
+            std::cout << "Write fds: ";
+            printFdSet(runningWriteFds);
 			printClientSocketReady();
 
 			activity = select(_maxFd + 1, &runningReadFds, &runningWriteFds, NULL, &timeout);
