@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:27:50 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 20:05:14 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,16 +175,13 @@ void	Location::setIndex(const std::string& index) {
 	_index = index;
 }
 
-void	Location::setMethods(const std::string& methods) {
-	size_t beg = 0;
-	size_t end = methods.find(',');
-	
-	_methods.push_back(methods.substr(beg, std::min(end, methods.size())));
-	while (end != std::string::npos) {
-		beg = end + 1;
-		end = methods.find(',', end + 1);
-		_methods.push_back(methods.substr(beg, std::min(end, methods.size())));
-	}
+void Location::setMethods(const std::string& methods) {
+    std::istringstream iss(methods);
+    std::string token;
+    
+    while (std::getline(iss, token, ',')) {
+        _methods.push_back(token);
+    }
 }
 
 void	Location::setAutoIndex(const std::string& autoIndex) {
