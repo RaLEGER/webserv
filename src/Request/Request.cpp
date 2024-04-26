@@ -24,7 +24,7 @@ Request::Request()
 
 
 Request::~Request() {
-    std::cout << "Request destroyed" << std::endl;
+    // std::cout << "Request destroyed" << std::endl;
 }
 
 // This function parses the request string and fills the request object
@@ -128,8 +128,8 @@ void Request::addHeader(std::string key, std::string value)
 bool Request::parseHeadersList(std::string headersString)
 {
 
-    std::cout << "Parsing headers" << std::endl;
-    std::cout << "headersString: " << headersString << std::endl;
+    // std::cout << "Parsing headers" << std::endl;
+    // std::cout << "headersString: " << headersString << std::endl;
 
     // if (requestHeaderString.size() > MAX_HEADER_LEN)
     //     throw CustomError(431, "Header too long");
@@ -189,7 +189,7 @@ bool Request::parseBody()
 {
     std::size_t maxBodySize = 1000000; // 1MB, to set in config
 
-    std::cout << "Parsing body" << std::endl;
+    // std::cout << "Parsing body" << std::endl;
     
     // Check that the body size does not exceed the limit
     if (body.size() > maxBodySize) 

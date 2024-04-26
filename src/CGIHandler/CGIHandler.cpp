@@ -23,7 +23,7 @@ CGIHandler::CGIHandler(Request & req, Location location, std::string path) : _re
     // Set up environment variables based on request method
     if (req.getMethod() == "GET"){
         _envvar[i++] = strdup(("QUERY_STRING=" + req.getQuery()).c_str());
-        std::cout << "Query : " << _envvar[i - 1] << std::endl;
+        //std::cout << "Query : " << _envvar[i - 1] << std::endl;
     }
     else if (req.getMethod() == "POST"){
         _envvar[i++] = strdup(("CONTENT_TYPE=" + _req.getHeaders()["Content-Type"]).c_str());
@@ -40,10 +40,8 @@ CGIHandler::CGIHandler(Request & req, Location location, std::string path) : _re
     _args[1] = strdup(path.c_str());
     _args[2] = NULL;
 
-    std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
-    std::cout << "CGIHandler iniated with environment variables: " << std::endl;
-    for (int j = 0; _envvar[j]; j++)
-        std::cout << _envvar[j] << std::endl;
+    //std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
+    //std::cout << "CGIHandler iniated with environment variables: " << std::endl;
 }
 
 // Destructor for CGI class
@@ -69,13 +67,13 @@ CGIHandler::~CGIHandler()
 
 // Signal handler to ignore SIGALRM
 void ignore_alarm(int) {
-    std::cout << "Parent : alarm signal, child is terminated." << std::endl;
+    //std::cout << "Parent : alarm signal, child is terminated." << std::endl;
     // Do nothing
 }
 
 // Signal handler to handle SIGALRM by terminating the process
 void exit_on_alarm(int) {
-    std::cout << "Child : Process terminated due to timeout alarm signal." << std::endl;
+    //std::cout << "Child : Process terminated due to timeout alarm signal." << std::endl;
     exit(EXIT_FAILURE);
 }
 
@@ -153,7 +151,7 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     // Execute CGI script
     int ret = execve(_args[0], _args, _envvar);
     if(ret < 0){
-        std::cout << "execve failed with error code: " << ret << std::endl;
+        //std::cout << "execve failed with error code: " << ret << std::endl;
         throw CustomError(500, "execve failed");
     }
 
@@ -194,8 +192,8 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     } while (wait_result == 0);
 
     // Debugging purposes
-    std::cout << "Output from CGI script: " << std::endl;
-    std::cout << outputCGI << std::endl;
+    //std::cout << "Output from CGI script: " << std::endl;
+    //std::cout << outputCGI << std::endl;
 
     // Cancel the alarm
     alarm(0);
@@ -211,9 +209,9 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     if (WIFEXITED(status)) {
         int exitStatus = WEXITSTATUS(status);
         if (exitStatus == 0) {
-            std::cout << "CGI execution was successful." << std::endl;
+            //std::cout << "CGI execution was successful." << std::endl;
         } else {
-            std::cout << "CGI execution failed with exit status: " << exitStatus << std::endl;
+            //std::cout << "CGI execution failed with exit status: " << exitStatus << std::endl;
             throw CustomError(500, "CGI execution failed with known exit status");
         }
     } else {
@@ -237,7 +235,7 @@ void  CGIHandler::parseGetOutput()
     if (pos != std::string::npos) {
         size_t endPos = outputCGI.find("\n", pos);
         outputContentType = outputCGI.substr(pos + 14, endPos - pos - 14);
-        std::cout << "Content-type is: " << outputContentType << std::endl;
+        //std::cout << "Content-type is: " << outputContentType << std::endl;
 
         // Remove Content-Type header from CGI output
         outputCGI = removeContentTypeHeader(outputCGI);

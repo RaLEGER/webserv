@@ -2,7 +2,6 @@
 
 RequestHandler::RequestHandler()
 {
-    std::cout << "RequestHandler default constructor called" << std::endl;
 }
 
 RequestHandler::RequestHandler(int clientSocket)
@@ -11,13 +10,11 @@ RequestHandler::RequestHandler(int clientSocket)
     isChunkedRequest = false;
     _clientSocket = clientSocket;
 	_lastActivity = time(0);
-    std::cout << "RequestHandler constructor called" << std::endl;
     // _request = request;
 }
 
 RequestHandler::~RequestHandler()
 {
-    std::cout << "RequestHandler destructor called" << std::endl;
 }
 
 // PARSING METHODS 
@@ -35,8 +32,8 @@ bool RequestHandler::parseHeaders(std::string headers, std::vector<Server *> ser
         _location->print();
 
         // Check that content length is valid
-        std::cout << "Request Content length : " << _request.getContentLength() << std::endl;
-        std::cout << "Location Client Body Size : " << _location->getClientBodySize() << std::endl;
+        // std::cout << "Request Content length : " << _request.getContentLength() << std::endl;
+        // std::cout << "Location Client Body Size : " << _location->getClientBodySize() << std::endl;
         if (_request.getContentLength() > _location->getClientBodySize())
             throw CustomError(413, "Request Entity Too Large");
 
@@ -62,15 +59,15 @@ void RequestHandler::setBody(std::string body)
 void RequestHandler::buildFinalPath() 
 {
     // if the request is cgi, do not build path 
-    std::cout << "location extension : " << _location->getExtension() << std::endl;
-    std::cout << "path extension" << _request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)) << std::endl;
+    // std::cout << "location extension : " << _location->getExtension() << std::endl;
+    // std::cout << "path extension" << _request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)) << std::endl;
     if(_location->getExtension() != "" && !_request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)).compare(".py"))
     {
         path = "." + _request.getPath();
         return;
     }
 
-    std::cout << " ---------- CURRENT LOCATION VALUES ---------- " << std::endl;
+    // std::cout << " ---------- CURRENT LOCATION VALUES ---------- " << std::endl;
     // std::cout << "Location Name: " << _config->getName() << std::endl;
     // std::cout << "Location Root: " << _config->getRoot() << std::endl;
     // std::cout << "Location Index: " << _config->getIndex() << std::endl;
@@ -108,8 +105,8 @@ void RequestHandler::buildFinalPath()
 
     // add . at the beginning of the path
     path =  _location->getRootDirName() + _request.getPath();
-    std::cout << "Request path : " << _request.getPath() << std::endl;
-    std::cout << "Final path : " << path << std::endl;
+    // std::cout << "Request path : " << _request.getPath() << std::endl;
+    // std::cout << "Final path : " << path << std::endl;
 }
 
 void RequestHandler::process(std::vector<Server *> servers)
@@ -146,7 +143,7 @@ void RequestHandler::handleRequest()
         return;
     }
 
-    std::cout << "Path before method routing :" << path << std::endl;
+    // std::cout << "Path before method routing :" << path << std::endl;
 
     // Handle listDirectory
 

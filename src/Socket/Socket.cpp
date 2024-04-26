@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 18:41:01 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 19:48:06 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int Socket::_createSocket() {
 void	Socket::_setupSocket() {
 	_fd = _createSocket();
 
-	std::cout << "created a new socket with fd: " << _fd << std::endl;
-	std::cout << "port: " << _port << std::endl;
-	std::cout << "host: " << _host << std::endl;
+	//std::cout << "created a new socket with fd: " << _fd << std::endl;
+	//std::cout << "port: " << _port << std::endl;
+	//std::cout << "host: " << _host << std::endl;
 
 	struct sockaddr_in serverAddr;
     std::memset(&serverAddr, 0, sizeof(serverAddr));
@@ -95,7 +95,7 @@ void	Socket::_setupSocket() {
   		throw CustomError(1, "Listen failed");
     }
 
-    std::cout << "Socket setup completed." << std::endl;
+    //std::cout << "Socket setup completed." << std::endl;
 }
 
 int Socket::getSocket() {
@@ -135,15 +135,15 @@ void	Socket::_readHeader(int clientSocket) {
 		throw CustomError(-1, "Request Error: header too long");
 	if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket], _servers))
 		throw CustomError(1, "Request Error: wrong header");
-	std::cout << "************** bytesread1: ****************" << std::endl;
-	std::cout << bytesRead << std::endl;
-	std::cout << "***********************************************" << std::endl;
+	//std::cout << "************** bytesread1: ****************" << std::endl;
+	//std::cout << bytesRead << std::endl;
+	//std::cout << "***********************************************" << std::endl;
 	if (_requestHandlers[clientSocket]->getIsChunkedRequest()) {
 		_bodies[clientSocket] = _formatChunk(_bodies[clientSocket], clientSocket);
 	}
 	else if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()){
 		_requestHandlers[clientSocket]->setIsBodyComplete(true);
-		std::cout << "SORTIE " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
+		//std::cout << "SORTIE " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 	}
 }
 
@@ -153,7 +153,7 @@ std::string	Socket::_formatChunk(std::string data, int clientSocket) {
     while (pos < data.size()) {
         // Find the length of the chunk
         size_t length_end = data.find("\r\n", pos);
-		std::cout << "length " << length_end << std::endl;
+		//std::cout << "length " << length_end << std::endl;
         if (length_end == std::string::npos || length_end - pos > 10) {
             throw CustomError(-1, "Invalid chunk format");
         }
@@ -202,7 +202,7 @@ int	Socket::_readBody(int clientSocket) {
 	
 	// if body is complete, or no content length header, return 1
 	if (_requestHandlers[clientSocket]->getIsBodyComplete() || _requestHandlers[clientSocket]->getContentLength() < 0) {
-		std::cout << "SORTIE2 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
+		//std::cout << "SORTIE2 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 		return 1;
 	}
 	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
@@ -212,12 +212,12 @@ int	Socket::_readBody(int clientSocket) {
 	
 	_bodies[clientSocket].append(buffer, bytesRead);
 
-	std::cout << "************** bytesread2: ****************" << std::endl;
-	std::cout << bytesRead << std::endl;
-	std::cout << "***********************************************" << std::endl;
+	//std::cout << "************** bytesread2: ****************" << std::endl;
+	//std::cout << bytesRead << std::endl;
+	//std::cout << "***********************************************" << std::endl;
 	
 	if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()) {
-		std::cout << "SORTIE3 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
+		//std::cout << "SORTIE3 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 		return 1;
 	}
 	return 0;
@@ -254,7 +254,7 @@ int	Socket::readData(int clientSocket) {
 	_requestHandlers[clientSocket]->setIsBodyComplete(true);
 	_requestHandlers[clientSocket]->setBody(_bodies[clientSocket]);
 	_requestHandlers[clientSocket]->process(_servers);
-	std::cout << _bodies[clientSocket] << std::endl;
+	//std::cout << _bodies[clientSocket] << std::endl;
 	return 1;
 }
 
@@ -262,10 +262,10 @@ int	Socket::readData(int clientSocket) {
 void	Socket::sendResponse(int clientSocket) {
 	int flags = 0;
 	std::string responseString = _requestHandlers[clientSocket]->getResponseString();
-	std::cout << "************** responseString: ****************" << std::endl;
-	std::cout << responseString << std::endl;
-	std::cout << "***********************************************" << std::endl;
-	std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
+	//std::cout << "************** responseString: ****************" << std::endl;
+	//std::cout << responseString << std::endl;
+	//std::cout << "***********************************************" << std::endl;
+	//std::cout << "send value " << send(clientSocket, responseString.c_str(), responseString.size(), flags) << std::endl;
 	send(clientSocket, responseString.c_str(), responseString.size(), flags);
 	//check if all is sent//
 

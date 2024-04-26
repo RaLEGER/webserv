@@ -4,7 +4,7 @@
 
 Response::Response()
 {
-    // std::cout << "Response default constructor" << std::endl;
+    // //std::cout << "Response default constructor" << std::endl;
     // Initialize on success 200 OK
     setProtocol("HTTP/1.1");
     setStatusCode("200");
@@ -14,13 +14,13 @@ Response::Response()
 
 Response::Response(int statusCode, std::string error_msg)
 {
-    // std::cout << "Error Response constructor with status code" << std::endl;
+    // //std::cout << "Error Response constructor with status code" << std::endl;
     setError(statusCode, error_msg);
 }
 
 Response::~Response()
 {
-    // std::cout << "Response destroyed" << std::endl;
+    // //std::cout << "Response destroyed" << std::endl;
 }
 
 /* Getters & Setters */
@@ -76,7 +76,7 @@ std::string Response::getSerializedResponse()
 // This function reads a file and stores it in the body
 void Response::loadFileContent(const std::string& path)
 {
-    std::cout << "Sending file " << path << std::endl;
+    //std::cout << "Sending file " << path << std::endl;
     std::ifstream       file(path.c_str());
     // check file status
     if (!file.good())
@@ -160,7 +160,7 @@ void Response::setError(int statusCode, std::string error_msg)
             setStatusText("HTTP Version Not Supported");
             break;
         default: 
-            std::cout << "ERROR: unknown status code, sent status 500" << std::endl;
+            //std::cout << "ERROR: unknown status code, sent status 500" << std::endl;
             statusCode = 500;
             setStatusText("Internal Server Error");
             errorPagePath = "./data/default/500.html";

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 19:43:40 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 19:48:06 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ ServerFarm::~ServerFarm( ) {
 
 void ServerFarm::set() {
 	
-	std::cout << "Setting sockets " << std::endl;
+	//std::cout << "Setting sockets " << std::endl;
 	std::vector <Server*>::iterator	it;
 	_maxFd = 0;
 	FD_ZERO(&_read_fds);
@@ -43,7 +43,7 @@ void ServerFarm::set() {
 			std::string	serverAdress = (*it)->getAddress();
 			addressSocketPair = _addressSocket.find(serverAdress);
 
-			std::cout << "Checking server : " << (*it)->getServerName() << " - " <<(*it)->getAddress() << std::endl;
+			//std::cout << "Checking server : " << (*it)->getServerName() << " - " <<(*it)->getAddress() << std::endl;
 			if (addressSocketPair != _addressSocket.end())
 			{
 				// If a socket already exists for this address (host:port), add the server to the socket object
@@ -51,7 +51,7 @@ void ServerFarm::set() {
 			}
 			else {
 				// If no socket exists for this address, create a new socket and add the server to it
-				std::cout << " Creating new socket " << std::endl;
+				//std::cout << " Creating new socket " << std::endl;
 				Socket *socket = new Socket(*it);
 				_addressSocket.insert(std::make_pair(serverAdress, socket));
 				socket->addServer(*it);
@@ -73,36 +73,36 @@ void ServerFarm::set() {
 
 
 void printFdSet(const fd_set& fds) {
-    std::cout << "{ ";
+    //std::cout << "{ ";
     for (int fd = 0; fd < FD_SETSIZE; ++fd) {
         if (FD_ISSET(fd, &fds)) {
-            std::cout << fd << " ";
+            //std::cout << fd << " ";
         }
     }
-    std::cout << "}" << std::endl;
+    //std::cout << "}" << std::endl;
 }
 
 
 
 void ServerFarm::printClientSocketReady() {
-	std::cout << "Client socket ready: ";
-	std::cout << "{ ";
+	//std::cout << "Client socket ready: ";
+	//std::cout << "{ ";
 	for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
-		std::cout << *it << " ";
+		//std::cout << *it << " ";
 	}
-	std::cout << "}" << std::endl;
-	std::cout << "Client socket socket: ";
-	std::cout << "{ ";
+	//std::cout << "}" << std::endl;
+	//std::cout << "Client socket socket: ";
+	//std::cout << "{ ";
 	for (std::map<int, Socket*>::iterator it = _clientSocketSocket.begin() ; it != _clientSocketSocket.end(); it++) {
-		std::cout << it->first << " ";
+		//std::cout << it->first << " ";
 	}
-	std::cout << "}" << std::endl;
-	std::cout << "Server socket ready: ";
-	std::cout << "{ ";
+	//std::cout << "}" << std::endl;
+	//std::cout << "Server socket ready: ";
+	//std::cout << "{ ";
 	for (std::map<std::string, Socket*>::iterator it = _addressSocket.begin(); it != _addressSocket.end(); it++) {
-		std::cout << it->second->getSocket() << " ";
+		//std::cout << it->second->getSocket() << " ";
 	}
-	std::cout << "}" << std::endl;
+	//std::cout << "}" << std::endl;
 }
 
 void INThandler(int sig) {
@@ -146,17 +146,17 @@ void ServerFarm::run() {
 			}
 			FD_ZERO(&_write_fds);
 			//add fd to send to writing set
-			std::cout << "running" << std::endl;
+			//std::cout << "running" << std::endl;
 			for (std::vector<int>::iterator it = _clientSocketReady.begin() ; it != _clientSocketReady.end() ; it++) {
-				std::cout << "client socket ready " << *it << std::endl;
+				//std::cout << "client socket ready " << *it << std::endl;
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
-			std::cout << "selecting" << std::endl;
-			std::cout << "max fd: " << _maxFd << std::endl;
-            std::cout << "Read fds: ";
+			//std::cout << "selecting" << std::endl;
+			//std::cout << "max fd: " << _maxFd << std::endl;
+            //std::cout << "Read fds: ";
             printFdSet(runningReadFds);
-            std::cout << "Write fds: ";
+            //std::cout << "Write fds: ";
             printFdSet(runningWriteFds);
 			printClientSocketReady();
 			
@@ -182,10 +182,10 @@ void ServerFarm::run() {
 			//process client sockets (create fds)
 			for (std::map<int, Socket*>::iterator it = _clientSocketSocket.begin() ; it != _clientSocketSocket.end(); it++) {
 				int	clientSocket = it->first;
-				std::cout << "client socket loop" << std::endl;
+				//std::cout << "client socket loop" << std::endl;
 				
 				if (FD_ISSET(clientSocket, &runningReadFds)) {
-					std::cout << "activated client loop" << std::endl;
+					//std::cout << "activated client loop" << std::endl;
 					// 1 : socket wants to go in write mode 
 					// 0 : socket wants to stay in read mode
 					// -1 : socket wants to be closed
@@ -193,7 +193,7 @@ void ServerFarm::run() {
 
 
 					if (readStatus == 1) {
-						std::cout << "cleint data read" << std::endl;
+						//std::cout << "cleint data read" << std::endl;
 						FD_CLR(clientSocket, &_read_fds);
 						_clientSocketReady.push_back(clientSocket);
 					}
@@ -209,12 +209,12 @@ void ServerFarm::run() {
 			//detect activated server socket, get client socket (accept) and associate to server socket
 			for (std::map<std::string, Socket*>::iterator it = _addressSocket.begin(); it != _addressSocket.end(); it++) {
 				int serverSocket = it->second->getSocket();
-				std::cout << "sever socket loop" << std::endl;
+				//std::cout << "sever socket loop" << std::endl;
 				if (FD_ISSET(serverSocket, &runningReadFds))
 				{
-					std::cout << "accepted new co " << serverSocket << std::endl;
+					//std::cout << "accepted new co " << serverSocket << std::endl;
 					int clientSocket = it->second->getClientSocket();
-					std::cout << "client socket " << clientSocket << std::endl;
+					//std::cout << "client socket " << clientSocket << std::endl;
 					if (clientSocket != -1) {
 						FD_SET(clientSocket, &_read_fds);
 						_clientSocketSocket.insert(std::make_pair(clientSocket, it->second));
