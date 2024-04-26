@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 18:32:46 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 19:43:40 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ void ServerFarm::run() {
 		
 		if (activity < 0) {
 			std::cerr << "Activity error" << std::endl;
-			std::cerr << strerror(errno) << std::endl;
 		}
 		else {
 			//send data

@@ -154,7 +154,6 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     int ret = execve(_args[0], _args, _envvar);
     if(ret < 0){
         std::cout << "execve failed with error code: " << ret << std::endl;
-        std::cout << "Error: " << strerror(errno) << std::endl;
         throw CustomError(500, "execve failed");
     }
 
