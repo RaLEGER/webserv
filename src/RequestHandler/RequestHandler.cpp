@@ -1,9 +1,5 @@
 #include "RequestHandler.hpp"
 
-#include "Server.hpp"
-#include "Router.hpp"
-
-// CANONICAL 
 RequestHandler::RequestHandler()
 {
     std::cout << "RequestHandler default constructor called" << std::endl;
@@ -13,7 +9,6 @@ RequestHandler::RequestHandler(int clientSocket)
 {
     isValidHeaders = false;
     isChunkedRequest = false;
-    _request = Request();
     _clientSocket = clientSocket;
     std::cout << "RequestHandler constructor called" << std::endl;
     // _request = request;
@@ -142,15 +137,17 @@ void RequestHandler::handleRequest()
 
     
     // CGI Handling
-    // if(true)
-    // {
-    //     std::cout << "CGI Handling" << std::endl;
-    //     _cgiHandler = new CGIHandler(_request);
-    //     _cgiHandler->executeCGI();
-    //     _response.setBody(_cgiHandler->getOutputCGI());  
-    //     _response.setDefaultSuccess();
-    //     return;  
-    // }
+	//objet location activeer cgi
+	std::cout << "path" << std::endl;
+    if(!_location->getCGIPath().compare("/usr/bin/python3"))
+    {
+        std::cout << "CGI Handling" << std::endl;
+        _cgiHandler = new CGIHandler(_request, path);
+        _cgiHandler->executeCGI();
+        _response.setBody(_cgiHandler->getOutputCGI());  
+        _response.setDefaultSuccess();
+        return;  
+    }
 
     // Method routing
 

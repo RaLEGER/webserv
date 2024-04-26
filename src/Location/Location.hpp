@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 13:48:47 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:27:10 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Location {
 		std::string	getIndex();
 		std::string	getAutoIndex();
 		std::string	getRootDirName();
+		std::string	getCGIPath();
 
 		std::vector<std::string> _deepCopyVector(const std::vector<std::string>& original);
 		std::map<std::string, std::string> _deepCopyMap(const std::map<std::string, std::string>& original);

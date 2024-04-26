@@ -1,7 +1,7 @@
 #include "CGIHandler.hpp"
 
 // Constructor for CGI class, initializes environment variables for CGI execution
-CGIHandler::CGIHandler(Request & req) : _req(req)
+CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
 {
     // Retrieve current working directory
 	char name[256];
@@ -15,22 +15,22 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
     // Set up environment variables
     int i = 0;
     _envvar[i++] = strdup("SERVER_PROTOCOL=HTTP/1.1");
-    // _envvar[i++] = strdup(("PATH_INFO="+ req.getPath()).c_str());
-    // _envvar[i++] = strdup(("SCRIPT_FILENAME=" + current_dir + req.getPath().substr(1)).c_str());
-    // _envvar[i++] = strdup(("SCRIPT_NAME=" + req.getPath()).c_str());
-    // _envvar[i++] = strdup(("REDIRECT_STATUS=200"));
-    // _envvar[i++] = strdup(("DOCUMENT_ROOT=" + current_dir).c_str());
-    // _envvar[i++] = strdup("REQUEST_METHOD=" + req.getMethod().c_str());
+    _envvar[i++] = strdup(("PATH_INFO="+ req.getPath()).c_str());
+    _envvar[i++] = strdup(("SCRIPT_FILENAME=" + current_dir + req.getPath().substr(1)).c_str());
+    _envvar[i++] = strdup(("SCRIPT_NAME=" + req.getPath()).c_str());
+    _envvar[i++] = strdup(("REDIRECT_STATUS=200"));
+    _envvar[i++] = strdup(("DOCUMENT_ROOT=" + current_dir).c_str());
+    _envvar[i++] = strdup("REQUEST_METHOD=" + req.getMethod().c_str());
 
-    // // Set up environment variables based on request method
-    // if (req.getMethod() == "GET"){
-    //     _envvar[i++] = strdup(("QUERY_STRING=" + req.getQuery()).c_str());
-    //     std::cout << "Query : " << _envvar[i - 1] << std::endl;
-    // }
-    // else if (req.getMethod() == "POST"){
-    //     _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
-    //     _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
-    // }
+    // Set up environment variables based on request method
+    if (req.getMethod() == "GET"){
+        _envvar[i++] = strdup(("QUERY_STRING=" + req.getQuery()).c_str());
+        std::cout << "Query : " << _envvar[i - 1] << std::endl;
+    }
+    else if (req.getMethod() == "POST"){
+        _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
+        _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
+    }
     _envvar[i++] = NULL;
 
     // Allocate memory for arguments
@@ -39,8 +39,9 @@ CGIHandler::CGIHandler(Request & req) : _req(req)
 
     // Set up arguments for executing CGI script
     _args[0] = strdup("/usr/bin/python3"); // Why need to set absolute path here?
-    _args[1] = strdup("./test/cgi_scripts/hello_world.py");
+    _args[1] = strdup(path.c_str());
     _args[2] = NULL;
+
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
 }
@@ -94,12 +95,10 @@ bool CGIHandler::executeCGI()
     }
 
     // Write request body to pipe for POST method
-    // if (req.getMethod() == "POST") {
-    //     WebServ::addFd2Select(pipe_in[1]);
-    //     if(write(pipe_in[1], req.getBody().c_str(), req.getBody().length()) < 0)
-    //         return false;
-    //     WebServ::delFd2Select(pipe_in[1]);
-    // }
+    if (_req.getMethod() == "POST") {
+        if(write(pipe_in[1], _req.getBody().c_str(), _req.getBody().length()) < 0)
+            return false;
+    }
 
     // Set alarm for 5 seconds
     alarm(5);
@@ -195,8 +194,8 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     } while (wait_result == 0);
 
     // Debugging purposes
-    // std::cout << "Output from CGI script: " << std::endl;
-    // std::cout << outputCGI << std::endl;
+    std::cout << "Output from CGI script: " << std::endl;
+    std::cout << outputCGI << std::endl;
 
     // Cancel the alarm
     alarm(0);

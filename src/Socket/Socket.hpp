@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 11:37:39 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:21:53 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+
+
 
 class Socket
 {

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 13:47:16 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:27:32 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,10 @@ std::string	Location::getAutoIndex( ) {
 
 std::string	Location::getRootDirName() {
 	return _rootDirName;
+}
+
+std::string	Location::getCGIPath() {
+	return _cgiPath;
 }
 
 std::map<std::string, std::string> Location::_deepCopyMap(const std::map<std::string, std::string>& original) {

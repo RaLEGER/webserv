@@ -24,6 +24,7 @@
 
 #include "Response.hpp"
 #include "Request.hpp"
+#include "Location.hpp"
 
 class CGIHandler {
     private:
@@ -34,14 +35,14 @@ class CGIHandler {
         std::string extension;
         std::string outputCGI;
         std::string path;
-        Request            _req;
+        Request		_req;
 
         void parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid);
         void childProcess(int pipe_out[2], int pipe_in[2]);
+        CGIHandler();
 
     public:
-        CGIHandler();
-        CGIHandler(Request & req);
+        CGIHandler(Request & req, std::string path);
 		~CGIHandler();
         std::string _req_body;
 
