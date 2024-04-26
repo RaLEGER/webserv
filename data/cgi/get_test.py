@@ -10,7 +10,7 @@ form = cgi.FieldStorage()
 first_name = form.getvalue('first_name')
 last_name  = form.getvalue('last_name')
 
-#print ("\r\n")
+print ("\r\n")
 print ("<html>")
 print ("<head>")
 print ("<title>Hello - Welcome to the GET CGI test</title>")

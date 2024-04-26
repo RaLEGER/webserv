@@ -46,7 +46,12 @@ void RequestHandler::setBody(std::string body)
 
 void RequestHandler::buildFinalPath() 
 {
-
+    // if the request is cgi, do not build path 
+    if(_location->getCGIPath() != "")
+    {
+        path = "." + _request.getPath();
+        return;
+    }
 
     std::cout << " ---------- CURRENT LOCATION VALUES ---------- " << std::endl;
     // std::cout << "Location Name: " << _config->getName() << std::endl;
@@ -138,11 +143,10 @@ void RequestHandler::handleRequest()
     
     // CGI Handling
 	//objet location activeer cgi
-	std::cout << "path" << std::endl;
     if(!_location->getCGIPath().compare("/usr/bin/python3"))
     {
         std::cout << "CGI Handling" << std::endl;
-        _cgiHandler = new CGIHandler(_request, path);
+        _cgiHandler = new CGIHandler(_request, *_location, path);
         _cgiHandler->executeCGI();
         _response.setBody(_cgiHandler->getOutputCGI());  
         _response.setContentType(_cgiHandler->getOutputContentType());

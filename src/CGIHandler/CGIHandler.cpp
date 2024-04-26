@@ -1,12 +1,10 @@
 #include "CGIHandler.hpp"
 
 // Constructor for CGI class, initializes environment variables for CGI execution
-CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
+CGIHandler::CGIHandler(Request & req, Location location, std::string path) : _req(req)
 {
-    // Retrieve current working directory
-	char name[256];
-	getcwd(name, sizeof(name));
-    std::string current_dir = name;//get_current_dir_name();
+    // Retrieve root directory from configuration
+    _root_dir = location.getRootDirName();
 
     // Allocate memory for environment variables
     if ((_envvar = new char*[10]) == NULL)
@@ -27,10 +25,10 @@ CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
         _envvar[i++] = strdup(("QUERY_STRING=" + req.getQuery()).c_str());
         std::cout << "Query : " << _envvar[i - 1] << std::endl;
     }
-    // else if (req.getMethod() == "POST"){
-    //     _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
-    //     _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
-    // }
+    else if (req.getMethod() == "POST"){
+        _envvar[i++] = strdup(("CONTENT_TYPE=" + _req.getHeaders()["Content-Type"]).c_str());
+        _envvar[i++] = strdup(("CONTENT_LENGTH=" + _req.getHeaders()["Content-Length"]).c_str());
+    }
     _envvar[i++] = NULL;
 
     // Allocate memory for arguments
@@ -43,6 +41,9 @@ CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
     _args[2] = NULL;
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
+    std::cout << "CGIHandler iniated with environment variables: " << std::endl;
+    for (int j = 0; _envvar[j]; j++)
+        std::cout << _envvar[j] << std::endl;
 }
 
 // Destructor for CGI class
@@ -127,7 +128,7 @@ bool CGIHandler::executeCGI()
 // Child process
 void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
 {
-        alarm(5);
+    alarm(5);
 
     // Install signal handler to exit on alarm signal
     signal(SIGALRM, exit_on_alarm);
@@ -146,6 +147,9 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     close(pipe_in[0]);
     close(pipe_in[1]);
 
+    // Change working directory to root directory
+    chdir(_root_dir.c_str());
+
     // Execute CGI script
     int ret = execve(_args[0], _args, _envvar);
     if(ret < 0){
@@ -157,16 +161,6 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     // Terminate child process if execve fails
     // TODO : throw an exception if execve fails ?
     exit(EXIT_FAILURE);
-}
-
-std::string removeContentTypeHeader(std::string &outputCGI)
-{
-    size_t pos = outputCGI.find("Content-Type: ");
-    if (pos != std::string::npos) {
-        size_t endPos = outputCGI.find("\n", pos);
-        outputCGI.erase(pos, endPos - pos + 1);
-    }
-    return outputCGI;
 }
 
 //  parent process
@@ -213,18 +207,8 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     signal(SIGALRM, SIG_DFL);
 
     // Get Content-Type header from CGI output
-    size_t pos = outputCGI.find("Content-Type: ");
-    if (pos != std::string::npos) {
-        size_t endPos = outputCGI.find("\n", pos);
-        outputContentType = outputCGI.substr(pos + 14, endPos - pos - 14);
-        std::cout << "Content-type is: " << outputContentType << std::endl;
-
-        // Remove Content-Type header from CGI output
-        outputCGI = removeContentTypeHeader(outputCGI);
-    }
-    else {
-        throw CustomError(500, "CGI output does not contain Content-Type header");
-    }
+    if(_req.getMethod() == "GET")
+        parseGetOutput();
 
     // Check child process exit status
     if (WIFEXITED(status)) {
@@ -239,4 +223,31 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     } else {
         throw CustomError(500, "CGI execution failed due to an unknown reason.");
     }
+}
+
+std::string removeContentTypeHeader(std::string &outputCGI)
+{
+    size_t pos = outputCGI.find("Content-Type: ");
+    if (pos != std::string::npos) {
+        size_t endPos = outputCGI.find("\n", pos);
+        outputCGI.erase(pos, endPos - pos + 1);
+    }
+    return outputCGI;
+}
+
+void  CGIHandler::parseGetOutput()
+{
+    size_t pos = outputCGI.find("Content-Type: ");
+    if (pos != std::string::npos) {
+        size_t endPos = outputCGI.find("\n", pos);
+        outputContentType = outputCGI.substr(pos + 14, endPos - pos - 14);
+        std::cout << "Content-type is: " << outputContentType << std::endl;
+
+        // Remove Content-Type header from CGI output
+        outputCGI = removeContentTypeHeader(outputCGI);
+    }
+    else {
+        throw CustomError(500, "CGI output does not contain Content-Type header");
+    }
+
 }

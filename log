@@ -65,14 +65,6 @@ Write fds: { }
 Client socket ready: { }
 Client socket socket: { }
 Server socket ready: { 3 }
-running
-selecting
-max fd: 3
-Read fds: { 3 }
-Write fds: { }
-Client socket ready: { }
-Client socket socket: { }
-Server socket ready: { 3 }
 sever socket loop
 accepted new co 3
 client socket 4
@@ -124,14 +116,13 @@ Return:
 Cgi path: /usr/bin/python3
 Extension: 
 -------------------------------- 
- ---------- CURRENT LOCATION VALUES ---------- 
-Request path : /cgi/hello_world.py
-Final path : ./data/cgi/hello_world.py
-Path before method routing :./data/cgi/hello_world.py
-path
+Path before method routing :./cgi/hello_world.py
 CGI Handling
 Query : QUERY_STRING=
-CGIHandler iniated with arguments: /usr/bin/python3 ./data/cgi/hello_world.py
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/hello_world.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+QUERY_STRING=
 Output from CGI script: 
 Content-Type: text/html
 
@@ -558,6 +549,126 @@ Write fds: { }
 Client socket ready: { }
 Client socket socket: { }
 Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
 sever socket loop
 accepted new co 3
 client socket 4
@@ -573,25 +684,16 @@ client socket loop
 activated client loop
 RequestHandler constructor called
 Parsing headers
-headersString: GET /cgi/json.py HTTP/1.1
+headersString: POST /cgi/post_file.py HTTP/1.1
 Host: localhost:8081
-Connection: keep-alive
-sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Linux"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: fr-FR,fr;q=0.9,el-GR;q=0.8,el;q=0.7,en-US;q=0.6,en;q=0.5
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
 
 
 ************** bytesread1: ****************
-704
+172
 ***********************************************
 Routing request to server
 number of servers : 1
@@ -608,22 +710,18 @@ Return:
 Cgi path: /usr/bin/python3
 Extension: 
 -------------------------------- 
- ---------- CURRENT LOCATION VALUES ---------- 
-Request path : /cgi/json.py
-Final path : ./data/cgi/json.py
-Path before method routing :./data/cgi/json.py
-path
+Path before method routing :./cgi/post_file.py
 CGI Handling
-Query : QUERY_STRING=
-CGIHandler iniated with arguments: /usr/bin/python3 ./data/cgi/json.py
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
 Output from CGI script: 
-Content-Type: application/json
 
-{"message": "Hello, World!"}
-
-Content-type is: application/json
 CGI execution was successful.
 ************** reponse body: ****************
+Body of the file
 
 ***********************************************
 cleint data read
@@ -639,14 +737,419 @@ Client socket socket: { 4 }
 Server socket ready: { 3 }
 ************** responseString: ****************
 HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 30
+Content-Length: 0
 
-
-{"message": "Hello, World!"}
 
 ***********************************************
-send value 101
+send value 38
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+sever socket loop
+accepted new co 3
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+client socket loop
+activated client loop
+RequestHandler constructor called
+Parsing headers
+headersString: POST /cgi/post_file.py HTTP/1.1
+Host: localhost:8081
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
+
+
+************** bytesread1: ****************
+172
+***********************************************
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- /cgi
+Host: 127.0.0.1
+Port: 8081
+Client body size: 2147483647
+Root dir name: ./data
+Index: index.html
+Methods:  GET POST GET POST 
+Autoindex: on
+Return: 
+Cgi path: /usr/bin/python3
+Extension: 
+-------------------------------- 
+Path before method routing :./cgi/post_file.py
+CGI Handling
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
+Output from CGI script: 
+
+CGI execution was successful.
+************** reponse body: ****************
+Body of the file
+
+***********************************************
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Length: 0
+
+
+***********************************************
+send value 38
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+sever socket loop
+accepted new co 3
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+client socket loop
+activated client loop
+RequestHandler constructor called
+Parsing headers
+headersString: POST /cgi/post_file.py HTTP/1.1
+Host: localhost:8081
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
+
+
+************** bytesread1: ****************
+172
+***********************************************
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- /cgi
+Host: 127.0.0.1
+Port: 8081
+Client body size: 2147483647
+Root dir name: ./data
+Index: index.html
+Methods:  GET POST GET POST 
+Autoindex: on
+Return: 
+Cgi path: /usr/bin/python3
+Extension: 
+-------------------------------- 
+Path before method routing :./cgi/post_file.py
+CGI Handling
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
+Output from CGI script: 
+
+CGI execution was successful.
+************** reponse body: ****************
+Body of the file
+
+***********************************************
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Length: 0
+
+
+***********************************************
+send value 38
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+sever socket loop
+accepted new co 3
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+client socket loop
+activated client loop
+RequestHandler constructor called
+Parsing headers
+headersString: POST /cgi/post_file.py HTTP/1.1
+Host: localhost:8081
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
+
+
+************** bytesread1: ****************
+172
+***********************************************
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- /cgi
+Host: 127.0.0.1
+Port: 8081
+Client body size: 2147483647
+Root dir name: ./data
+Index: index.html
+Methods:  GET POST GET POST 
+Autoindex: on
+Return: 
+Cgi path: /usr/bin/python3
+Extension: 
+-------------------------------- 
+Path before method routing :./cgi/post_file.py
+CGI Handling
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
+Output from CGI script: 
+
+CGI execution was successful.
+************** reponse body: ****************
+Body of the file
+
+***********************************************
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Length: 0
+
+
+***********************************************
+send value 38
+RequestHandler destructor called
+Request destroyed
+sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+sever socket loop
+accepted new co 3
+client socket 4
+running
+selecting
+max fd: 4
+Read fds: { 3 4 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+client socket loop
+activated client loop
+RequestHandler constructor called
+Parsing headers
+headersString: POST /cgi/post_file.py HTTP/1.1
+Host: localhost:8081
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
+
+
+************** bytesread1: ****************
+172
+***********************************************
+Routing request to server
+number of servers : 1
+Server name: localhost
+-------- Location ------------- /cgi
+Host: 127.0.0.1
+Port: 8081
+Client body size: 2147483647
+Root dir name: ./data
+Index: index.html
+Methods:  GET POST GET POST 
+Autoindex: on
+Return: 
+Cgi path: /usr/bin/python3
+Extension: 
+-------------------------------- 
+Path before method routing :./cgi/post_file.py
+CGI Handling
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
+Output from CGI script: 
+
+CGI execution was successful.
+************** reponse body: ****************
+Body of the file
+
+***********************************************
+cleint data read
+sever socket loop
+running
+client socket ready 4
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { 4 }
+Client socket ready: { 4 }
+Client socket socket: { 4 }
+Server socket ready: { 3 }
+************** responseString: ****************
+HTTP/1.1 200 OK
+Content-Length: 0
+
+
+***********************************************
+send value 38
 RequestHandler destructor called
 Request destroyed
 sever socket loop
@@ -786,30 +1289,6 @@ Write fds: { }
 Client socket ready: { }
 Client socket socket: { }
 Server socket ready: { 3 }
-running
-selecting
-max fd: 4
-Read fds: { 3 }
-Write fds: { }
-Client socket ready: { }
-Client socket socket: { }
-Server socket ready: { 3 }
-running
-selecting
-max fd: 4
-Read fds: { 3 }
-Write fds: { }
-Client socket ready: { }
-Client socket socket: { }
-Server socket ready: { 3 }
-running
-selecting
-max fd: 4
-Read fds: { 3 }
-Write fds: { }
-Client socket ready: { }
-Client socket socket: { }
-Server socket ready: { 3 }
 sever socket loop
 accepted new co 3
 client socket 4
@@ -825,26 +1304,16 @@ client socket loop
 activated client loop
 RequestHandler constructor called
 Parsing headers
-headersString: GET /cgi/json.py HTTP/1.1
+headersString: POST /cgi/post_file.py HTTP/1.1
 Host: localhost:8081
-Connection: keep-alive
-Cache-Control: max-age=0
-sec-ch-ua: "Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Linux"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: fr-FR,fr;q=0.9,el-GR;q=0.8,el;q=0.7,en-US;q=0.6,en;q=0.5
+User-Agent: curl/7.81.0
+Accept: */*
+Content-Type: application/octet-stream
+Content-Length: 17
 
 
 ************** bytesread1: ****************
-730
+172
 ***********************************************
 Routing request to server
 number of servers : 1
@@ -861,20 +1330,18 @@ Return:
 Cgi path: /usr/bin/python3
 Extension: 
 -------------------------------- 
- ---------- CURRENT LOCATION VALUES ---------- 
-Request path : /cgi/json.py
-Final path : ./data/cgi/json.py
-Path before method routing :./data/cgi/json.py
-path
+Path before method routing :./cgi/post_file.py
 CGI Handling
-Query : QUERY_STRING=
-CGIHandler iniated with arguments: /usr/bin/python3 ./data/cgi/json.py
+CGIHandler iniated with arguments: /usr/bin/python3 ./cgi/post_file.py
+CGIHandler iniated with environment variables: 
+SERVER_PROTOCOL=HTTP/1.1
+CONTENT_TYPE=application/octet-stream
+CONTENT_LENGTH=17
 Output from CGI script: 
 
-{"message": "Hello, World!"}
-
+CGI execution failed with exit status: 1
 ----- ERROR ------
-(⊙…⊙ ) 500 CGI output does not contain Content-Type header
+(⊙…⊙ ) 500 CGI execution failed with known exit status
 ------------------
 Sending file ./data/default/500.html
 cleint data read
@@ -937,6 +1404,374 @@ send value 1161
 RequestHandler destructor called
 Request destroyed
 sever socket loop
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
+running
+selecting
+max fd: 4
+Read fds: { 3 }
+Write fds: { }
+Client socket ready: { }
+Client socket socket: { }
+Server socket ready: { 3 }
 running
 selecting
 max fd: 4

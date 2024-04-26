@@ -36,14 +36,17 @@ class CGIHandler {
         std::string outputCGI;
         std::string outputContentType;
         std::string path;
+        std::string _root_dir;
         Request		_req;
 
         void parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid);
         void childProcess(int pipe_out[2], int pipe_in[2]);
+
+        void parseGetOutput();
         CGIHandler();
 
     public:
-        CGIHandler(Request & req, std::string path);
+        CGIHandler(Request & req, Location location, std::string path);
 		~CGIHandler();
         std::string _req_body;
 
