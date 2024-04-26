@@ -298,12 +298,26 @@ void RequestHandler::handleGetDirectory()
     throw CustomError(404, "Ressource is a directory, but no index and directory listing not allowed");
 }
 
+long fileSize(std::string path)
+{
+    struct stat s;
+    if (stat(path.c_str(), &s) == 0)
+    {
+        return s.st_size;
+    }
+    return -1;
+}
+
 void RequestHandler::getFileContent(std::string filepath)
 {
     if(!::fileExists(filepath))
         throw CustomError(404, "File does not exists");
     else if(!::fileIsReadable(filepath))
         throw CustomError(403, "File is not readable");
+    else if (fileSize(filepath) > 1000000)
+    {
+        throw CustomError(413, "Request Entity Too Large");
+    }
     else
     {
         _response.loadFileContent(filepath);
