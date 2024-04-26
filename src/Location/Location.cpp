@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 21:02:41 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:47:16 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,20 @@ Location::~Location( ) {
 	
 }
 
-Location::Location (std::map <std::string, std::string> dictLoc) {
+Location::Location (std::map <std::string, std::string> globVar, std::map <std::string, std::string> dictLoc) {
 	
 	_setFnSetter(true);
 	std::map <std::string, void (Location::*)(const std::string &)>::iterator it1;
 	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
+		if (globVar.find(it1->first) != globVar.end())
+			(this->*it1->second)(globVar.at(it1->first));
+		else
+			(this->*it1->second)("");
+	}
+	for (it1 = _fnSetter.begin(); it1 != _fnSetter.end(); ++it1) {	
 		if (dictLoc.find(it1->first) != dictLoc.end())
 			(this->*it1->second)(dictLoc.at(it1->first));
-		else
+		else if (globVar.find(it1->first) == globVar.end())
 			(this->*it1->second)("");
 	}
 	

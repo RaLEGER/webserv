@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 17:09:39 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:45:09 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ std::vector <Server*> Parser::getServers( ) {
 		}
 		tempServ->setAddress(host, port);
 		
-		Location* defLoc = new Location(serverMap);
+		Location* defLoc = new Location(_globalVar, serverMap);
 		tempServ->addDefLoc(defLoc);	
 		for (size_t i = 0; i < _routeNames[servCount].size(); i ++) {
 			Location* tempLoc = new Location(*defLoc, _routeDict[servCount][i], _routeNames[servCount][i]);

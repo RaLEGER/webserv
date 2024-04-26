@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 12:27:47 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:48:47 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Location {
 		Location( );
 		~Location( );
 		Location& operator=(const Location& rhs);
-		Location (std::map <std::string, std::string> dictLoc);
+		Location (std::map <std::string, std::string> globVar, std::map <std::string, std::string> dictLoc);
 		Location(const Location &defLoc, std::map <std::string, std::string> dictLoc,  std::string name);
 
 		bool	isMethodAllowed(std::string method);
