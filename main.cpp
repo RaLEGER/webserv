@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 15:04:29 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/21 21:14:10 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:28:23 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "ServerFarm.hpp"
 
 int main(int ac, char **av) {
-
+	
+	signal(SIGINT, SIG_IGN);
 	if (ac != 2)
 		return 1;
     std::string filename = av[1];

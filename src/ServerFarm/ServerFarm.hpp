@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:57 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 21:12:37 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:25:12 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "Socket.hpp"
 # include <set>
 
+static volatile int keepRunning = 1;
+
 class ServerFarm {
 	private:
 		ServerFarm(const ServerFarm &rhs);
-		ServerFarm& operator=(const ServerFarm &rhs);
 		ServerFarm( );
 		
 		std::vector <Server*>	_servers;

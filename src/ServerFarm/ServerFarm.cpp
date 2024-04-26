@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 15:26:07 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:28:11 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@ ServerFarm::ServerFarm(std::vector <Server*> servers){
 	_servers = servers;
 }
 
-ServerFarm::~ServerFarm( ) {
+ServerFarm::~ServerFarm( ) {	
+	for (std::vector<Server*>::iterator it = _servers.begin(); it != _servers.end(); it++) {
+		delete *it;
+	}
+	for (std::map <std::string, Socket*>::iterator it = _addressSocket.begin(); it != _addressSocket.end(); it++) {
+		delete it->second;
+	}
+	
 	
 }
 
@@ -109,16 +116,21 @@ void ServerFarm::printClientSocketReady() {
 	std::cout << "}" << std::endl;
 }
 
+void INThandler(int sig) {
+	if (sig == SIGINT) {
+		keepRunning = 0;
+	}
+}
 
 void ServerFarm::run() {
-
 	fd_set runningReadFds;
 	fd_set runningWriteFds;
-	while (true) {
+
+	signal(SIGINT, INThandler);
+	while (keepRunning) {
 
 		int	activity = 0;
 		struct timeval timeout;
-
 		while (!activity) {
 			runningReadFds = _read_fds;
 			//copy_fd_set(runningReadFds, _read_fds);	

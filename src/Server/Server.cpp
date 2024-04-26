@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:36:10 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/19 18:21:49 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 11:56:47 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ Server::Server( ) {
 }
 
 Server::~Server( ) {
-
+	for (std::map<std::string, Location *>::iterator it = _locations.begin(); it != _locations.end(); it++) {
+		delete it->second;
+	}
+	delete _defLoc;
 }
 
 void	Server::setAddress(std::string host, std::string port) {

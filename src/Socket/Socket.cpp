@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 11:39:36 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:23:35 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ Socket::Socket(Server *server) {
 	_host = server->getHost();
 	_setupSocket();
 	
+}
+Socket::~Socket( ) {
+	for (std::map <int, RequestHandler* >::iterator it = _requestHandlers.begin(); it != _requestHandlers.end(); it++) {
+		delete it->second;
+	}
 }
 
 bool	Socket::_isDuplicate(std::string serverName) {
