@@ -26,10 +26,24 @@ RequestHandler::~RequestHandler()
 
 // PARSING METHODS 
 
-bool RequestHandler::parseHeaders(std::string headers)
+bool RequestHandler::parseHeaders(std::string headers, std::vector<Server *> servers)
 {
     try {
+
+        // Parse the headers
         _request.parseHeaders(headers);
+
+        // Root the request 
+        _server = routeRequestToServer(&_request, servers);
+        _location = routeRequestToLocation(&_request, _server);
+        _location->print();
+
+        // Check that content length is valid
+        std::cout << "Request Content length : " << _request.getContentLength() << std::endl;
+        std::cout << "Location Client Body Size : " << _location->getClientBodySize() << std::endl;
+        if (_request.getContentLength() > _location->getClientBodySize())
+            throw CustomError(413, "Request Entity Too Large");
+
         isValidHeaders = true;
         isChunkedRequest = _request.isChunked();
         return true;
@@ -97,13 +111,9 @@ void RequestHandler::buildFinalPath()
 
 void RequestHandler::process(std::vector<Server *> servers)
 {
+    (void)servers;
     try
     {
-        // Root the request 
-        _server = routeRequestToServer(&_request, servers);
-        _location = routeRequestToLocation(&_request, _server);
-        _location->print();
-
         // build final path
         buildFinalPath();
 
@@ -112,9 +122,6 @@ void RequestHandler::process(std::vector<Server *> servers)
 
         // Set the response headers
         setResponseHeaders();
-	std::cout << "************** reponse body: ****************" << std::endl;
-		std::cout << _request.getBody()  << std::endl;
-	std::cout << "***********************************************" << std::endl;
     }
     catch(const CustomError &e)
     {

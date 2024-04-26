@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 13:47:16 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:36:09 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,4 +252,9 @@ std::vector<std::string> Location::_deepCopyVector(const std::vector<std::string
     }
 
     return copyVector;
+}
+
+int			Location::getClientBodySize()
+{
+	return _clientBodySize;
 }

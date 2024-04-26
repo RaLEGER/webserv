@@ -28,7 +28,7 @@ class RequestHandler {
         ~RequestHandler();
 
         // Parsing
-        bool parseHeaders(std::string headers);
+        bool parseHeaders(std::string headers,  std::vector<Server *> servers);
         void setBody(std::string body);
 
         // Handling 

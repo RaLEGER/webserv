@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 12:23:35 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:36:53 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	Socket::_readHeader(int clientSocket) {
 	}
 	else
 		throw CustomError(-1, "Request Error: header too long");
-	if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket]))
+	if(!_requestHandlers[clientSocket]->parseHeaders(_headers[clientSocket], _servers))
 		throw CustomError(1, "Request Error: wrong header");
 	std::cout << "************** bytesread1: ****************" << std::endl;
 	std::cout << bytesRead << std::endl;
@@ -146,7 +146,8 @@ void	Socket::_readHeader(int clientSocket) {
 int	Socket::_readBody(int clientSocket, bool firstIt) {
 	char	buffer[BUFF_SIZE];
 	
-	if (_requestHandlers[clientSocket]->getIsBodyComplete())
+	// if body is complete, or no content length header, return 1
+	if (_requestHandlers[clientSocket]->getIsBodyComplete() || _requestHandlers[clientSocket]->getContentLength() < 0)
 		return 1;
 		
 	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));

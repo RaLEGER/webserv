@@ -42,9 +42,10 @@ TODO :
 - Check listDirectory ✅
 - Implement routing ✅
 - Implement getFinalPath ✅
-- Implement add index to path
+- Implement add index to path ✅
 - Reintegrate/finish CGIHandler
 - Handle chunked requests 
+- Handle requests timeout
 
 - check Method not Allowed ✅
 - check redirect ✅
@@ -53,8 +54,8 @@ TODO :
 - make POST directories forbidden
 - implement DELETE directories
 - pas d'erreur quand le fichier de conf n'existe pas  
-- client max body size is 1Mib in nginx by default
+- client max body size is 1Mib in nginx by default ✅
+- handle error 414
+- handle error 431
 
 
-1. Si la requête est vide, il faut renvoyer 400 
-2. La requête n'est pas vide

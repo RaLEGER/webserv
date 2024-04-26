@@ -18,7 +18,7 @@ print ("</head>")
 print ("<body>")
 print ("<div style='text-align: center; margin-top: 100px;'>")
 print ("<h1>Hello %s %s</h1>" % (first_name, last_name))
-print ("<p>Thank you for using our service!</p>")
+print ("<p>Thank you for using our service!</p>")html
 print ("<a href='/../data/correcTest/index.html'>Go back</a>")
 print ("</body>")
 print ("</html>")

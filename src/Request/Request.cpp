@@ -24,6 +24,7 @@ Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket
     // lastActivityTime = ft_now();
     // curRequestTime = 0;
     // _config = NULL;
+    contentLength = -1;
 }
 
         /* Constructors & Destructors */
