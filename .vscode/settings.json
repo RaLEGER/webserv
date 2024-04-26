@@ -53,6 +53,11 @@
 		"optional": "cpp",
 		"ranges": "cpp",
 		"span": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"chrono": "cpp",
+		"codecvt": "cpp",
+		"ctime": "cpp",
+		"ratio": "cpp",
+		"iomanip": "cpp"
 	}
 }

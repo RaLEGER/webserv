@@ -59,6 +59,4 @@ TODO :
 - handle error 431
 - handle Content-Length > max_body_size ✅
 - chunked post request pour le CGI : defragmenter et mettre EOF en fin de body 
-- POST : check file size et return error if too big 
-
-
+- POST : check file size et return error if too big ✅

@@ -1,6 +1,5 @@
 #include "Request.hpp"
 
-// todo : move this to utils
 std::vector<std::string> splitWithSep(std::string line, char sep)
 {
 	std::vector<std::string> res;
@@ -14,20 +13,10 @@ std::vector<std::string> splitWithSep(std::string line, char sep)
 }
 
 Request::Request(int clientSocket, int serverSocket) : clientSocket(clientSocket), serverSocket(serverSocket) {
-    // std::cout << "Request created" << std::endl;
-    // readingHeader = false;
-    // readingBody = false;
-    // chunkedBody = false;
-    // curChunkSize = -1;
-    // contentLength = -1;
-    // ready2send = false;
-    // lastActivityTime = ft_now();
-    // curRequestTime = 0;
-    // _config = NULL;
     contentLength = -1;
 }
 
-        /* Constructors & Destructors */
+/* Constructors & Destructors */
 Request::Request()
 {
     
@@ -67,11 +56,6 @@ bool Request::parseHeaders(std::string headersString) {
         temp >> contentLength;
     }
         
-    // std::cout << " ---------- HEADER VALUES ---------- " << std::endl;
-    // std::cout << "Method: " << method << std::endl;
-    // std::cout << "Path: " << path << std::endl;
-    // std::cout << "Protocol: " << protocol << std::endl;
-    // std::cout << "Query: " << query << std::endl;
     return true;
 }
 

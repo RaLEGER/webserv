@@ -87,10 +87,10 @@ bool CGIHandler::executeCGI()
 
     // Create pipes for communication between parent and child processes
     if (pipe(pipe_in) < 0 || pipe(pipe_out) < 0) {
-        perror("pipe failed");
+        
         close (pipe_in[1]);
         close (pipe_in[0]);
-        // TODO : Throw an exception if pipe creation fails ? 
+        throw CustomError(500, "CGI pipe creation failed");
         return false;
     }
 
@@ -159,7 +159,6 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     }
 
     // Terminate child process if execve fails
-    // TODO : throw an exception if execve fails ?
     exit(EXIT_FAILURE);
 }
 
@@ -185,8 +184,7 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
         wait_result = waitpid(pid, &status, WNOHANG);
         if (wait_result == -1) {
             // Handle error in waitpid
-            perror("waitpid failed");
-            // TODO : Throw an exception if waitpid fails ?
+            throw CustomError(500, "waitpid failed");
         } else if (wait_result == 0) {
             // Child process is still running, continue reading from pipe_out
             bytesRead = read(pipe_out[0], buffer, sizeof(buffer));
@@ -215,7 +213,6 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
         int exitStatus = WEXITSTATUS(status);
         if (exitStatus == 0) {
             std::cout << "CGI execution was successful." << std::endl;
-            // TODO 
         } else {
             std::cout << "CGI execution failed with exit status: " << exitStatus << std::endl;
             throw CustomError(500, "CGI execution failed with known exit status");

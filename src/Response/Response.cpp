@@ -56,7 +56,6 @@ void Response::buildHeader()
     std::string contentLength;
     ss >> contentLength;
 
-    // todo : content disposition, filename, extension only for GET
     header = protocol + " " + statusCode + " " + statusText + "\r\n";
     if(!contentDisposition.empty())
         header += "Content-Disposition: " + contentDisposition + "\r\n";
@@ -74,7 +73,6 @@ std::string Response::getSerializedResponse()
     return header + body;
 }
 
-// TODO : move this in RequestHandler ? 
 // This function reads a file and stores it in the body
 void Response::loadFileContent(const std::string& path)
 {
@@ -138,7 +136,7 @@ void Response::setError(int statusCode, std::string error_msg)
             setStatusText("Not Found");
             break;
         case 405:
-            setStatusText("Method Not Allowed"); // TODO : add Allow header
+            setStatusText("Method Not Allowed"); 
             break;
         case 408:
             setStatusText("Request Timeout");

@@ -226,7 +226,6 @@ void RequestHandler::listDirectory()
     ss << "</body>" << std::endl;
     ss << "</html>" << std::endl;
 
-    // todo : only body to set here, the rest is to be set in handleRequest() if success
     _response.setBody(ss.str());
     _response.setDefaultSuccess();
     _response.setContentType("text/html");

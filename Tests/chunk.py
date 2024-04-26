@@ -28,9 +28,9 @@ def chunked_http_request(url, data_chunks, headers=None):
 
 if __name__ == "__main__":
     # Example usage
-    url = "http://localhost:8081/data/result.txt"
-    data_chunks = ["3c\r\nhwduhwq\r\n"]
-    #data_chunks = ["3\r\nabc\r\n6\r\ndefghi\r\n0\r\n"]
+    url = "http://localhost:8081/cgi/post_file.py"
+    # data_chunks = ["3c\r\nhwduhwq\r\n"]
+    data_chunks = ["3\r\nabc\r\n6\r\ndefghi\r\n0\r\n"]
     headers = {"Content-Type": "application/octet-stream",
                "Transfer-Encoding": "chunked"}
 

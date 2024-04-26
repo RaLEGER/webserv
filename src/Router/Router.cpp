@@ -41,6 +41,5 @@ Location *routeRequestToLocation(Request* request, Server* server)
     }
 
     // 3. If no match, return the first location
-    // TODO : use defloc
     return server->getDefaultLocation();
 }

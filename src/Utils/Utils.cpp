@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:46:40 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:55:56 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 19:31:28 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ std::vector<std::string> getFileList(std::string path) {
     std::vector<std::string> fileList;
 
     if ((dir = opendir(path.c_str())) == NULL)
-        perror("opendir() error"); // todo: throw error
+        throw CustomError(500, "Failed to open directory");
     else {
         while ((entry = readdir(dir)) != NULL)
             fileList.push_back(entry->d_name);
