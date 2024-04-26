@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:00:42 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 13:45:09 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 18:46:12 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ Parser::Parser(const std::string& filename) {
 			
 		}
 	}
+	else
+		throw CustomError(0, "Invalid file");
 }
 
 void	Parser::openBrace(size_t pos) {

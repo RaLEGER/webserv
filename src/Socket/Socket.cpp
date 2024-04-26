@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:00:06 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 18:41:01 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	Socket::getClientSocket() {
 
 // Returns true if the body is complete, false otherwise
 void	Socket::_readHeader(int clientSocket) {
-	char		buffer[BUFF_SIZE];
+	char		buffer[BUFF_SIZE] = {};
 	
 	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
 	if (bytesRead <= 0)
@@ -143,6 +143,7 @@ void	Socket::_readHeader(int clientSocket) {
 	}
 	else if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()){
 		_requestHandlers[clientSocket]->setIsBodyComplete(true);
+		std::cout << "SORTIE " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 	}
 }
 
@@ -200,9 +201,10 @@ int	Socket::_readBody(int clientSocket) {
 	char	buffer[BUFF_SIZE];
 	
 	// if body is complete, or no content length header, return 1
-	if (_requestHandlers[clientSocket]->getIsBodyComplete() || _requestHandlers[clientSocket]->getContentLength() < 0)
+	if (_requestHandlers[clientSocket]->getIsBodyComplete() || _requestHandlers[clientSocket]->getContentLength() < 0) {
+		std::cout << "SORTIE2 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 		return 1;
-		
+	}
 	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
 	
 	if ((bytesRead == 0 && _bodies[clientSocket].empty()) || bytesRead < 0)
@@ -215,6 +217,7 @@ int	Socket::_readBody(int clientSocket) {
 	std::cout << "***********************************************" << std::endl;
 	
 	if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()) {
+		std::cout << "SORTIE3 " << _bodies[clientSocket].size() << " " <<  _requestHandlers[clientSocket]->getContentLength() << std::endl;
 		return 1;
 	}
 	return 0;
@@ -225,6 +228,7 @@ int	Socket::readData(int clientSocket) {
 	
 	if (_requestHandlers.find(clientSocket) == _requestHandlers.end()) {
 		RequestHandler* handler = new RequestHandler(clientSocket);
+		handler->setIsBodyComplete(false);
 		_requestHandlers.insert(std::make_pair(clientSocket, handler));
 		try {
 			_readHeader(clientSocket);
@@ -233,6 +237,7 @@ int	Socket::readData(int clientSocket) {
 			return e.getErrorCode();
 		}
 	}
+	updateActivity(clientSocket);
 	if (_requestHandlers[clientSocket]->getIsChunkedRequest())
 		status = _readChunk(clientSocket);
 	else
@@ -277,4 +282,20 @@ void	Socket::sendResponse(int clientSocket) {
 		std::cerr << "Error erasing RequestHandler: " << e.what() << std::endl;
 	}
 	// remove from 
+}
+
+void	Socket::updateActivity(int clientSocket) {
+	_requestHandlers[clientSocket]->_lastActivity = time(0);
+}
+
+int	Socket::checkTimeout() {
+	for (std::map <int, RequestHandler* >::iterator it =_requestHandlers.begin(); it != _requestHandlers.end(); it++) {
+		if (difftime(time(0), it->second->_lastActivity) > 10) {
+			int fd = it->first;
+			_requestHandlers.erase(fd);
+			return fd;
+		}
+	}
+	return -1;
+
 }

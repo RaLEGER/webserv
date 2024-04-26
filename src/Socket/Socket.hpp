@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:24:14 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 18:17:08 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-
+#include <ctime>
 
 
 class Socket
@@ -30,8 +30,6 @@ class Socket
 		int			_port;
 		
 		std::vector <Server*>	_servers;
-		
-    	std::vector<int> 					_clientSockets;
 		
 		std::map <int, std::string >		_headers;
 		std::map <int, std::string >		_bodies;
@@ -60,6 +58,9 @@ class Socket
 		int		getClientSocket();
 		int		readData(int clientSocket);
 		void	sendResponse(int clientSocket);
+		
+		void	updateActivity(int clientSocket);
+		int		checkTimeout(); 
 		
 };
 
