@@ -6,12 +6,12 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:11 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 10:07:55 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Socket.hpp"
-
+#include <unistd.h>
 Socket::Socket(Server *server) {
 	_port = server->getPort();
 	_host = server->getHost();
@@ -116,7 +116,7 @@ int	Socket::getClientSocket() {
 void	Socket::_readHeader(int clientSocket) {
 	char		buffer[BUFF_SIZE];
 	
-	int	bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
 	if (bytesRead <= 0)
 		throw CustomError(-1, "Error reading from client socket");
 	std::string	rawData(buffer, bytesRead);
@@ -144,7 +144,7 @@ int	Socket::_readBody(int clientSocket, bool firstIt) {
 	if (_requestHandlers[clientSocket]->getIsBodyComplete())
 		return 1;
 		
-	int	bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
 	
 	if ((bytesRead == 0 && _bodies[clientSocket].empty()) || bytesRead < 0)
 		return -1;
