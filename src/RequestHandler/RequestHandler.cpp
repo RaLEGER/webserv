@@ -178,10 +178,6 @@ void RequestHandler::handleRequest()
     {
         Delete();
     }
-    else if (method == "HEAD")
-    {
-        throw CustomError(405, "Method Not Allowed");
-    }
     else 
     {
         throw CustomError(405, "Method Not Implemented");
@@ -343,8 +339,6 @@ void RequestHandler::Post()
             _response.setDefaultSuccess();
     }
 
-
-
     // Open file
 	std::fstream postFile;
 	postFile.open(path.c_str(), std::ios::app);
@@ -367,6 +361,9 @@ void RequestHandler::Delete()
 
     if (!my_file.good())
         throw CustomError(404, "File not found");
+    
+    if(isPathDirectory(path))
+        throw CustomError(403, "Cannot delete a directory");
 
     std::cout << "Requesting ressource at path : " << path << std::endl;
     if(!remove(path.c_str()))
