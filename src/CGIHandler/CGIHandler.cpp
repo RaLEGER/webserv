@@ -15,22 +15,22 @@ CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
     // Set up environment variables
     int i = 0;
     _envvar[i++] = strdup("SERVER_PROTOCOL=HTTP/1.1");
-    _envvar[i++] = strdup(("PATH_INFO="+ req.getPath()).c_str());
-    _envvar[i++] = strdup(("SCRIPT_FILENAME=" + current_dir + req.getPath().substr(1)).c_str());
-    _envvar[i++] = strdup(("SCRIPT_NAME=" + req.getPath()).c_str());
-    _envvar[i++] = strdup(("REDIRECT_STATUS=200"));
-    _envvar[i++] = strdup(("DOCUMENT_ROOT=" + current_dir).c_str());
-    _envvar[i++] = strdup("REQUEST_METHOD=" + req.getMethod().c_str());
+    // _envvar[i++] = strdup(("PATH_INFO="+ req.getPath()).c_str());
+    // _envvar[i++] = strdup(("SCRIPT_FILENAME=" + current_dir + req.getPath().substr(1)).c_str());
+    // _envvar[i++] = strdup(("SCRIPT_NAME=" + req.getPath()).c_str());
+    // _envvar[i++] = strdup(("REDIRECT_STATUS=200"));
+    // _envvar[i++] = strdup(("DOCUMENT_ROOT=" + current_dir).c_str());
+    // _envvar[i++] = strdup("REQUEST_METHOD=" + req.getMethod().c_str());
 
     // Set up environment variables based on request method
     if (req.getMethod() == "GET"){
         _envvar[i++] = strdup(("QUERY_STRING=" + req.getQuery()).c_str());
         std::cout << "Query : " << _envvar[i - 1] << std::endl;
     }
-    else if (req.getMethod() == "POST"){
-        _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
-        _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
-    }
+    // else if (req.getMethod() == "POST"){
+    //     _envvar[i++] = strdup(("CONTENT_TYPE=" + getContentInfo(req, "Content-Type: ")).c_str());
+    //     _envvar[i++] = strdup(("CONTENT_LENGTH=" + getContentInfo(req, "Content-Length: ")).c_str());
+    // }
     _envvar[i++] = NULL;
 
     // Allocate memory for arguments
@@ -41,7 +41,6 @@ CGIHandler::CGIHandler(Request & req, std::string path) : _req(req)
     _args[0] = strdup("/usr/bin/python3"); // Why need to set absolute path here?
     _args[1] = strdup(path.c_str());
     _args[2] = NULL;
-
 
     std::cout << "CGIHandler iniated with arguments: " << _args[0] << " " << _args[1] << std::endl;
 }
@@ -160,6 +159,16 @@ void CGIHandler::childProcess(int pipe_out[2], int pipe_in[2])
     exit(EXIT_FAILURE);
 }
 
+std::string removeContentTypeHeader(std::string &outputCGI)
+{
+    size_t pos = outputCGI.find("Content-Type: ");
+    if (pos != std::string::npos) {
+        size_t endPos = outputCGI.find("\n", pos);
+        outputCGI.erase(pos, endPos - pos + 1);
+    }
+    return outputCGI;
+}
+
 //  parent process
 void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
 {
@@ -203,8 +212,19 @@ void CGIHandler::parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid)
     // Remove signal handler for alarm signal
     signal(SIGALRM, SIG_DFL);
 
-    // Remove Content-Type header from CGI output
-    // outputCGI = removeContentTypeHeader(outputCGI);
+    // Get Content-Type header from CGI output
+    size_t pos = outputCGI.find("Content-Type: ");
+    if (pos != std::string::npos) {
+        size_t endPos = outputCGI.find("\n", pos);
+        outputContentType = outputCGI.substr(pos + 14, endPos - pos - 14);
+        std::cout << "Content-type is: " << outputContentType << std::endl;
+
+        // Remove Content-Type header from CGI output
+        outputCGI = removeContentTypeHeader(outputCGI);
+    }
+    else {
+        throw CustomError(500, "CGI output does not contain Content-Type header");
+    }
 
     // Check child process exit status
     if (WIFEXITED(status)) {

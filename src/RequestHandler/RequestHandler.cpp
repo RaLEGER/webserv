@@ -107,9 +107,9 @@ void RequestHandler::process(std::vector<Server *> servers)
 
         // Set the response headers
         setResponseHeaders();
-	std::cout << "************** reponse body: ****************" << std::endl;
+	    std::cout << "************** reponse body: ****************" << std::endl;
 		std::cout << _request.getBody()  << std::endl;
-	std::cout << "***********************************************" << std::endl;
+	    std::cout << "***********************************************" << std::endl;
     }
     catch(const CustomError &e)
     {
@@ -145,6 +145,7 @@ void RequestHandler::handleRequest()
         _cgiHandler = new CGIHandler(_request, path);
         _cgiHandler->executeCGI();
         _response.setBody(_cgiHandler->getOutputCGI());  
+        _response.setContentType(_cgiHandler->getOutputContentType());
         _response.setDefaultSuccess();
         return;  
     }

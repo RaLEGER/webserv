@@ -34,6 +34,7 @@ class CGIHandler {
 		std::string _realUri;
         std::string extension;
         std::string outputCGI;
+        std::string outputContentType;
         std::string path;
         Request		_req;
 
@@ -50,7 +51,7 @@ class CGIHandler {
 
 
         std::string getOutputCGI() {return outputCGI;};
-
+        std::string getOutputContentType() {return outputContentType;};
 
 };
 
