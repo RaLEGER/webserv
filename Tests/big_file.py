@@ -4,7 +4,7 @@ import requests
 url = 'http://localhost:8081/data/result.txt'  # Change this to your server's URL
 
 # Path to the file you want to upload
-file_path = 'Tests/English-Quran-plain-text.txt'  # Change this to the path of your file
+file_path = 'Tests/quran.txt'  # Change this to the path of your file
 
 def test_upload(file_path):
     try:

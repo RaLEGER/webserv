@@ -55,6 +55,16 @@ bool Request::parseHeaders(std::string headersString) {
     parseURI(tokens[1]);
     parseHTTPVersion(tokens[2]);
     parseHeadersList(headersString);
+
+    // Check the existence of the Content-Length header
+    if (headers.count("Content-Length") == 0)
+        contentLength = -1;
+    else 
+    {
+        contentLength = 0;
+        std::stringstream temp(headers["Content-Length"]);
+        temp >> contentLength;
+    }
         
     // std::cout << " ---------- HEADER VALUES ---------- " << std::endl;
     // std::cout << "Method: " << method << std::endl;
@@ -270,6 +280,12 @@ std::string Request::getHeader(std::string key) {
 std::string Request::getHostname()
 {
     return hostname;
+}
+
+
+int Request::getContentLength()
+{
+    return contentLength;
 }
 
 // SETTERS

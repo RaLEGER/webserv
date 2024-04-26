@@ -38,6 +38,7 @@ class RequestHandler {
         void buildFinalPath();
 
         // Getters & Setters
+        int getContentLength();
         bool getIsBodyComplete();
         void setIsBodyComplete(bool value);
         std::string getResponseString();

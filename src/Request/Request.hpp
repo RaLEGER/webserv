@@ -49,6 +49,7 @@ class Request {
         // Response            _response;  
         int clientSocket;
         int serverSocket;
+        int contentLength;
 
     public:
 
@@ -56,20 +57,6 @@ class Request {
         std::string executable_path;
         std::string script_path;
 
-        // bool                    chunkedBody;
-        // bool                    readingBody;
-        // bool                    readingHeader;
-        // std::string             requestBodyString;
-        // std::string             requestHeaderString;
-        // std::list<std::string>  requestBodyList;
-        // int                     curChunkSize; 
-        int                     contentLength;
-	    // unsigned long	        curRequestTime;
-	    // unsigned long	        lastActivityTime;
-
-        // bool                    ready2send;
-
-        /* Constructors & Destructors */
         Request();
         Request(std::string &rawRequest);
         Request(int clientSocket, int serverSocket);
@@ -85,6 +72,7 @@ class Request {
         int                 getMethodCode();
         int                 getClientSocket();
         int                 getServerSocket();
+        int                 getContentLength();
         std::string         getResponseString();
         std::string         getHeader(std::string key);
         void                addHeader(std::string key, std::string value);

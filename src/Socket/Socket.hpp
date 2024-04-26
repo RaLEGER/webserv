@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/25 13:55:29 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 11:37:39 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SOCKET_HPP
 #define SOCKET_HPP
 
+#include "RequestHandler.hpp"
 #include "Server.hpp"
+
 #include <netdb.h>
 #include <arpa/inet.h>
-#include "RequestHandler.hpp"
+#include <unistd.h>
 
 class Socket
 {

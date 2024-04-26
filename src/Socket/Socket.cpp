@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 10:07:55 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 11:39:36 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Socket.hpp"
-#include <unistd.h>
+
 Socket::Socket(Server *server) {
 	_port = server->getPort();
 	_host = server->getHost();
@@ -154,9 +154,10 @@ int	Socket::_readBody(int clientSocket, bool firstIt) {
 	std::cout << bytesRead << std::endl;
 	std::cout << firstIt << std::endl;
 	std::cout << "***********************************************" << std::endl;
-	if (bytesRead == BUFF_SIZE || firstIt)
-		return 0;
-	return 1;
+	if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()) {
+		return 1;
+	}
+	return 0;
 }
 	
 int	Socket::readData(int clientSocket) {

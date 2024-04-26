@@ -444,6 +444,11 @@ bool RequestHandler::getIsBodyComplete()
     return isBodyComplete;
 }
 
+int RequestHandler::getContentLength()
+{
+    return _request.getContentLength();
+}
+
 void RequestHandler::setIsBodyComplete(bool value)
 {
     isBodyComplete = value;
