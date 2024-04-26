@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:23:47 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:27:23 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Location {
 		std::string	getIndex();
 		std::string	getAutoIndex();
 		std::string	getRootDirName();
+		std::string	getExtension();
 		int			getClientBodySize();
 		std::string	getCGIPath();
 

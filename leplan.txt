@@ -51,14 +51,14 @@ TODO :
 - check redirect ✅
 - check autoindex ✅
 - fix initialize locations on defloc issue ✅
-- make POST directories forbidden
-- implement DELETE directories
+- make POST directories forbidden ✅
+- implement DELETE directories ✅
 - pas d'erreur quand le fichier de conf n'existe pas  
 - client max body size is 1Mib in nginx by default ✅
-- handle error 414
+- handle error 414 ✅
 - handle error 431
-- client max body size is 1Mib in nginx by default
-- chunked post request pour le CGI : defragmenter et mettre EOF en fin de body
-- POST : check file size et return error if too big
+- handle Content-Length > max_body_size ✅
+- chunked post request pour le CGI : defragmenter et mettre EOF en fin de body 
+- POST : check file size et return error if too big 
 
 

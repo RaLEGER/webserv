@@ -62,7 +62,9 @@ void RequestHandler::setBody(std::string body)
 void RequestHandler::buildFinalPath() 
 {
     // if the request is cgi, do not build path 
-    if(_location->getCGIPath() != "")
+    std::cout << "location extension : " << _location->getExtension() << std::endl;
+    std::cout << "path extension" << _request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)) << std::endl;
+    if(_location->getExtension() != "" && !_request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)).compare(".py"))
     {
         path = "." + _request.getPath();
         return;
@@ -151,7 +153,7 @@ void RequestHandler::handleRequest()
     
     // CGI Handling
 	//objet location activeer cgi
-    if(!_location->getCGIPath().compare("/usr/bin/python3"))
+    if(_location->getExtension() != "" && !_request.getPath().substr(std::max((int) _request.getPath().size() - 3, 0)).compare(".py"))
     {
         std::cout << "CGI Handling" << std::endl;
         _cgiHandler = new CGIHandler(_request, *_location, path);
@@ -176,10 +178,6 @@ void RequestHandler::handleRequest()
     else if(method == "DELETE")
     {
         Delete();
-    }
-    else if (method == "HEAD")
-    {
-        throw CustomError(405, "Method Not Allowed");
     }
     else 
     {
@@ -301,12 +299,26 @@ void RequestHandler::handleGetDirectory()
     throw CustomError(404, "Ressource is a directory, but no index and directory listing not allowed");
 }
 
+long fileSize(std::string path)
+{
+    struct stat s;
+    if (stat(path.c_str(), &s) == 0)
+    {
+        return s.st_size;
+    }
+    return -1;
+}
+
 void RequestHandler::getFileContent(std::string filepath)
 {
     if(!::fileExists(filepath))
         throw CustomError(404, "File does not exists");
     else if(!::fileIsReadable(filepath))
         throw CustomError(403, "File is not readable");
+    else if (fileSize(filepath) > 1000000)
+    {
+        throw CustomError(413, "Request Entity Too Large");
+    }
     else
     {
         _response.loadFileContent(filepath);
@@ -336,7 +348,7 @@ void RequestHandler::Post()
     else {
         std::cout << "File exist" << std::endl;
         // Check that file is writeable 
-        if (!fileIsWritable(path))
+        if (!fileIsWritable(path) || isPathDirectory(path))
             throw CustomError(403, "File not writable");
         else 
             _response.setDefaultSuccess();
@@ -364,6 +376,9 @@ void RequestHandler::Delete()
 
     if (!my_file.good())
         throw CustomError(404, "File not found");
+    
+    if(isPathDirectory(path))
+        throw CustomError(403, "Cannot delete a directory");
 
     std::cout << "Requesting ressource at path : " << path << std::endl;
     if(!remove(path.c_str()))

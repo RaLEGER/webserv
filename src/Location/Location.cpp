@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 17:23:31 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:27:50 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,4 +261,9 @@ std::vector<std::string> Location::_deepCopyVector(const std::vector<std::string
 int			Location::getClientBodySize()
 {
 	return _clientBodySize;
+}
+
+std::string	Location::getExtension()
+{
+	return _extension;
 }
