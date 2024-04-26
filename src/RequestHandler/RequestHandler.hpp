@@ -15,9 +15,12 @@
 #include "Location.hpp"
 #include "Request.hpp"
 #include "Utils.hpp"
+#include "Server.hpp"
+#include "Router.hpp"
 
 class Server;
 class Router;
+
 
 class RequestHandler {
     public:
@@ -52,6 +55,7 @@ class RequestHandler {
         Request     _request;
         Server      *_server;
         Location    *_location;
+		CGIHandler*	_cgiHandler;	
 
         bool        isBodyComplete;
         bool        isChunkedRequest;

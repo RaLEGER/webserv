@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:00 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 14:36:09 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:23:31 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,10 @@ std::string	Location::getAutoIndex( ) {
 
 std::string	Location::getRootDirName() {
 	return _rootDirName;
+}
+
+std::string	Location::getCGIPath() {
+	return _cgiPath;
 }
 
 std::map<std::string, std::string> Location::_deepCopyMap(const std::map<std::string, std::string>& original) {

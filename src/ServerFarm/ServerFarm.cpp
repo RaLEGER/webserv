@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:54 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 12:28:11 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:22:04 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ ServerFarm::~ServerFarm( ) {
 	}
 	
 	
+}
+
+void ServerFarm::addFd2Select(int fd) {
+	FD_SET(fd, &_write_fds);
+}
+
+void ServerFarm::delFd2Select(int fd) {
+	FD_CLR(fd, &_write_fds);
 }
 
 void ServerFarm::set() {
@@ -145,7 +153,7 @@ void ServerFarm::run() {
 				FD_SET(*it, &_write_fds);
 			}
 			runningWriteFds = _write_fds;
-			copy_fd_set(runningWriteFds, _write_fds);	
+			//copy_fd_set(runningWriteFds, _write_fds);	
 			std::cout << "selecting" << std::endl;
 			std::cout << "max fd: " << _maxFd << std::endl;
             std::cout << "Read fds: ";

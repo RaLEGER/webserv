@@ -24,6 +24,7 @@
 
 #include "Response.hpp"
 #include "Request.hpp"
+#include "Location.hpp"
 
 class CGIHandler {
     private:
@@ -33,15 +34,19 @@ class CGIHandler {
 		std::string _realUri;
         std::string extension;
         std::string outputCGI;
+        std::string outputContentType;
         std::string path;
-        Request            _req;
+        std::string _root_dir;
+        Request		_req;
 
         void parentProcess(int pipe_out[2], int pipe_in[2], pid_t pid);
         void childProcess(int pipe_out[2], int pipe_in[2]);
 
-    public:
+        void parseGetOutput();
         CGIHandler();
-        CGIHandler(Request & req);
+
+    public:
+        CGIHandler(Request & req, Location location, std::string path);
 		~CGIHandler();
         std::string _req_body;
 
@@ -49,7 +54,7 @@ class CGIHandler {
 
 
         std::string getOutputCGI() {return outputCGI;};
-
+        std::string getOutputContentType() {return outputContentType;};
 
 };
 

@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 14:36:48 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:23:47 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ class Location {
 		std::string	getAutoIndex();
 		std::string	getRootDirName();
 		int			getClientBodySize();
+		std::string	getCGIPath();
 
 		std::vector<std::string> _deepCopyVector(const std::vector<std::string>& original);
 		std::map<std::string, std::string> _deepCopyMap(const std::map<std::string, std::string>& original);

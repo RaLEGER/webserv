@@ -57,5 +57,8 @@ TODO :
 - client max body size is 1Mib in nginx by default ✅
 - handle error 414
 - handle error 431
+- client max body size is 1Mib in nginx by default
+- chunked post request pour le CGI : defragmenter et mettre EOF en fin de body
+- POST : check file size et return error if too big
 
 

@@ -6,7 +6,7 @@
 /*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:12:57 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 12:25:12 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:13:46 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ class ServerFarm {
 	public:
 		ServerFarm(std::vector <Server*> servers);
 		~ServerFarm( );
+		void	addFd2Select(int fd);
+		void	delFd2Select(int fd);
+		
 		void	set();
 		void	run();
 };
