@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Location.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
+/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:44:02 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/23 12:27:47 by rleger           ###   ########.fr       */
+/*   Updated: 2024/04/26 12:21:14 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Location {
 		std::string	getIndex();
 		std::string	getAutoIndex();
 		std::string	getRootDirName();
+		int			getClientBodySize();
 
 		std::vector<std::string> _deepCopyVector(const std::vector<std::string>& original);
 		std::map<std::string, std::string> _deepCopyMap(const std::map<std::string, std::string>& original);
