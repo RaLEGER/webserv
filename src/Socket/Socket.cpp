@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 14:36:53 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:02:37 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ void	Socket::_readHeader(int clientSocket) {
 	std::cout << "************** bytesread1: ****************" << std::endl;
 	std::cout << bytesRead << std::endl;
 	std::cout << "***********************************************" << std::endl;
-	if (bytesRead < BUFF_SIZE) {
+	if (bytesRead < BUFF_SIZE && !_requestHandlers[clientSocket]->getIsChunkedRequest()){
 		_requestHandlers[clientSocket]->setIsBodyComplete(true);
 	}
 }
 
-int	Socket::_readBody(int clientSocket, bool firstIt) {
+int	Socket::_readBody(int clientSocket) {
 	char	buffer[BUFF_SIZE];
 	
 	// if body is complete, or no content length header, return 1
@@ -154,12 +154,13 @@ int	Socket::_readBody(int clientSocket, bool firstIt) {
 	
 	if ((bytesRead == 0 && _bodies[clientSocket].empty()) || bytesRead < 0)
 		return -1;
-		
+	
 	_bodies[clientSocket].append(buffer, bytesRead);
+
 	std::cout << "************** bytesread2: ****************" << std::endl;
 	std::cout << bytesRead << std::endl;
-	std::cout << firstIt << std::endl;
 	std::cout << "***********************************************" << std::endl;
+	
 	if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()) {
 		return 1;
 	}
@@ -178,10 +179,10 @@ int	Socket::readData(int clientSocket) {
 			std::cerr << e.what() << std::endl;
 			return e.getErrorCode();
 		}
-		status = _readBody(clientSocket, true);
 	}
-	else
-		status = _readBody(clientSocket, false);
+
+	status = _readBody(clientSocket);
+		
 	if (status == -1)
 		std::cerr << "Error reading from clientsocket" << std::endl;
 	if (status == 0) {

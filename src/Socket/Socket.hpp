@@ -6,7 +6,7 @@
 /*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 11:37:39 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:06:56 by teliet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Socket
 		void	_setupSocket();
 		
 		void 	_readHeader(int clientSocket);
-		int		_readBody(int clientSocket, bool firstIt);
+		int		_readBody(int clientSocket);
 	public:
 		~Socket();
 		Socket(Server* server);
