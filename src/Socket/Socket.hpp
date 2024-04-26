@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:33 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 15:06:56 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:40:43 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ class Socket
 		
 		void 	_readHeader(int clientSocket);
 		int		_readBody(int clientSocket);
+
+		std::string	_formatChunk(std::string data, int clientSocket);
+		int			_readChunk(int clientSocket);
+		
 	public:
 		~Socket();
 		Socket(Server* server);

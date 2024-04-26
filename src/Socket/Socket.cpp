@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teliet <teliet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rleger <rleger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:07:30 by rleger            #+#    #+#             */
-/*   Updated: 2024/04/26 15:02:37 by teliet           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:00:06 by rleger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,62 @@ void	Socket::_readHeader(int clientSocket) {
 	std::cout << "************** bytesread1: ****************" << std::endl;
 	std::cout << bytesRead << std::endl;
 	std::cout << "***********************************************" << std::endl;
-	if (bytesRead < BUFF_SIZE && !_requestHandlers[clientSocket]->getIsChunkedRequest()){
+	if (_requestHandlers[clientSocket]->getIsChunkedRequest()) {
+		_bodies[clientSocket] = _formatChunk(_bodies[clientSocket], clientSocket);
+	}
+	else if (_bodies[clientSocket].size() >= (size_t) _requestHandlers[clientSocket]->getContentLength()){
 		_requestHandlers[clientSocket]->setIsBodyComplete(true);
 	}
+}
+
+std::string	Socket::_formatChunk(std::string data, int clientSocket) {
+	std::string	body;
+	size_t pos = 0;
+    while (pos < data.size()) {
+        // Find the length of the chunk
+        size_t length_end = data.find("\r\n", pos);
+		std::cout << "length " << length_end << std::endl;
+        if (length_end == std::string::npos || length_end - pos > 10) {
+            throw CustomError(-1, "Invalid chunk format");
+        }
+        size_t length = std::strtol(data.substr(pos, length_end - pos).c_str(), NULL, 16);
+
+        // Check for terminating chunk
+        if (length == 0) {
+			_requestHandlers[clientSocket]->setIsBodyComplete(true);
+            break;
+        }
+
+        // Extract chunk data
+        std::size_t chunk_data_start = length_end + 2;
+        std::size_t chunk_data_end = chunk_data_start + length;
+
+        // Store chunk data
+        body.append(data.substr(chunk_data_start, length));
+
+        // Move to the next chunk
+        pos = chunk_data_end + 2;
+    }
+    return body;
+}
+
+int	Socket::_readChunk(int clientSocket) {
+	char	buffer[BUFF_SIZE];
+
+	if (_requestHandlers[clientSocket]->getIsBodyComplete())
+		return 1;
+	int	bytesRead = read(clientSocket, buffer, sizeof(buffer));
+	if (bytesRead <= 0)
+		return -1;
+	try {
+		_bodies[clientSocket].append(_formatChunk(std::string(buffer, bytesRead), clientSocket));
+	} catch (const CustomError& e) {
+		std::cerr << e.what() << std::endl;
+		return e.getErrorCode();
+	}
+	if (_requestHandlers[clientSocket]->getIsBodyComplete())
+		return 1;
+	return 0;
 }
 
 int	Socket::_readBody(int clientSocket) {
@@ -180,11 +233,15 @@ int	Socket::readData(int clientSocket) {
 			return e.getErrorCode();
 		}
 	}
-
-	status = _readBody(clientSocket);
+	if (_requestHandlers[clientSocket]->getIsChunkedRequest())
+		status = _readChunk(clientSocket);
+	else
+		status = _readBody(clientSocket);
 		
-	if (status == -1)
+	if (status == -1) {
 		std::cerr << "Error reading from clientsocket" << std::endl;
+		return -1;
+	}
 	if (status == 0) {
 		return 0;
 	}
@@ -192,6 +249,7 @@ int	Socket::readData(int clientSocket) {
 	_requestHandlers[clientSocket]->setIsBodyComplete(true);
 	_requestHandlers[clientSocket]->setBody(_bodies[clientSocket]);
 	_requestHandlers[clientSocket]->process(_servers);
+	std::cout << _bodies[clientSocket] << std::endl;
 	return 1;
 }
 

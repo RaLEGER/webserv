@@ -1,0 +1,5 @@
+3\r\n
+abc\r\n
+6\r\n
+defghi\r\n
+0\r\n
