@@ -49,6 +49,7 @@ class RequestHandler {
         int _clientSocket;
         bool getIsChunkedRequest();
         bool getIsValidHeaders();
+		time_t	_lastActivity;
 
     private:
         Response    _response;
