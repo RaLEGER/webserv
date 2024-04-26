@@ -337,11 +337,13 @@ void RequestHandler::Post()
     else {
         std::cout << "File exist" << std::endl;
         // Check that file is writeable 
-        if (!fileIsWritable(path))
+        if (!fileIsWritable(path) || isPathDirectory(path))
             throw CustomError(403, "File not writable");
         else 
             _response.setDefaultSuccess();
     }
+
+
 
     // Open file
 	std::fstream postFile;
